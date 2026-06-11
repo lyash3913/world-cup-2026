@@ -657,23 +657,25 @@ html {
 /* Красивые круглые значки-заглушки для стадии Плей-офф */
 /* Красивые круглые значки-заглушки для стадии Плей-офф */
 .po-placeholder {
-    width: 34px;                  /* Увеличили размер (было 28px) */
-    height: 34px;                 /* Увеличили размер (было 28px) */
-    line-height: 34px;            /* Выравниваем текст строго по центру нового размера */
-    font-size: 11px;              /* Слегка прибавили размер шрифта для читаемости */
-    background: #222b3d;          
-    color: #38bdf8 !important; /* Красивый неоновый небесно-голубой цвет */
-    text-shadow: 0 0 6px rgba(56, 189, 248, 0.4); /* Легкое цифровое свечение для букв */              
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
+    background: #222b3d;
+    color: #38bdf8 !important;
+    text-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
     font-weight: 900;
-    text-align: center;
-    border-radius: 50%;           
-    display: inline-block;
-    flex-shrink: 0;
-    margin-right: 10px;
+    border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shrink: 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     text-transform: uppercase;
+    flex-shrink: 0;
+    margin-right: 10px;
+
+    /* ВМЕСТО line-height: 34px используем флексы для идеального центра на Айфонах: */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: normal !important; /* Сбрасываем проблемный инлайн-выравниватель */
 }
 
 /* Общий приятный бейдж для номеров матчей (плей-офф) */
