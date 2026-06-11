@@ -1789,9 +1789,11 @@ html {
         width: 100%;
     }
 
-    .d-team {
-        flex: 1;
-        min-width: 0;
+   .d-team {
+        display: flex !important;
+        align-items: center !important; /* Удерживает флаг и текст строго на одной линии */
+        justify-content: flex-start;
+        gap: 10px;
     }
 
     .d-team:first-child {
