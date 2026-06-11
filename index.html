@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интерактивное расписание Чемпионата мира по футболу 2026. Детальный тактический разбор матчей, xG аналитика, таблицы групп и симуляция плей-офф.">
+    <title>Футбольная аналитика ЧМ 2026 — Расписание и xG статистика</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем шрифт для спортивной эстетики -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container header-flex">
+            <div class="logo">FIFA <span>26</span></div>
+            <nav class="nav">
+                <a href="#hero" class="nav-link">Главная</a>
+                <a href="#hosts" class="nav-link">Хозяева</a>
+                <a href="#matches" class="nav-link">Матчи</a>
+                <a href="#tournament-groups" class="nav-link">Группы</a>
+                <a href="#playoff" class="nav-link">Плей-офф</a> 
+            </nav>
+        </div>
+    </header>
+
+    <!-- Главный баннер (Hero) -->
+    <section id="hero" class="hero-section">
+        <div class="container hero-content">
+            <span class="badge">11 июня – 19 июля 2026</span>
+            <h1 class="hero-title">FIFA WORLD CUP</h1>
+            <p class="hero-subtitle">Впервые в истории: 48 сборных, 3 страны, 1 великий трофей.</p>
+
+            <!-- Простой счетчик (статичный для макета) -->
+            <div class="countdown">
+    <div class="time-block"><span id="days">00</span> дней</div>
+    <div class="time-block"><span id="hours">00</span> часов</div>
+    <div class="time-block"><span id="minutes">00</span> минут</div>
+</div>
+        </div>
+    </section>
+
+    <!-- Секция стран-организаторов -->
+    <section id="hosts" class="hosts-section">
+        <div class="container">
+            <h2 class="section-title">Принимающие страны</h2>
+            <div class="hosts-grid">
+                <div class="host-card canada">
+                    <h3>Канада</h3>
+                    <p>2 города (Ванкувер, Торонто)</p>
+                </div>
+                <div class="host-card mexico">
+                    <h3>Мексика</h3>
+                    <p>3 города (Мехико, Гвадалахара, Монтеррей)</p>
+                </div>
+                <div class="host-card usa">
+                    <h3>США</h3>
+                    <p>11 городов (от Нью-Йорка до Лос-Анджелеса)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Секция матчей -->
+    <section id="matches" class="matches-section">
+        <div class="container">
+            <h2 class="section-title">Ближайшие матчи</h2>
+            <div class="matches-grid">
+                
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">Четверг, 11 Июня</span>
+                        <span class="match-time">22:00</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <span class="fi fi-mx fib"></span> <span class="team-name">Мексика</span>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <span class="fi fi-za fib"></span> <span class="team-name">ЮАР</span>
+                        </div>
+                    </div>
+                    
+                    <div class="match-group-center">
+                        <span class="group-pill gr-a">Группа A</span>
+                    </div>
+
+                    <div class="match-footer">Мехико • Стадион Ацтека</div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">Пятница, 12 Июня</span>
+                        <span class="match-time">05:00</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <span class="fi fi-kr fib"></span> <span class="team-name">Южная Корея</span>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <span class="fi fi-cz fib"></span> <span class="team-name">Чехия</span>
+                        </div>
+                    </div>
+                    
+                    <div class="match-group-center">
+                        <span class="group-pill gr-a">Группа A</span>
+                    </div>
+
+                    <div class="match-footer">Гвадалахара • Стадион Гвадалахары</div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-header">
+                        <span class="match-date">Пятница, 12 Июня</span>
+                        <span class="match-time">22:00</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <span class="fi fi-ca fib"></span> <span class="team-name">Канада</span>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team">
+                            <span class="fi fi-ba fib"></span> <span class="team-name">Босния</span>
+                        </div>
+                    </div>
+                    
+                    <div class="match-group-center">
+                        <span class="group-pill gr-b">Группа B</span>
+                    </div>
+
+                    <div class="match-footer">Торонто • Торонто Стэдиум</div>
+                </div>
+
+            </div>
+            
+        </div>
+        <!-- Кнопка под карточками для открытия полного расписания -->
+            <div class="more-matches-wrapper">
+                <button id="open-schedule-btn" class="btn-primary">Посмотреть полное расписание →</button>
+            </div>
+    </section>
+
+    <section id="tournament-groups" class="groups-section">
+        <div class="container">
+            <h2 class="section-title">Групповой этап</h2>
+            
+            <div class="groups-main-card">
+                <div class="groups-card-header">
+                    <p class="block-subtitle">48 сборных • 12 групп по 4 команды в каждой</p>
+                </div>
+                
+            <div class="groups-teaser-container">
+                <div class="teaser-badge badge-a" data-group="A"><span>A</span></div>
+                <div class="teaser-badge badge-b" data-group="B"><span>B</span></div>
+                <div class="teaser-badge badge-c" data-group="C"><span>C</span></div>
+                <div class="teaser-badge badge-d" data-group="D"><span>D</span></div>
+                <div class="teaser-badge badge-e" data-group="E"><span>E</span></div>
+                <div class="teaser-badge badge-f" data-group="F"><span>F</span></div>
+                <div class="teaser-badge badge-g" data-group="G"><span>G</span></div>
+                <div class="teaser-badge badge-h" data-group="H"><span>H</span></div>
+                <div class="teaser-badge badge-i" data-group="I"><span>I</span></div>
+                <div class="teaser-badge badge-j" data-group="J"><span>J</span></div>
+                <div class="teaser-badge badge-k" data-group="K"><span>K</span></div>
+                <div class="teaser-badge badge-l" data-group="L"><span>L</span></div>
+            </div>
+
+                <p class="teaser-text">Доступен детальный турнирный расклад, расписание индивидуальных матчей каждого квартета и таблицы набранных очков, анализ групп и матчей.</p>
+
+                <div class="more-matches-wrapper" style="margin-top: 0;">
+                    <button id="open-groups-btn" class="btn-primary">Посмотреть турнирные таблицы групп →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="playoff" class="hosts-section" style="background-color: var(--bg-dark); padding: 20px 0 60px 0;">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom: 8px;">Стадия плей-офф</h2>
+            <p style="color: var(--text-gray); max-width: 600px; margin-bottom: 40px; font-size: 15px; line-height: 1.6;">
+                Сетка на выбывание: от дебютной 1/16 финала до грандиозного финала в Нью-Йорке. Следите за парами сильнейших сборных мира.
+            </p>
+
+            <div style="background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.08);">
+                <div class="trophy-wrapper">
+                    <img src="world-cup-trophy.png" alt="Кубок ЧМ 2026" class="playoff-trophy-img">
+                </div>
+                <h3 style="font-size: 22px; font-weight: 700; color: var(--text-white); margin-bottom: 15px;">Турнирная сетка ЧМ-2026</h3>
+                <p style="color: var(--text-gray); font-size: 14px; max-width: 520px; margin: 0 auto 30px auto; line-height: 1.5;">
+                    Впервые в истории в раунде плей-офф сразятся 32 лучшие команды из обновленного формата группового этапа. Интерактивное расписание пар и коннекторы раундов доступны по клику.
+                </p>
+                
+                <div class="more-matches-wrapper">
+                    <button class="btn-primary" onclick="openPlayoffModal()" style="font-family: inherit; cursor: pointer;">
+                        Посмотреть сетку плей-офф &rarr;
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="playoff-modal" class="po-modal-overlay">
+        <div class="po-modal-window">
+            <div class="po-modal-header">
+                <h2 class="po-modal-title">🏆 Интерактивный плей-офф ЧМ-2026</h2>
+                <button class="po-modal-close" onclick="closePlayoffModal()">&times;</button>
+            </div>
+            <div class="po-modal-body">
+                
+                <div class="po-tabs-menu">
+                    <button class="po-tab-btn active" onclick="switchPlayoffRound(0, '1/16')">1/16 финала</button>
+                    <button class="po-tab-btn" onclick="switchPlayoffRound(1, '1/8')">1/8 финала</button>
+                    <button class="po-tab-btn" onclick="switchPlayoffRound(2, '1/4')">1/4 финала</button>
+                    <button class="po-tab-btn" onclick="switchPlayoffRound(3, '1/2')">Полуфиналы</button>
+                    <button class="po-tab-btn" onclick="switchPlayoffRound(4, '3-е место')">Матч за 3-е место</button>
+                    <button class="po-tab-btn final-tab" onclick="switchPlayoffRound(5, 'Финал')">Финал</button>
+                </div>
+
+                <div id="playoff-matches-render" class="group-matches-container" style="margin-top: 20px;">
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="poa-analysis-modal" class="poa-modal-backdrop">
+    <div class="poa-modal-container">
+        <div class="poa-modal-header">
+            <h2 id="poa-modal-title">Аналитика матча</h2>
+            <button class="poa-modal-close-btn" onclick="closeAnalysisTextModal()">&times;</button>
+        </div>
+        <div class="poa-modal-body">
+            <p id="poa-modal-text">Здесь будет подробный разбор матча...</p>
+        </div>
+    </div>
+</div>
+
+    <!-- Подвал сайта -->
+    <footer class="footer">
+        <div class="container">
+            <p>Сайт носит исключительно информационный характер. Предоставленные материалы и прогнозы не являются призывом к действию или финансовой рекомендацией. Все ставки пользователь делает на свой страх и риск, самостоятельно неся полную ответственность за свои решения и финансовые результаты.
+
+</p>
+        </div>
+    </footer>
+    <!-- Выезжающая панель полного расписания (Drawer) -->
+    <div id="schedule-drawer" class="drawer">
+        <div class="drawer-overlay"></div>
+        <div class="drawer-content">
+            
+            <div class="drawer-header">
+                <div>
+                    <h2>Расписание ЧМ-2026</h2>
+                    <p class="drawer-subtitle">*Время матчей указано по Киеву</p>
+                </div>
+                <button id="close-schedule-btn" class="drawer-close">&times;</button>
+            </div>
+
+           <div class="drawer-body">
+                
+                <div class="timeline-stage">Групповой этап. Первый тур</div>
+
+                <div class="day-divider">Четверг, 11 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-mx fib"></span> Мексика</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-za fib"></span> ЮАР</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Мехико • Ацтека</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Пятница, 12 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-kr fib"></span> Южная Корея</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cz fib"></span> Чехия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Гвадалахара</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ca fib"></span> Канада</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ba fib"></span> Босния и Герц.</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Торонто • Торонто Ст.</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Суббота, 13 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-us fib"></span> США</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-py fib"></span> Парагвай</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-qa fib"></span> Катар</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ch fib"></span> Швейцария</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Сан-Франциско</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Воскресенье, 14 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-br fib"></span> Бразилия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ma fib"></span> Марокко</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ht fib"></span> Гаити</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-gb-sct fib"></span> Шотландия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Бостон • Джиллетт</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">07:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-au fib"></span> Австралия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-tr fib"></span> Турция</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-de fib"></span> Германия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cw fib"></span> Кюрасао</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Хьюстон • НРГ</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-nl fib"></span> Нидерланды</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-jp fib"></span> Япония</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Даллас • Эй-Ти-энд-Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Понедельник, 15 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ci fib"></span> Кот-д'Ивуар</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ec fib"></span> Эквадор</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Филадельфия</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-se fib"></span> Швеция</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-tn fib"></span> Тунис</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Монтеррей • Стэдиум</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">19:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-es fib"></span> Испания</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cv fib"></span> Кабо-Верде</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Атланта • Мерседес</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-be fib"></span> Бельгия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-eg fib"></span> Египет</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Вторник, 16 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-sa fib"></span> Сауд. Аравия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-uy fib"></span> Уругвай</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Майами • Хард Рок</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ir fib"></span> Иран</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-nz fib"></span> Нов. Зеландия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-fr fib"></span> Франция</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-sn fib"></span> Сенегал</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Среда, 17 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-iq fib"></span> Ирак</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-no fib"></span> Норвегия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Бостон • Джиллетт</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ar fib"></span> Аргентина</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-dz fib"></span> Алжир</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Канзас-Сити</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">07:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-at fib"></span> Австрия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-jo fib"></span> Иордания</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Сан-Франциско</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-pt fib"></span> Португалия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cd fib"></span> ДР Конго</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Хьюстон • НРГ</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-gb-eng fib"></span> Англия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-hr fib"></span> Хорватия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Даллас • Эй-Ти-энд-Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Четверг, 18 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-gh fib"></span> Гана</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-pa fib"></span> Панама</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Торонто • Торонто Ст.</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-uz fib"></span> Узбекистан</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-co fib"></span> Колумбия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Мехико • Ацтека</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Групповой этап. Второй тур</div>
+
+                <div class="day-divider">Четверг, 18 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">19:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-cz fib"></span> Чехия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-za fib"></span> ЮАР</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Атланта • Мерседес</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ch fib"></span> Швейцария</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ba fib"></span> Босния и Герц.</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Пятница, 19 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ca fib"></span> Канада</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-qa fib"></span> Катар</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-mx fib"></span> Мексика</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-kr fib"></span> Южная Корея</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Гвадалахара</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-us fib"></span> США</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-au fib"></span> Австралия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Суббота, 20 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-gb-sct fib"></span> Шотландия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ma fib"></span> Марокко</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Бостон • Джиллетт</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:30</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-br fib"></span> Бразилия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ht fib"></span> Гаити</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Филадельфия</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">06:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-tr fib"></span> Турция</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-py fib"></span> Парагвай</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Сан-Франциско</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-nl fib"></span> Нидерланды</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-se fib"></span> Швеция</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Хьюстон • НРГ</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-de fib"></span> Германия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ci fib"></span> Кот-д'Ивуар</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Торонто • Торонто Ст.</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Воскресенье, 21 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ec fib"></span> Эквадор</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cw fib"></span> Кюрасао</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Канзас-Сити</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">07:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-tn fib"></span> Тунис</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-jp fib"></span> Япония</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Монтеррей • Стэдиум</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">19:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-es fib"></span> Испания</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-sa fib"></span> Сауд. Аравия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Атланта • Мерседес</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-be fib"></span> Бельгия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ir fib"></span> Иран</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Понедельник, 22 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-uy fib"></span> Уругвай</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cv fib"></span> Кабо-Верде</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Майами • Хард Рок</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-nz fib"></span> Нов. Зеландия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-eg fib"></span> Египет</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ar fib"></span>Аргентина</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-at fib"></span> Австрия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Даллас • Эй-Ти-энд-Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Вторник, 23 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-fr fib"></span> Франция</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-iq fib"></span> Ирак</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Филадельфия</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-no fib"></span> Норвегия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-sn fib"></span> Сенегал</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">06:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-jo fib"></span> Иордания</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-dz fib"></span> Алжир</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Сан-Франциско</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-pt fib"></span> Португалия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-uz fib"></span> Узбекистан</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Хьюстон • НРГ</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-gb-eng fib"></span> Англия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-gh fib"></span> Гана</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Бостон • Джиллетт</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Среда, 24 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-pa fib"></span> Панама</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-hr fib"></span> Хорватия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Торонто • Торонто Ст.</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-co fib"></span> Колумбия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cd fib"></span> ДР Конго</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Гвадалахара</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Групповой этап. Третий тур</div>
+
+                <div class="day-divider">Среда, 24 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ca fib"></span> Канада</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ch fib"></span> Швейцария</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ba fib"></span> Босния и Герц.</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-qa fib"></span> Катар</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-b">Гр. B</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Четверг, 25 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ma fib"></span> Марокко</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ht fib"></span> Гаити</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Атланта • Мерседес</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-gb-sct fib"></span> Шотландия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-br fib"></span> Бразилия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-c">Гр. C</span>
+                        <span class="d-venue">Майами • Хард Рок</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-mx fib"></span> Мексика</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-cz fib"></span> Чехия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Мехико • Ацтека</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-za fib"></span> ЮАР</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-kr fib"></span> Южная Корея</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-a">Гр. A</span>
+                        <span class="d-venue">Монтеррей • Стэдиум</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-ec fib"></span> Эквадор</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-de fib"></span> Германия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-cw fib"></span> Кюрасао</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ci fib"></span> Кот-д'Ивуар</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-e">Гр. E</span>
+                        <span class="d-venue">Филадельфия</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Пятница, 26 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-tn fib"></span> Тунис</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-nl fib"></span> Нидерланды</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Канзас-Сити</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-jp fib"></span> Япония</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-se fib"></span> Швеция</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-f">Гр. F</span>
+                        <span class="d-venue">Даллас • Эй-Ти-энд-Ти</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-tr fib"></span> Турция</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-us fib"></span> США</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-py fib"></span> Парагвай</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-au fib"></span> Австралия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-d">Гр. D</span>
+                        <span class="d-venue">Сан-Франциско</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-no fib"></span> Норвегия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-fr fib"></span> Франция</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Бостон • Джиллетт Ст.</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-sn fib"></span> Сенегал</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-iq fib"></span> Ирак</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-i">Гр. I</span>
+                        <span class="d-venue">Торонто • Торонто Ст.</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Суббота, 27 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-uy fib"></span> Уругвай</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-es fib"></span> Испания</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Гвадалахара</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-cv fib"></span> Кабо-Верде</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-sa fib"></span> Сауд. Аравия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-h">Гр. H</span>
+                        <span class="d-venue">Хьюстон • НРГ</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">06:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-nz fib"></span> Нов. Зеландия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-be fib"></span> Бельгия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">06:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-eg fib"></span> Египет</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ir fib"></span> Иран</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-g">Гр. G</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Воскресенье, 28 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-pa fib"></span> Панама</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-gb-eng fib"></span> Англия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-hr fib"></span> Хорватия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-gh fib"></span> Гана</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-l">Гр. L</span>
+                        <span class="d-venue">Филадельфия</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:30</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-co fib"></span> Колумбия</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-pt fib"></span> Португалия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Майами • Хард Рок</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:30</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-cd fib"></span> ДР Конго</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-uz fib"></span> Узбекистан</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-k">Гр. K</span>
+                        <span class="d-venue">Атланта • Мерседес</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-dz fib"></span> Алжир</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-at fib"></span> Австрия</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Канзас-Сити</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">05:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="fi fi-jo fib"></span> Иордания</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="fi fi-ar fib"></span> Аргентина</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group gr-j">Гр. J</span>
+                        <span class="d-venue">Даллас • Эй-Ти&Ти</span>
+                    </div>
+                </div>
+                <div class="timeline-stage" style="margin-top: 40px;">Плей-офф. 1/16 финала</div>
+
+                <div class="day-divider">Воскресенье, 28 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">2A</span> 2-е место Группы A</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2B</span> 2-е место Группы B</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 73</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Понедельник, 29 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1C</span> Победитель Группы C</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2F</span> 2-е место Группы F</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 74</span>
+                        <span class="d-venue">Хьюстон • НРГ Стадиум</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:30</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1E</span> Победитель Группы E</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3A+</span> 3-е место ABCDF</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 75</span>
+                        <span class="d-venue">Бостон • Джиллетт Ст.</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Вторник, 30 июня</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1F</span> Победитель Группы F</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2C</span> 2-е место Группы C</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 76</span>
+                        <span class="d-venue">Монтеррей • ББВА</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">2E</span> 2-е место<br> Группы E</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2I</span> 2-е место<br> Группы I</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 77</span>
+                        <span class="d-venue">Даллас • Эй-Ти&Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Среда, 1 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1I</span> Победитель Группы I</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3C+</span> 3-е место CDFGH</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 78</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1A</span> Победитель<br> Группы A</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3C+</span> 3-е место<br> CEFHI</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 79</span>
+                        <span class="d-venue">Мехико • Ацтека</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">19:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1L</span> Победитель Группы L</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3E+</span> 3-е место EHIJK</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 80</span>
+                        <span class="d-venue">Атланта • Мерседес-Бенц</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1G</span> Победитель<br> Группы G</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3A+</span> 3-е место<br> AEHIJ</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 81</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Четверг, 2 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1D</span> Победитель Группы D</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3B+</span> 3-е место BEFIJ</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 82</span>
+                        <span class="d-venue">Сан-Франциско • Ливайс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1H</span> Победитель Группы H</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2J</span> 2-е место Группы J</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 83</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Пятница, 3 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">02:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">2K</span> 2-е место<br> Группы K</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2L</span> 2-е место<br> Группы L</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 84</span>
+                        <span class="d-venue">Торонто • БМО Филд</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">06:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1B</span> Победитель Группы B</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3E+</span> 3-е место EFGIJ</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 85</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">21:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">2D</span> 2-е место<br> Группы D</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2G</span> 2-е место<br> Группы G</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 86</span>
+                        <span class="d-venue">Даллас • Эй-Ти&Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Суббота, 4 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">01:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1J</span> Победитель Группы J</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">2H</span> 2-е место Группы H</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 87</span>
+                        <span class="d-venue">Майами • Хард Рок Ст.</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:30</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">1K</span> Победитель Группы K</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">3D+</span> 3-е место DEIJL</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 88</span>
+                        <span class="d-venue">Канзас-Сити • Эрроухед</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Плей-офф. 1/8 финала</div>
+
+                <div class="drawer-match-row">
+                    <div class="d-match-time">20:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W73</span> Победитель матча 73</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W75</span> Победитель матча 75</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 89</span>
+                        <span class="d-venue">Хьюстон • НРГ Стадиум</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Воскресенье, 5 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W74</span> Победитель матча 74</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W77</span> Победитель матча 77</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 90</span>
+                        <span class="d-venue">Филадельфия • Линкольн</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W76</span> Победитель матча 76</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W78</span> Победитель матча 78</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 91</span>
+                        <span class="d-venue">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Понедельник, 6 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W79</span> Победитель матча 79</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W80</span> Победитель матча 80</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 92</span>
+                        <span class="d-venue">Мехико • Ацтека</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W83</span> Победитель матча 83</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W84</span> Победитель матча 84</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 93</span>
+                        <span class="d-venue">Даллас • Эй-Ти&Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Вторник, 7 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">03:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W81</span> Победитель матча 81</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W82</span> Победитель матча 82</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 94</span>
+                        <span class="d-venue">Сиэтл • Люмен Филд</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">19:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W86</span> Победитель матча 86</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W88</span> Победитель матча 88</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 95</span>
+                        <span class="d-venue">Атланта • Мерседес-Бенц</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W85</span> Победитель матча 85</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W87</span> Победитель матча 87</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 96</span>
+                        <span class="d-venue">Ванкувер • Би-Си Плэйс</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Плей-офф. Четвертьфиналы</div>
+
+                <div class="day-divider">Четверг, 9 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">23:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W89</span> Победитель матча 89</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W90</span> Победитель матча 90</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 97</span>
+                        <span class="d-venue">Бостон • Джиллетт Ст.</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Пятница, 10 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W93</span> Победитель матча 93</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W94</span> Победитель матча 94</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 98</span>
+                        <span class="d-venue">Лос-Анджелес • Соу-Фай</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Воскресенье, 12 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W91</span> Победитель матча 91</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W92</span> Победитель матча 92</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 99</span>
+                        <span class="d-venue">Майами • Хард Рок Ст.</span>
+                    </div>
+                </div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">04:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W95</span> Победитель матча 95</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W96</span> Победитель матча 96</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge">Матч 100</span>
+                        <span class="d-venue">Канзас-Сити • Эрроухед</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Плей-офф. Полуфиналы</div>
+
+                <div class="day-divider">Вторник, 14 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W97</span> Победитель 1/4 (1)</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W98</span> Победитель 1/4 (2)</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge gr-b">Матч 101</span>
+                        <span class="d-venue">Даллас • Эй-Ти&Ти</span>
+                    </div>
+                </div>
+
+                <div class="day-divider">Среда, 15 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder">W99</span> Победитель 1/4 (3)</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder">W100</span> Победитель 1/4 (4)</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge gr-b">Матч 102</span>
+                        <span class="d-venue">Атланта • Мерседес-Бенц</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px;">Матч за 3-е место</div>
+
+                <div class="day-divider">Воскресенье, 19 июля</div>
+                <div class="drawer-match-row">
+                    <div class="d-match-time">00:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder" style="background: #475569;">L101</span> Проигравший в ПФ (1)</span>
+                        <span class="d-vs">VS</span>
+                        <span class="d-team"><span class="po-placeholder" style="background: #475569;">L102</span> Проигравший в ПФ (2)</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge gr-g">Матч 103</span>
+                        <span class="d-venue">Майами • Хард Рок Ст.</span>
+                    </div>
+                </div>
+
+
+                <div class="timeline-stage" style="margin-top: 40px; color: #f1c40f;">★ ФИНАЛ ЧЕМПИОНАТА ★</div>
+                <div class="drawer-match-row" style="background: rgba(241, 196, 15, 0.04); border-left: 4px solid #f1c40f;">
+                    <div class="d-match-time" style="color: #f1c40f; font-weight: 900;">22:00</div>
+                    <div class="d-match-teams">
+                        <span class="d-team"><span class="po-placeholder" style="background: #f1c40f; color: #000; font-weight: 900; box-shadow: 0 0 10px rgba(241,196,15,0.4);">W101</span> Победитель ПФ (1)</span>
+                        <span class="d-vs" style="color: #f1c40f; font-weight: 900;">FIN</span>
+                        <span class="d-team"><span class="po-placeholder" style="background: #f1c40f; color: #000; font-weight: 900; box-shadow: 0 0 10px rgba(241,196,15,0.4);">W102</span> Победитель ПФ (2)</span>
+                    </div>
+                    <div class="d-match-meta">
+                        <span class="d-group po-badge" style="background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f;">Матч 104</span>
+                        <span class="d-venue" style="color: #fff; font-weight: bold;">Нью-Джерси • Метлайф</span>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <div id="groups-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrapper">
+        <div class="modal-header">
+            <div>
+                <h2>Групповой этап ЧМ-2026</h2>
+                <p class="modal-subtitle">12 квартетов борются за выход в плей-офф</p>
+            </div>
+            <button id="close-groups-btn" class="modal-close">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="groups-grid">
+    
+                <a href="group.html?id=a" class="group-card card-gr-a" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа A</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-mx"></span> 1. Мексика</div>
+                        <div class="group-team-row"><span class="fi fi-cz"></span> 2. Чехия</div>
+                        <div class="group-team-row"><span class="fi fi-kr"></span> 3. Южная Корея</div>
+                        <div class="group-team-row"><span class="fi fi-za"></span> 4. ЮАР</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=b" class="group-card card-gr-b" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа B</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-ca"></span> 1. Канада</div>
+                        <div class="group-team-row"><span class="fi fi-ch"></span> 2. Швейцария</div>
+                        <div class="group-team-row"><span class="fi fi-qa"></span> 3. Катар</div>
+                        <div class="group-team-row"><span class="fi fi-ba"></span> 4. Босния и Герцеговина</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=c" class="group-card card-gr-c" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа C</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-br"></span> 1. Бразилия</div>
+                        <div class="group-team-row"><span class="fi fi-gb-sct"></span> 2. Шотландия</div>
+                        <div class="group-team-row"><span class="fi fi-ma"></span> 3. Марокко</div>
+                        <div class="group-team-row"><span class="fi fi-ht"></span> 4. Гаити</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=d" class="group-card card-gr-d" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа D</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-us"></span> 1. США</div>
+                        <div class="group-team-row"><span class="fi fi-tr"></span> 2. Турция</div>
+                        <div class="group-team-row"><span class="fi fi-py"></span> 3. Парагвай</div>
+                        <div class="group-team-row"><span class="fi fi-au"></span> 4. Австралия</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=e" class="group-card card-gr-e" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа E</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-de"></span> 1. Германия</div>
+                        <div class="group-team-row"><span class="fi fi-ec"></span> 2. Эквадор</div>
+                        <div class="group-team-row"><span class="fi fi-ci"></span> 3. Кот-д'Ивуар</div>
+                        <div class="group-team-row"><span class="fi fi-cw"></span> 4. Кюрасао</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=f" class="group-card card-gr-f" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа F</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-nl"></span> 1. Нидерланды</div>
+                        <div class="group-team-row"><span class="fi fi-jp"></span> 2. Япония</div>
+                        <div class="group-team-row"><span class="fi fi-se"></span> 3. Швеция</div>
+                        <div class="group-team-row"><span class="fi fi-tn"></span> 4. Тунис</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=g" class="group-card card-gr-g" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа G</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-be"></span> 1. Бельгия</div>
+                        <div class="group-team-row"><span class="fi fi-eg"></span> 2. Египет</div>
+                        <div class="group-team-row"><span class="fi fi-ir"></span> 3. Иран</div>
+                        <div class="group-team-row"><span class="fi fi-nz"></span> 4. Новая Зеландия</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=h" class="group-card card-gr-h" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа H</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-es"></span> 1. Испания</div>
+                        <div class="group-team-row"><span class="fi fi-uy"></span> 2. Уругвай</div>
+                        <div class="group-team-row"><span class="fi fi-sa"></span> 3. Саудовская Аравия</div>
+                        <div class="group-team-row"><span class="fi fi-cv"></span> 4. Кабо-Верде</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=i" class="group-card card-gr-i" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа I</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-fr"></span> 1. Франция</div>
+                        <div class="group-team-row"><span class="fi fi-no"></span> 2. Норвегия</div>
+                        <div class="group-team-row"><span class="fi fi-sn"></span> 3. Сенегал</div>
+                        <div class="group-team-row"><span class="fi fi-iq"></span> 4. Ирак</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=j" class="group-card card-gr-j" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа J</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-ar"></span> 1. Аргентина</div>
+                        <div class="group-team-row"><span class="fi fi-at"></span> 2. Австрия</div>
+                        <div class="group-team-row"><span class="fi fi-dz"></span> 3. Алжир</div>
+                        <div class="group-team-row"><span class="fi fi-jo"></span> 4. Иордания</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=k" class="group-card card-gr-k" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа K</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-pt"></span> 1. Португалия</div>
+                        <div class="group-team-row"><span class="fi fi-co"></span> 2. Колумбия</div>
+                        <div class="group-team-row"><span class="fi fi-uz"></span> 3. Узбекистан</div>
+                        <div class="group-team-row"><span class="fi fi-cd"></span> 4. Конго ДР</div>
+                    </div>
+                </a>
+
+                <a href="group.html?id=l" class="group-card card-gr-l" style="text-decoration: none; color: inherit;">
+                    <div class="group-card-header">Группа L</div>
+                    <div class="group-card-body">
+                        <div class="group-team-row"><span class="fi fi-gb-eng"></span> 1. Англия</div>
+                        <div class="group-team-row"><span class="fi fi-hr"></span> 2. Хорватия</div>
+                        <div class="group-team-row"><span class="fi fi-pa"></span> 3. Панама</div>
+                        <div class="group-team-row"><span class="fi fi-gh"></span> 4. Гана</div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+    
+ <script src="script.js"></script>
+
+</body>
+</html>

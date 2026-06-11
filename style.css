@@ -1,0 +1,1912 @@
+/* --- Сброс стилей и базовые настройки --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0b0e14;       /* Глубокий темный фон */
+    --card-bg: #161b26;       /* Фон для карточек */
+    --text-white: #ffffff;
+    --text-gray: #a0aec0;
+
+    /* Официальные акценты бренда ЧМ 2026 */
+    --fifa-blue: #2a398d;
+    --brand-red: #e61d25;     /* Канадский красный */
+    --brand-green: #3cac3b;   /* Мексиканский зеленый */
+    --brand-blue: #0076ad;    /* Американский синий */
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+}
+/* Принудительно включаем красивые флаги на Windows */
+.flag, .d-team {
+    font-family: "Twemoji Mozilla", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Шапка (Header) --- */
+.header {
+    background-color: rgba(11, 14, 20, 0.95);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid #222b3d;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--brand-red);
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+/* Базовое состояние ссылок (на случай, если нужно освежить плавность) */
+.nav-link {
+    color: #8c9cb0; /* Твой стандартный сероватый цвет текста */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.3s ease, text-shadow 0.3s ease; /* Плавный переход цвета и свечения */
+    position: relative;
+}
+
+/* Эффект при наведении курсора — Красивый технологичный синий */
+.nav-link:hover {
+    color: #00bfff !important; /* Насыщенный небесно-синий цвет (Electric Blue) */
+    text-shadow: 0 0 10px rgba(0, 191, 255, 0.6), 
+                 0 0 20px rgba(0, 191, 255, 0.3); /* Мягкое неоновое свечение вокруг букв */
+}
+
+
+
+/* --- Главный баннер (Hero) --- */
+.hero-section {
+    padding-top: 150px;
+    padding-bottom: 80px;
+    text-align: center;
+    background: radial-gradient(circle at center, #1e2640 0%, var(--bg-dark) 70%);
+}
+
+.badge {
+    display: inline-block;
+    background: var(--brand-blue);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #fff 50%, var(--text-gray));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: var(--text-gray);
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.time-block {
+    background: var(--card-bg);
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 700;
+    border: 1px solid #222b3d;
+}
+
+.time-block span {
+    display: block;
+    font-size: 28px;
+    color: var(--text-white);
+    font-weight: 900;
+}
+
+/* --- Общие заголовки секций --- */
+.section-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 4px;
+    background: var(--brand-red);
+    margin-top: 10px;
+}
+
+/* --- Секция матчей (Matches) --- */
+.matches-section {
+    padding: 80px 0;
+}
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.match-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #222b3d;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    font-weight: 700;
+    border-bottom: 1px solid #222b3d;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.match-date {
+    color: var(--text-white);
+}
+
+.match-time {
+    color: var(--brand-green); /* Оставим приятный зеленый цвет для времени */
+    text-align: right;
+}
+
+/* Центрирование нового блока группы */
+.match-group-center {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0; /* Отступы сверху и снизу от команд и стадиона */
+}
+/* Добавляем отступ для названий команд, чтобы опустить их ниже флагов */
+.matches-grid .team-name {
+    margin-top: 10px; /* Настройте это значение (например, 8px или 12px), если нужно больше или меньше места */
+    display: block;   /* Гарантирует, что отступ сработает правильно */
+}
+
+/* Красивая скругленная плашка группы */
+.group-pill {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 12px; /* Делает плашку овальной */
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+/* Цвета для плашек */
+.group-pill.gr-a {
+    background: rgba(60, 172, 59, 0.15); /* Полупрозрачный фон */
+    border: 1px solid var(--brand-green); /* Яркий ободок */
+    color: var(--brand-green);
+}
+
+.group-pill.gr-b {
+    background: rgba(0, 118, 173, 0.15);
+    border: 1px solid var(--brand-blue);
+    color: var(--brand-blue);
+}
+
+.match-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.flag {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.team-name {
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.vs {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--brand-red);
+    background: rgba(230, 29, 37, 0.1);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.match-footer {
+    font-size: 12px;
+    color: var(--text-gray);
+    text-align: center;
+}
+
+/* --- Секция хозяев (Hosts) --- */
+.hosts-section {
+    padding: 80px 0 40px 0;
+}
+
+.hosts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.host-card {
+    padding: 40px 30px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 180px;
+}
+
+/* Индивидуальные стили-бордюры под флаг каждой страны */
+.host-card.canada {
+    background: linear-gradient(135deg, #4a0e10 0%, var(--card-bg) 100%);
+    border-left: 5px solid var(--brand-red);
+}
+
+.host-card.mexico {
+    background: linear-gradient(135deg, #123315 0%, var(--card-bg) 100%);
+    border-left: 5px solid var(--brand-green);
+}
+
+.host-card.usa {
+    background: linear-gradient(135deg, #0f253d 0%, var(--card-bg) 100%);
+    border-left: 5px solid var(--brand-blue);
+}
+
+.host-card h3 {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.host-card p {
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+/* --- Подвал (Footer) --- */
+.footer {
+    background: #07090d;
+    padding: 30px 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-gray);
+    border-top: 1px solid #161b26;
+}
+
+/* --- Адаптивность для мобильных устройств --- */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 48px;
+    }
+    .header-flex {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        height: auto;
+        padding: 15px 0;
+    }
+    .hero-section {
+        padding-top: 180px;
+    }
+}
+/* --- Кнопка открытия расписания --- */
+.more-matches-wrapper {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-primary {
+    background: transparent;
+    border: 2px solid var(--brand-red);
+    color: var(--text-white);
+    padding: 12px 30px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--brand-red);
+    box-shadow: 0 0 15px rgba(230, 29, 37, 0.4);
+    transform: translateY(-2px);
+}
+
+/* --- Выезжающая панель (Drawer) --- */
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999; /* Теперь этот z-index сработает на все 100%! */
+    visibility: hidden;
+    transition: visibility 0.4s;
+}
+
+/* Затемняющий фон */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Сама плашка с контентом */
+.drawer-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 650px;
+    height: 100%;
+    background: #0f131c !important; /* Плотный родной цвет фона, чтобы ничего не просвечивало */
+    border-left: 1px solid #222b3d;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Шапка панели */
+.drawer-header {
+    padding: 25px;
+    border-bottom: 1px solid #222b3d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0b0e14 !important; /* Гарантируем непрозрачность шапки */
+}
+
+.drawer-header h2 {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.drawer-subtitle {
+    font-size: 12px;
+    color: var(--brand-green);
+    margin-top: 4px;
+}
+
+.drawer-close {
+    background: transparent;
+    border: none;
+    color: var(--text-gray);
+    font-size: 32px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.drawer-close:hover {
+    color: var(--brand-red);
+}
+
+/* Тело со скроллом */
+.drawer-body {
+    padding: 25px;
+    overflow-y: auto; /* Включаем вертикальный скролл */
+    flex: 1;
+    background: #0b0e14 !important; /* Гарантируем непрозрачность тела */
+}
+
+/* --- Стили элементов расписания внутри Drawer --- */
+.timeline-stage {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: var(--text-gray);
+    background: rgba(255,255,255,0.05);
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.day-divider {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-white);
+    margin: 25px 0 12px 0;
+    border-left: 3px solid var(--brand-blue);
+    padding-left: 10px;
+}
+
+/* Узкая горизонтальная строка матча */
+.drawer-match-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--card-bg);
+    border: 1px solid #1e2535;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    gap: 15px;
+}
+
+.d-match-time {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--brand-green);
+    min-width: 45px;
+}
+
+/* Возвращаем блоку команд простое и стабильное выравнивание */
+.d-match-teams {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start; /* Все команды начинают идти строго слева направо, как раньше */
+    flex: 1;
+    margin: 0 10px;
+}
+
+/* Левая команда — идет ровно по левой линии */
+.d-match-teams .d-team:first-child {
+    width: 130px !important;     /* Жестко фиксируем ширину левой команды! */
+    justify-content: flex-start; /* Текст и значок выровнены по левому краю */
+    text-align: left;
+    flex-shrink: 0;              /* Запрещаем блоку сжиматься */
+}
+
+/* Центральная надпись VS */
+.d-vs {
+    width: 60px !important;      /* Жестко фиксируем ширину для VS */
+    text-align: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--brand-red);
+    opacity: 0.8;
+    flex-shrink: 0;
+}
+
+/* Правая команда — начинается сразу после VS */
+.d-match-teams .d-team:last-child {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+/* Общий стиль для команд */
+.d-team {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.d-match-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 120px;
+}
+
+.d-group {
+    font-size: 10px; /* Исходный аккуратный размер (чуть-чуть добавили для четкости) */
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    /* Убираем субпиксельное мыло, делаем буквы резче: */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Возвращаем оригинальные стильные рамки и полупрозрачный фон */
+/* --- ЦВЕТА ВСЕХ ГРУПП В МЕНЮ РАСПИСАНИЯ --- */
+
+/* Группа A (Зеленый) */
+.d-group.gr-a { background: rgba(60, 172, 59, 0.2); color: var(--brand-green); border: 1px solid var(--brand-green); }
+
+/* Группа B (Синий) */
+.d-group.gr-b { background: rgba(0, 118, 173, 0.2); color: var(--brand-blue); border: 1px solid var(--brand-blue); }
+
+/* Группа C (Фиолетовый) */
+.d-group.gr-c { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; }
+
+/* Группа D (Красный) */
+.d-group.gr-d { background: rgba(230, 29, 37, 0.2); color: var(--brand-red); border: 1px solid var(--brand-red); }
+
+/* Группа E (Оранжевый) */
+.d-group.gr-e { background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22; }
+
+/* Группа F (Бирюзовый) */
+.d-group.gr-f { background: rgba(26, 188, 156, 0.2); color: #1abc9c; border: 1px solid #1abc9c; }
+
+/* Группа G (Золотой / Желтый) */
+.d-group.gr-g { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+
+/* Группа H (Розовый флуоресцентный) */
+.d-group.gr-h { background: rgba(233, 30, 99, 0.2); color: #e91e63; border: 1px solid #e91e63; }
+
+/* Группа I (Мятный) */
+.d-group.gr-i { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+
+/* Группа J (Неоновый синий) */
+.d-group.gr-j { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; }
+
+/* Группа K (Коралловый) */
+.d-group.gr-k { background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c; }
+
+/* Группа L (Пурпурный / Маджента) */
+.d-group.gr-l { background: rgba(155, 89, 182, 0.2); color: #d35400; border: 1px solid #d35400; }
+.d-venue {
+    font-size: 11px;
+    color: var(--text-gray);
+    text-align: right;
+}
+
+/* --- Класс-активатор для плавного открытия через JS --- */
+.drawer.open {
+    visibility: visible;
+}
+.drawer.open .drawer-overlay {
+    opacity: 1;
+}
+.drawer.open .drawer-content {
+    transform: translateX(0);
+}
+/* Стилизуем иконки флагов */
+/* Стилизуем иконки флагов — делаем их крупнее и идеально круглыми */
+/* Финальный боевой стиль для идеально круглых и крупных флагов */
+.fi {
+    display: inline-block !important;
+    width: 28px !important;       /* Делаем их заметно крупнее */
+    height: 28px !important;      /* Высота строго равна ширине */
+    border-radius: 50% !important; /* Намертво скругляем в идеальный круг */
+    
+    /* Принудительно заставляем картинку флага заполнить весь круг */
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    
+    /* Убираем внутренние искажения библиотеки */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+    flex-shrink: 0 !important;
+    transform: none !important;
+}
+
+
+
+/* Красивые круглые значки-заглушки для стадии Плей-офф */
+/* Красивые круглые значки-заглушки для стадии Плей-офф */
+.po-placeholder {
+    width: 34px;                  /* Увеличили размер (было 28px) */
+    height: 34px;                 /* Увеличили размер (было 28px) */
+    line-height: 34px;            /* Выравниваем текст строго по центру нового размера */
+    font-size: 11px;              /* Слегка прибавили размер шрифта для читаемости */
+    background: #222b3d;          
+    color: #38bdf8 !important; /* Красивый неоновый небесно-голубой цвет */
+    text-shadow: 0 0 6px rgba(56, 189, 248, 0.4); /* Легкое цифровое свечение для букв */              
+    font-weight: 900;
+    text-align: center;
+    border-radius: 50%;           
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}
+
+/* Общий приятный бейдж для номеров матчей (плей-офф) */
+.po-badge {
+    background: rgba(99, 102, 241, 0.15) !important; /* Мягкий фиолетово-синий фон */
+    color: #a5b4fc !important;                        /* Нежный светлый текст */
+    border: 1px solid rgba(99, 102, 241, 0.3) !important; /* Деликатная светящаяся рамка */
+}
+/* --- ЭЛИТНЫЕ ЦВЕТА ДЛЯ ФИНАЛЬНЫХ СТАДИЙ --- */
+
+/* ПОЛУФИНАЛЫ: Сделаем их огненно-оранжевыми / неоновыми, как накал страстей перед финалом */
+.drawer-match-row .gr-b.po-badge {
+    background: rgba(249, 115, 22, 0.2) !important;
+    color: #fdba74 !important;
+    border: 1px solid rgba(249, 115, 22, 0.4) !important;
+}
+
+/* МАТЧ ЗА 3-Е МЕСТО: Благородная Бронза */
+.drawer-match-row .gr-g.po-badge {
+    background: rgba(205, 127, 50, 0.2) !important;
+    color: #e4a86a !important;
+    border: 1px solid rgba(205, 127, 50, 0.4) !important;
+}
+
+/* ЧЕМПИОНСКИЙ ФИНАЛ: Сияющее Золото главного кубка планеты */
+.drawer-match-row [style*="rgba(241, 196, 15, 0.2)"].po-badge,
+.drawer-match-row .po-badge[style*="color: #f1c40f"] {
+    background: rgba(234, 179, 8, 0.25) !important; /* Насыщенное золото */
+    color: #fef08a !important;                       /* Яркий праздничный текст */
+    border: 1px solid rgba(234, 179, 8, 0.5) !important;
+    box-shadow: 0 0 8px rgba(234, 179, 8, 0.3);      /* Легкое чемпионское свечение */
+}
+/* Текст внутри кружочков золотого ФИНАЛА делаем глубоким темно-коричневым/черным для идеальной читаемости на золотом фоне */
+.drawer-match-row [style*="background: #f1c40f"].po-placeholder,
+.drawer-match-row [style*="background: rgb(241, 196, 15)"].po-placeholder {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+/* --- СИНХРОНИЗАЦИЯ ЦВЕТА КРУЖОЧКОВ С ПЛАШКАМИ --- */
+
+/* ПОЛУФИНАЛЫ: Текст в кружочках становится сочным оранжевым, как и плашка матча */
+.drawer-match-row:has(.gr-b) .po-placeholder {
+    color: #fdba74 !important; /* Мягкий оранжевый */
+    text-shadow: 0 0 6px rgba(253, 186, 116, 0.4) !important;
+}
+
+/* МАТЧ ЗА 3-Е МЕСТО: Текст в кружочках становится бронзово-песочным */
+.drawer-match-row:has(.gr-g) .po-placeholder {
+    color: #e4a86a !important; /* Бронзовый оттенок */
+    text-shadow: 0 0 6px rgba(228, 168, 106, 0.4) !important;
+}
+/* Контейнер для цветных плашек-тизеров */
+.groups-teaser-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0;
+    justify-content: flex-start;
+}
+
+/* Сами круглые или квадратные плашки букв */
+.teaser-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+    user-select: none;
+}
+
+/* Эффект легкого подпрыгивания букв при наведении на блок */
+.main-card-block:hover .teaser-badge {
+    transform: translateY(-2px);
+}
+
+/* Короткое описание внутри карточки */
+.teaser-text {
+    font-size: 13px;
+    color: var(--text-gray); /* или #a0aec0 */
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+/* Стилизация кнопки, если у вас нет класса .main-action-btn */
+.main-action-btn {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.main-action-btn:hover {
+    background: #6366f1; /* Приятный индиго при наведении */
+    border-color: #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+/* Стили для новой секции групп */
+.groups-section {
+    padding: 0 0 60px 0;
+    background: transparent; /* Легкий контраст фона, как у остальных секций */
+    position: relative;
+    z-index: 1;
+    scroll-margin-top: 80px; /* Аккуратный отступ сверху при клике из меню */
+    isolation: isolate; /* Создает изолированный слой, запрещая элементам внутри «вылезать» к модальным окнам */
+}
+
+.groups-main-card {
+    background: rgba(255, 255, 255, 0.03); /* Делаем подложку карточки чуть прозрачнее, под цвет остальных */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Делаем рамку более тонкой и аккуратной */
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.block-subtitle {
+    font-size: 16px;
+    color: #a0aec0;
+    margin-bottom: 20px;
+}
+
+/* Контейнер-коллаж для групп */
+.groups-teaser-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 35px auto;
+    justify-content: center;
+    max-width: 650px;
+    position: relative;
+    /* УБРАЛИ perspective, чтобы не ломать слои сайта */
+}
+
+/* Базовый стиль интерактивной карточки группы */
+.teaser-badge {
+    position: relative;
+    width: 55px;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    /* УБРАЛИ transform-style: preserve-3d */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+}
+
+/* Текст внутри карточки */
+.teaser-badge span {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+/* Эффект наведения — карточка приподнимается и увеличивается БЕЗ 3D-искажений */
+.teaser-badge:hover {
+    transform: translateY(-6px) scale(1.08); /* Чистый подъем вверх */
+    border-color: var(--hover-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 
+                0 0 15px var(--glow-color);
+}
+
+/* Убираем translateZ, заменяем на легкое увеличение самой буквы */
+.teaser-badge:hover span {
+    transform: scale(1.1); 
+}
+
+/* Неоновое свечение сзади (псевдоэлемент) */
+.teaser-badge::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--glow-color), transparent);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+.teaser-badge:hover::before {
+    top: 50%;
+    opacity: 0.2;
+}
+
+/* --- Соответствие неоновых цветов буквам групп (как в шторке) --- */
+.badge-a { --hover-color: #3cac3b; --glow-color: rgba(60, 172, 59, 0.6); color: #3cac3b; }   /* Зеленый */
+.badge-b { --hover-color: #0076ad; --glow-color: rgba(0, 118, 173, 0.6); color: #0076ad; }   /* Синий */
+.badge-c { --hover-color: #9b59b6; --glow-color: rgba(155, 89, 182, 0.6); color: #9b59b6; }  /* Фиолетовый */
+.badge-d { --hover-color: #e61d25; --glow-color: rgba(230, 29, 37, 0.6); color: #e61d25; }   /* Красный */
+.badge-e { --hover-color: #e67e22; --glow-color: rgba(230, 126, 34, 0.6); color: #e67e22; }  /* Оранжевый */
+.badge-f { --hover-color: #1abc9c; --glow-color: rgba(26, 188, 156, 0.6); color: #1abc9c; }  /* Бирюзовый */
+.badge-g { --hover-color: #f1c40f; --glow-color: rgba(241, 196, 15, 0.6); color: #f1c40f; }  /* Желтый */
+.badge-h { --hover-color: #e91e63; --glow-color: rgba(233, 30, 99, 0.6); color: #e91e63; }   /* Розовый */
+.badge-i { --hover-color: #2ecc71; --glow-color: rgba(46, 204, 113, 0.6); color: #2ecc71; }  /* Светло-зеленый */
+.badge-j { --hover-color: #3498db; --glow-color: rgba(52, 152, 219, 0.6); color: #3498db; }  /* Светло-синий */
+.badge-k { --hover-color: #e74c3c; --glow-color: rgba(231, 76, 60, 0.6); color: #e74c3c; }   /* Светло-красный */
+.badge-l { --hover-color: #d35400; --glow-color: rgba(211, 84, 0, 0.6); color: #d35400; }     /* Темно-оранжевый */
+/* Добавим легкий глянцевый отблеск при наведении */
+.teaser-badge::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg);
+    transition: 0.75s;
+}
+.teaser-badge:hover::after {
+    left: 120%;
+}
+
+/* --- ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО (ГРУППЫ) --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999 !important;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Фон-подложка */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 7, 11, 0.85); /* Плотный темный фон */
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+/* Оболочка контента окна */
+.modal-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    background: #0f131c;
+    border: 1px solid #222b3d;
+    border-radius: 20px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+/* Шапка модалки */
+.modal-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid #222b3d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0f131c;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.modal-subtitle {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-top: 4px;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: var(--text-gray);
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: var(--brand-red);
+}
+
+/* Тело модалки со скроллом */
+.modal-body {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+    background: #0b0e14;
+}
+
+/* --- МОЩНАЯ GRID-СЕТКА ДЛЯ 12 ГРУПП --- */
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки по умолчанию */
+    gap: 20px;
+}
+
+/* Стилизация карточки группы */
+.group-card {
+    background: var(--card-bg);
+    border: 1px solid #1e2535;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+}
+
+/* Шапка карточки */
+.group-card-header {
+    padding: 12px 15px;
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Тело карточки со списком команд */
+.group-card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Строка с командой */
+.group-team-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-white);
+    padding: 4px 0;
+}
+
+/* --- КЛАССЫ-АКТИВАТОРЫ ДЛЯ ПЛАВНОГО ПОЯВЛЕНИЯ ЧЕРЕЗ JS --- */
+.modal.open {
+    visibility: visible;
+}
+.modal.open .modal-overlay {
+    opacity: 1;
+}
+.modal.open .modal-wrapper {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* --- АДАПТИВНОСТЬ СЕТКИ ПОД РАЗНЫЕ ЭКРАНЫ --- */
+@media (max-width: 1024px) {
+    .groups-grid { grid-template-columns: repeat(3, 1fr); } /* 3 колонки на планшетах */
+}
+@media (max-width: 768px) {
+    .groups-grid { grid-template-columns: repeat(2, 1fr); } /* 2 колонки на мини-планшетах */
+    .modal-wrapper { max-height: 95vh; }
+}
+@media (max-width: 480px) {
+    .groups-grid { grid-template-columns: 1fr; } /* 1 колонка на телефонах */
+    .modal-body { padding: 15px; }
+}
+
+/* --- СВЯЗКА ЦВЕТОВ КАРТОЧЕК С ЦВЕТАМИ ОСТАЛЬНОГО САЙТА (НЕОНОВЫЕ ХОВЕРЫ) --- */
+.card-gr-a .group-card-header { background: rgba(60, 172, 59, 0.15); color: #3cac3b; }
+.card-gr-a:hover { border-color: #3cac3b; box-shadow: 0 0 15px rgba(60, 172, 59, 0.3); transform: translateY(-4px); }
+
+.card-gr-b .group-card-header { background: rgba(0, 118, 173, 0.15); color: #0076ad; }
+.card-gr-b:hover { border-color: #0076ad; box-shadow: 0 0 15px rgba(0, 118, 173, 0.3); transform: translateY(-4px); }
+
+.card-gr-c .group-card-header { background: rgba(155, 89, 182, 0.15); color: #9b59b6; }
+.card-gr-c:hover { border-color: #9b59b6; box-shadow: 0 0 15px rgba(155, 89, 182, 0.3); transform: translateY(-4px); }
+
+.card-gr-d .group-card-header { background: rgba(230, 29, 37, 0.15); color: #e61d25; }
+.card-gr-d:hover { border-color: #e61d25; box-shadow: 0 0 15px rgba(230, 29, 37, 0.3); transform: translateY(-4px); }
+
+.card-gr-e .group-card-header { background: rgba(230, 126, 34, 0.15); color: #e67e22; }
+.card-gr-e:hover { border-color: #e67e22; box-shadow: 0 0 15px rgba(230, 126, 34, 0.3); transform: translateY(-4px); }
+
+.card-gr-f .group-card-header { background: rgba(26, 188, 156, 0.15); color: #1abc9c; }
+.card-gr-f:hover { border-color: #1abc9c; box-shadow: 0 0 15px rgba(26, 188, 156, 0.3); transform: translateY(-4px); }
+
+.card-gr-g .group-card-header { background: rgba(241, 196, 15, 0.15); color: #f1c40f; }
+.card-gr-g:hover { border-color: #f1c40f; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); transform: translateY(-4px); }
+
+.card-gr-h .group-card-header { background: rgba(233, 30, 99, 0.15); color: #e91e63; }
+.card-gr-h:hover { border-color: #e91e63; box-shadow: 0 0 15px rgba(233, 30, 99, 0.3); transform: translateY(-4px); }
+
+.card-gr-i .group-card-header { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+.card-gr-i:hover { border-color: #2ecc71; box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); transform: translateY(-4px); }
+
+.card-gr-j .group-card-header { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+.card-gr-j:hover { border-color: #3498db; box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); transform: translateY(-4px); }
+
+.card-gr-k .group-card-header { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+.card-gr-k:hover { border-color: #e74c3c; box-shadow: 0 0 15px rgba(231, 76, 60, 0.3); transform: translateY(-4px); }
+
+.card-gr-l .group-card-header { background: rgba(211, 84, 0, 0.15); color: #d35400; }
+.card-gr-l:hover { border-color: #d35400; box-shadow: 0 0 15px rgba(211, 84, 0, 0.3); transform: translateY(-4px); }
+
+/* Делаем так, чтобы ссылки-карточки вели себя как полноценные блоки */
+.groups-grid .group-card {
+    display: block;
+    text-decoration: none;
+}
+
+/* ==========================================
+   МОДАЛЬНОЕ ОКНО СЕТКИ ПЛЕЙ-ОФФ
+   ========================================== */
+.po-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(11, 14, 20, 0.96); /* Плотный фирменный фон */
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.po-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.po-modal-window {
+    width: 96%;
+    height: 90%;
+    background: var(--bg-dark);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.po-modal-header {
+    padding: 20px 30px;
+    background: var(--card-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.po-modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-white);
+}
+
+.po-modal-close {
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-size: 36px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.po-modal-close:hover {
+    color: #ff3366; /* Выделение при наведении */
+}
+
+.po-modal-body {
+    padding: 30px;
+    flex-grow: 1;
+    overflow-x: auto; /* Горизонтальный скролл для колонок раундов */
+    overflow-y: auto;
+}
+
+.brackets-wrapper {
+    min-width: max-content;
+}
+
+.brackets-container {
+    display: flex;
+    gap: 40px; /* Расстояние между раундами */
+    padding: 10px 0;
+}
+
+/* Контейнер для кубка, заменяющий старый отступ */
+.trophy-wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стили самой картинки кубка */
+.playoff-trophy-img {
+    height: 90px; /* Идеальная высота, чтобы соответствовать дизайну */
+    width: auto;  /* Пропорции сохраняются автоматически */
+    object-fit: contain;
+    
+    /* Необязательно: добавляем легкое неоновое свечение вокруг кубка, как во всем твоем дизайне */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Красивый интерактивный эффект при наведении на саму карточку плей-офф */
+.groups-main-card:hover .playoff-trophy-img {
+    transform: scale(1.08); /* Кубок слегка увеличивается при наведении на карточку */
+    filter: drop-shadow(0 0 15px rgba(0, 255, 204, 0.4)); /* И подсвечивается бирюзовым */
+}
+
+/* ==========================================
+   СТИЛИ ИНТЕРАКТИВНЫХ ВКЛАДОК ПЛЕЙ-ОФФ
+   ========================================== */
+
+/* ==========================================
+   ИНТЕРАКТИВНОЕ МЕНЮ РАУНДОВ ПЛЕЙ-ОФФ
+   ========================================== */
+
+/* Контейнер меню (в стиле таблицы/панели) */
+.po-tabs-menu {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 6px;
+    gap: 6px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Кнопка раунда (Базовое состояние — просто серый текст) */
+.po-tabs-menu .po-tab-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 12px 20px;
+    color: var(--text-gray);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 6px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ПЛАВНЫЙ ХОВЕР: При наведении мышки любая кнопка зажигается бирюзовым */
+.po-tabs-menu .po-tab-btn:hover {
+    background-color: var(--card-bg);
+    color: #00ffcc;
+    border: 1px solid rgba(0, 255, 204, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 255, 204, 0.15);
+}
+
+/* АКТИВНОЕ СОСТОЯНИЕ: Горит только выбранная кнопка */
+.po-tabs-menu .po-tab-btn.active {
+    background-color: var(--card-bg) !important;
+    color: #00ffcc !important;
+    border: 1px solid rgba(0, 255, 204, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Финал при наведении и в активном состоянии (Красный неон) */
+.po-tabs-menu .po-tab-btn.final-tab:hover,
+.po-tabs-menu .po-tab-btn.final-tab.active {
+    color: #fef08a !important;
+    border-color: rgba(255, 51, 102, 0.2) !important;
+    box-shadow: 0 0 8px rgba(234, 179, 8, 0.3) !important;
+}
+
+/* ==========================================================================
+   СТИЛИ КАРТОЧЕК В СТИЛЕ "АНАЛИТИКА И ТАКТИКА МАТЧЕЙ"
+   ========================================================================== */
+
+/* Сетка для карточек, чтобы они шли друг за другом аккуратными блоками */
+#playoff-matches-render {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Базовая карточка в стиле аналитики */
+.analytics-match-card {
+    background: #111622; /* Глубокий темный фон карточки */
+    border: 1px solid #1d2535; /* Едва заметная в обычном состоянии рамка */
+    border-radius: 12px;
+    padding: 16px 20px;
+    position: relative;
+    transition: all 0.25s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Эффект наведения на карточку — ОДИН В ОДИН КАК НА СКРИНШОТЕ (ЛЕВАЯ КАРТОЧКА) */
+.analytics-match-card:hover {
+    border-color: #00ffcc; /* Бирюзовый контур */
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.15); /* Мягкое неоновое свечение */
+}
+
+/* Верхняя строка карточки */
+.amc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    color: #6c7a93;
+}
+
+/* Маленький аккуратный бейдж стадии (заменяет "1 Тур") */
+.amc-stage-badge {
+    background: rgba(0, 255, 204, 0.08);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    color: #00ffcc;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+/* Бейдж точного времени */
+.amc-time-badge {
+    color: #00ffcc;
+    font-weight: 700;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+/* Локация матча справа */
+.amc-location {
+    margin-left: auto;
+    font-weight: 600;
+    color: #8c9cb0;
+}
+
+/* Вертикальная структура команд */
+.amc-teams-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.amc-team-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.amc-team-row.amc-right-align {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+/* Разделитель VS по центру */
+.amc-vs {
+    color: #4f5e75;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0 10px;
+}
+
+/* Мелкий текст стадиона под названиями */
+.amc-stadium-subtext {
+    font-size: 11px;
+    color: #566681;
+    text-align: center;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* БЛОК ВЕРОЯТНОСТЕЙ ИЗ СКРИНШОТА */
+.amc-probability-block {
+    margin-top: 10px;
+}
+
+/* Метки процентов над полосой */
+.amc-prob-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-family: monospace;
+}
+
+.amc-prob-labels .lbl-p1 { color: #00ffcc; }
+.amc-prob-labels .lbl-px { color: #8c9cb0; }
+.amc-prob-labels .lbl-p2 { color: #ff3366; }
+
+/* Сплошная линия-градиент результатов */
+.amc-prob-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #1a2233;
+    width: 100%;
+}
+
+.amc-bar-seg {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+.amc-bar-seg.seg-p1 { background: #00ffcc; } /* Бирюзовый секция */
+.amc-bar-seg.seg-px { background: #475266; } /* Серый секция */
+.amc-bar-seg.seg-p2 { background: #ff3366; } /* Розовый секция */
+
+/* НИЖНИЙ БЛОК: КНОПКА И ТЕМНО-СИНИЙ НОМЕР МАТЧА */
+.amc-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+
+.amc-analysis-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 500px;      /* подбери 150-180px */
+    padding: 7px 12px; /* делает кнопку ниже */
+
+    background: #171d2c;
+    border: 1px solid #242e45;
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+}
+
+/* Эффект, когда мы наводим на саму КАРТОЧКУ — кнопка заливается бирюзовым! */
+.analytics-match-card:hover .amc-analysis-btn {
+    background: #00ffcc !important;
+    border-color: #00ffcc !important;
+    color: #0c1017 !important; /* Черный контрастный текст */
+}
+
+/* Если наводят целенаправленно на саму кнопку, делаем легкий блик */
+.amc-analysis-btn:hover {
+    opacity: 0.95;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+}
+
+/* Темно-синяя плашка номера матча */
+.amc-number-tag {
+   margin-left: auto; /* Прижимает к правому краю */
+    background:rgba(99, 102, 241, 0.15) !important; /* Тот самый глубокий темно-синий цвет плашки */
+    border: px solid rgba(99, 102, 241, 0.3) !important;
+    color: #a5b4fc !important; /* Серый аккуратный текст */
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Оформление особой золотой карточки финала */
+.po-grand-final {
+    background: linear-gradient(135deg, #111622 0%, #1a1522 100%);
+}
+.po-grand-final:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+}
+.po-grand-final:hover .amc-analysis-btn {
+    background: #ffd700 !important;
+    border-color: #ffd700 !important;
+    color: #0c1017 !important;
+}
+
+.po-badge-circle {
+   width: 40px;                  /* Увеличили размер (было 28px) */
+    height: 40px;                 /* Увеличили размер (было 28px) */
+    line-height: 40px;            /* Выравниваем текст строго по центру нового размера */
+    font-size: 13px;              /* Слегка прибавили размер шрифта для читаемости */
+    background: #222b3d;          
+    color: #38bdf8 !important; /* Красивый неоновый небесно-голубой цвет */
+    text-shadow: 0 0 6px rgba(56, 189, 248, 0.4); /* Легкое цифровое свечение для букв */              
+    font-weight: 900;
+    text-align: center;
+    border-radius: 50%;           
+    display: inline-block;
+    flex-shrink: 0;
+    margin-right: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+}
+.po-tabs-menu .po-tab-btn[onclick*="'3-е место'"]:hover,
+.po-tabs-menu .po-tab-btn[onclick*="'3-е место'"].active {
+    color: #ffaa44 !important; /* Благородный бронзово-оранжевый оттенок */
+    border-color: rgba(255, 170, 68, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(255, 170, 68, 0.15) !important;
+}
+
+/* ==========================================================================
+   ИЗОЛИРОВАННОЕ МОДАЛЬНОЕ ОКНО АНАЛИЗА ПЛЕЙ-ОФФ (БЕЗ КОНФЛИКТОВ)
+   ========================================================================== */
+.poa-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 9, 15, 0.88); /* Плотный темный фон */
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000; /* Поверх абсолютно всех окон */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+}
+
+/* Активация подложки */
+.poa-modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Контент-блок */
+.poa-modal-container {
+    background: #111622;
+    border: 1px solid #1d2535;
+    border-radius: 14px;
+    width: 95%;
+    max-width: 750px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.25s ease-in-out;
+}
+
+.poa-modal-backdrop.active .poa-modal-container {
+    transform: translateY(0);
+}
+
+/* Шапка окна аналитики */
+.poa-modal-header {
+    background: #171d2c;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #242e45;
+}
+
+.poa-modal-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* Кнопка закрытия окна */
+.poa-modal-close-btn {
+    background: none;
+    border: none;
+    color: #6c7a93;
+    font-size: 26px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    padding: 0 0 4px 0;
+}
+.poa-modal-close-btn:hover {
+    color: #ff3366; /* Красный акцент при наведении */
+}
+
+/* Текстовый блок анализа */
+.poa-modal-body {
+    padding: 22px;
+    color: #b9c4d6;
+    font-size: 14px;
+    line-height: 1.6;
+    max-height: 420px;
+    overflow-y: auto; /* Аккуратный внутренний скролл */
+}
+
+/* Стилизация скроллбара внутри разбора */
+.poa-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+.poa-modal-body::-webkit-scrollbar-thumb {
+    background: #1e2538;
+    border-radius: 3px;
+}
+.poa-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #00ffcc;
+}
+
+@media (max-width: 768px) {
+
+    .amc-analysis-btn {
+        width: 180px;
+        font-size: 10px;
+        padding: 7px 10px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .amc-header {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .amc-location {
+        width: 100%;
+        margin-left: 0;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .amc-teams-layout {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .amc-team-row,
+    .amc-team-row.amc-right-align {
+        justify-content: center;
+        text-align: center;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .countdown {
+        flex-wrap: wrap;
+    }
+
+    .time-block {
+        min-width: 90px;
+        padding: 12px;
+    }
+
+    .time-block span {
+        font-size: 22px;
+    }
+
+}
+@media (max-width: 480px) {
+
+    .hero-title {
+        font-size: 34px;
+        letter-spacing: -1px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .nav-link {
+        font-size: 13px;
+    }
+
+}
+@media (max-width: 480px) {
+
+    .teaser-badge {
+        width: 42px;
+        height: 50px;
+        font-size: 16px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .btn-primary,
+    .main-action-btn,
+    .po-tab-btn {
+        min-height: 44px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .drawer-content {
+        max-width: 100%;
+    }
+
+    .drawer-match-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .d-match-teams {
+        margin: 0;
+    }
+
+    .d-match-teams .d-team:first-child {
+        width: auto !important;
+    }
+
+    .d-vs {
+        width: 40px !important;
+    }
+
+    .d-match-meta {
+        align-items: center;
+        text-align: center;
+        min-width: auto;
+    }
+}
+@media (max-width: 768px) {
+
+    .d-team {
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .d-team span:last-child {
+        word-break: break-word;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .drawer-header {
+        padding: 15px;
+    }
+
+    .drawer-header h2 {
+        font-size: 18px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .drawer-match-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .d-match-teams {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .d-match-teams {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .d-team {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .d-team:first-child {
+        justify-content: flex-end;
+        text-align: right;
+    }
+
+    .d-team:last-child {
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .d-vs {
+        flex: 0 0 40px;
+        text-align: center;
+    }
+}
+@media (max-width: 768px) {
+    #playoff p {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 25px !important;
+    }
+}
+@media (max-width: 768px) {
+
+    #playoff .container > div {
+        padding: 25px 15px !important;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .playoff-trophy-img {
+        width: 90px;
+        height: auto;
+    }
+
+}
+@media (max-width: 768px) {
+
+    #playoff h3 {
+        font-size: 18px !important;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .po-tabs-menu {
+        gap: 4px;
+        padding: 4px;
+        margin-bottom: 12px;
+    }
+
+    .po-tab-btn {
+        min-height: 32px !important;
+        padding: 6px 10px !important;
+        font-size: 10px !important;
+        letter-spacing: 0 !important;
+        border-radius: 5px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .amc-team-row.amc-right-align {
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 8px;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .amc-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .amc-analysis-btn {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .amc-number-tag {
+        margin-left: 0 !important;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .po-date-header h3 {
+        font-size: 12px !important;
+        font-weight: 700;
+    }
+
+}
+@media (max-width: 768px) {
+
+    .po-modal-header {
+        padding: 12px 15px;
+    }
+
+    .po-modal-title {
+        font-size: 14px !important;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .po-modal-close {
+        font-size: 28px;
+    }
+
+}
+
+
+
+
