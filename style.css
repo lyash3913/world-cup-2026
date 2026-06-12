@@ -247,6 +247,9 @@ html {
     border: 1px solid var(--brand-blue);
     color: var(--brand-blue);
 }
+.group-pill.gr-d {
+    background: rgba(230, 29, 37, 0.2); color: var(--brand-red); border: 1px solid var(--brand-red);
+}
 
 .match-teams {
     display: flex;
