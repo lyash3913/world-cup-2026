@@ -1118,10 +1118,113 @@ const allMatchesSchedule = [
     { group: "j", tour: "3 Тур", t1: "Иордания", t2: "Аргентина", date: "28 июня, Вс, 05:00", city: "Арлингтон, США" }
 ];
 
-// Специфический фикс: в твоем списке матч «Швейцария — Босния» по ошибке помечен как Группа А, 
-// но так как это команды группы B, скрипт автоматически отнесет его к группе B.
+const matchResults = {
+    "Мексика_ЮАР": { score1: 2, score2: 0 },
+    "Южная Корея_Чехия": { score1: 2, score2: 1 },
+
+   
+
+    // сюда постепенно будешь добавлять результаты
+};
 
 // 3. Считываем ID группы из URL-адреса (например: ?id=c)
+function calculateGroupTable(groupId) {
+
+    const stats = {};
+
+    groupsData[groupId].forEach(team => {
+
+        stats[team.name] = {
+            name: team.name,
+            flag: team.flag,
+
+            games: 0,
+            wins: 0,
+            draws: 0,
+            losses: 0,
+
+            goalsFor: 0,
+            goalsAgainst: 0,
+
+            points: 0
+        };
+    });
+
+    const groupMatches = allMatchesSchedule.filter(match => {
+
+        if (
+            match.t1 === "Швейцария" &&
+            match.t2 === "Босния и Герцеговина"
+        ) {
+            return groupId === "b";
+        }
+
+        return match.group === groupId;
+    });
+
+    groupMatches.forEach(match => {
+
+        const key = `${match.t1}_${match.t2}`;
+
+        const result = matchResults[key];
+
+        if (!result) return;
+
+        const t1 = stats[match.t1];
+        const t2 = stats[match.t2];
+
+        const s1 = result.score1;
+        const s2 = result.score2;
+
+        t1.games++;
+        t2.games++;
+
+        t1.goalsFor += s1;
+        t1.goalsAgainst += s2;
+
+        t2.goalsFor += s2;
+        t2.goalsAgainst += s1;
+
+        if (s1 > s2) {
+
+            t1.wins++;
+            t2.losses++;
+
+            t1.points += 3;
+
+        } else if (s1 < s2) {
+
+            t2.wins++;
+            t1.losses++;
+
+            t2.points += 3;
+
+        } else {
+
+            t1.draws++;
+            t2.draws++;
+
+            t1.points += 1;
+            t2.points += 1;
+        }
+    });
+
+    return Object.values(stats).sort((a, b) => {
+
+        if (b.points !== a.points) {
+            return b.points - a.points;
+        }
+
+        const gdA = a.goalsFor - a.goalsAgainst;
+        const gdB = b.goalsFor - b.goalsAgainst;
+
+        if (gdB !== gdA) {
+            return gdB - gdA;
+        }
+
+        return b.goalsFor - a.goalsFor;
+    });
+}
 const urlParams = new URLSearchParams(window.location.search);
 const groupId = urlParams.get('id') ? urlParams.get('id').toLowerCase() : null;
 
@@ -1130,29 +1233,41 @@ if (groupId && groupsData[groupId]) {
     document.getElementById('group-page-name').innerText = 'Группа ' + groupId.toUpperCase();
     
     // Отрисовываем таблицу команд
-    const teams = groupsData[groupId];
-    const tableBody = document.getElementById('table-body-teams');
-    tableBody.innerHTML = '';
-    
-    teams.forEach(team => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>
-                <div class="table-team">
-                    <span class="num-place">${team.place}.</span>
-                    <span class="fi fi-${team.flag}"></span>
-                    <span>${team.name}</span>
-                </div>
-            </td>
-            <td style="text-align: center; color: var(--text-gray);">0</td>
-            <td style="text-align: center; color: var(--text-gray);">0</td>
-            <td style="text-align: center; color: var(--text-gray);">0</td>
-            <td style="text-align: center; color: var(--text-gray);">0</td>
-            <td style="text-align: center; color: var(--text-gray);">0 - 0</td>
-            <td style="text-align: center; font-weight: 900; color: #fff;">0</td>
-        `;
-        tableBody.appendChild(row);
-    });
+    const teams = calculateGroupTable(groupId);
+
+const tableBody = document.getElementById('table-body-teams');
+
+tableBody.innerHTML = '';
+
+teams.forEach((team, index) => {
+
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>
+            <div class="table-team">
+                <span class="num-place">${index + 1}.</span>
+                <span class="fi fi-${team.flag}"></span>
+                <span>${team.name}</span>
+            </div>
+        </td>
+
+        <td style="text-align:center">${team.games}</td>
+        <td style="text-align:center">${team.wins}</td>
+        <td style="text-align:center">${team.draws}</td>
+        <td style="text-align:center">${team.losses}</td>
+
+        <td style="text-align:center">
+            ${team.goalsFor} - ${team.goalsAgainst}
+        </td>
+
+        <td style="text-align:center;font-weight:900">
+            ${team.points}
+        </td>
+    `;
+
+    tableBody.appendChild(row);
+});
     
     // Фильтруем и выводим матчи только для этой группы
     renderMatchesForThisGroup(groupId);
