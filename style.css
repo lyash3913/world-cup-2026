@@ -149,6 +149,24 @@ html {
     font-weight: 900;
 }
 
+/* Новая обертка для группировки заголовка и таймера */
+.countdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; /* Расстояние между надписью и циферблатом */
+}
+
+/* Красивая неоновая надпись над счетчиком */
+.countdown-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+    color: #00bfff; /* Твой синий стиль из навигации */
+    text-shadow: 0 0 8px rgba(0, 191, 255, 0.4);
+}
+
 /* --- Общие заголовки секций --- */
 .section-title {
     font-size: 32px;

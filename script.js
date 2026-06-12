@@ -1,5 +1,5 @@
-// Устанавливаем дату начала ЧМ-2026 (11 июня 2026 года)
-const countdownDate = new Date("June 11, 2026 22:00:00").getTime();
+// Устанавливаем дату ФИНАЛА ЧМ-2026 (19 июля 2026 года, 22:00)
+const countdownDate = new Date("July 19, 2026 22:00:00").getTime();
 
 // Обновляем счетчик каждую 1 секунду
 const timerInterval = setInterval(function() {
@@ -7,7 +7,7 @@ const timerInterval = setInterval(function() {
     // Получаем текущую дату и время
     const now = new Date().getTime();
 
-    // Находим разницу между текущей датой и датой старта
+    // Находим разницу между текущей датой и финалом
     const distance = countdownDate - now;
 
     // Вычисляем дни, часы и минуты
@@ -15,15 +15,22 @@ const timerInterval = setInterval(function() {
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
-    // Находим элементы на странице по их ID и вставляем вычисленные значения
-    document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+    // Проверяем, существует ли еще обертка счетчика, чтобы избежать ошибок в консоли
+    const daysEl = document.getElementById("days");
+    if (!daysEl) return;
+
+    // Подставляем вычисленные значения с ведущими нулями
+    daysEl.innerHTML = days < 10 ? "0" + days : days;
     document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
     document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
 
-    // Если таймер закончился, пишем, что турнир начался
+    // Если финал наступил или прошел
     if (distance < 0) {
         clearInterval(timerInterval);
-        document.querySelector(".countdown").innerHTML = "<div class='time-block' style='width: 100%'>🏆 ТУРНИР НАЧАЛСЯ!</div>";
+        const wrapper = document.querySelector(".countdown-wrapper");
+        if (wrapper) {
+            wrapper.innerHTML = "<div class='time-block' style='width: 100%; font-size: 20px; color: #ffd700; border-color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3);'>👑 ОПРЕДЕЛЯЕТСЯ ЧЕМПИОН МИРА! 🏆</div>";
+        }
     }
 
 }, 1000);
