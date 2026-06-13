@@ -268,6 +268,34 @@ html {
 .group-pill.gr-d {
     background: rgba(230, 29, 37, 0.2); color: var(--brand-red); border: 1px solid var(--brand-red);
 }
+.group-pill.gr-c {
+    background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6;
+}
+.group-pill.gr-e {
+    background: rgba(230, 126, 34, 0.2); color: #e67e22; border: 1px solid #e67e22;
+}
+.group-pill.gr-f {
+    background: rgba(26, 188, 156, 0.2); color: #1abc9c; border: 1px solid #1abc9c;
+}
+.group-pill.gr-g {
+    background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f;
+}
+.group-pill.gr-h {
+    background: rgba(233, 30, 99, 0.2); color: #e91e63; border: 1px solid #e91e63;
+}
+.group-pill.gr-i {
+    background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71;
+}
+.group-pill.gr-j {
+    background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db;
+}
+.group-pill.gr-k {
+    background: rgba(231, 76, 60, 0.2); color: #e74c3c; border: 1px solid #e74c3c;
+}
+.group-pill.gr-l {
+    background: rgba(155, 89, 182, 0.2); color: #d35400; border: 1px solid #d35400;
+}
+
 
 .match-teams {
     display: flex;

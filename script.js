@@ -345,3 +345,146 @@ function closeAnalysisTextModal() {
         modal.classList.remove('active');
     }
 }
+
+/* =========================================
+   АВТОМАТИЧЕСКИЕ БЛИЖАЙШИЕ МАТЧИ
+========================================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    renderUpcomingMatches();
+
+    // обновление каждую минуту
+    setInterval(renderUpcomingMatches, 60000);
+});
+
+function renderUpcomingMatches() {
+
+    const container = document.getElementById('upcoming-matches');
+
+    if (!container) return;
+
+    const now = new Date();
+
+    const rows = document.querySelectorAll('.drawer-match-row');
+
+    const upcomingMatches = [];
+
+    rows.forEach(row => {
+
+        const kickoffString = row.dataset.kickoff;
+
+        if (!kickoffString) return;
+
+        const kickoff = new Date(kickoffString);
+
+        // матч считается завершенным через 2 часа
+        const finishTime = new Date(
+            kickoff.getTime() + (2 * 60 * 60 * 1000)
+        );
+
+        if (finishTime <= now) return;
+
+        const teams = row.querySelectorAll('.d-team');
+
+        if (teams.length < 2) return;
+
+        const team1Flag =
+            teams[0].querySelector('.fi')?.className || '';
+
+        const team2Flag =
+            teams[1].querySelector('.fi')?.className || '';
+
+        const team1Name =
+            teams[0].textContent.trim();
+
+        const team2Name =
+            teams[1].textContent.trim();
+
+        const groupElement =
+            row.querySelector('.d-group');
+
+        const venueElement =
+            row.querySelector('.d-venue');
+
+        upcomingMatches.push({
+
+            kickoff,
+
+            date: kickoff.toLocaleDateString(
+                'ru-RU',
+                {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long'
+                }
+            ),
+
+            time:
+                row.querySelector('.d-match-time')
+                ?.textContent.trim() || '',
+
+            team1Flag,
+            team2Flag,
+            team1Name,
+            team2Name,
+
+            groupText:
+                (groupElement?.textContent.trim() || '')
+        .replace('Гр.', 'Группа'),
+
+            groupClass:
+                groupElement?.classList[1] || '',
+
+            venue:
+                venueElement?.textContent.trim() || ''
+        });
+    });
+
+    upcomingMatches.sort(
+        (a, b) => a.kickoff - b.kickoff
+    );
+
+    const nearestThree =
+        upcomingMatches.slice(0, 3);
+
+    container.innerHTML =
+        nearestThree.map(match => `
+
+        <div class="match-card">
+
+            <div class="match-header">
+                <span class="match-date">${match.date}</span>
+                <span class="match-time">${match.time}</span>
+            </div>
+
+            <div class="match-teams">
+
+                <div class="team">
+                    <span class="${match.team1Flag}"></span>
+                    <span class="team-name">${match.team1Name}</span>
+                </div>
+
+                <div class="vs">VS</div>
+
+                <div class="team">
+                    <span class="${match.team2Flag}"></span>
+                    <span class="team-name">${match.team2Name}</span>
+                </div>
+
+            </div>
+
+            <div class="match-group-center">
+                <span class="group-pill ${match.groupClass}">
+                    ${match.groupText}
+                </span>
+            </div>
+
+            <div class="match-footer">
+                ${match.venue}
+            </div>
+
+        </div>
+
+    `).join('');
+}
