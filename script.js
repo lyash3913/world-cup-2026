@@ -349,6 +349,10 @@ function closeAnalysisTextModal() {
 /* =========================================
    АВТОМАТИЧЕСКИЕ БЛИЖАЙШИЕ МАТЧИ
 ========================================= */
+const teamAliases = {
+    "Босния": "Босния и Герцеговина",
+    "Нов. Зеландия": "Новая Зеландия"
+};
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -483,8 +487,80 @@ function renderUpcomingMatches() {
             <div class="match-footer">
                 ${match.venue}
             </div>
+            ${(() => {
+
+    let team1 = match.team1Name;
+    let team2 = match.team2Name;
+
+    team1 = teamAliases[team1] || team1;
+    team2 = teamAliases[team2] || team2;
+
+    const key = `${team1}_${team2}`;
+
+    const probability = firstTourProbabilities[key];
+
+    if (!probability) {
+        console.log('Не найден прогноз:', key);
+        return '';
+    }
+
+    return `
+        <div class="home-odds-container">
+
+            <div class="home-odds-labels">
+                <span class="home-p1">П1 ${probability.p1}%</span>
+                <span class="home-x">X ${probability.draw}%</span>
+                <span class="home-p2">П2 ${probability.p2}%</span>
+            </div>
+
+            <div class="home-odds-bar">
+                <div class="home-segment home-p1-bg"
+                     style="width:${probability.p1}%"></div>
+
+                <div class="home-segment home-x-bg"
+                     style="width:${probability.draw}%"></div>
+
+                <div class="home-segment home-p2-bg"
+                     style="width:${probability.p2}%"></div>
+            </div>
+
+        </div>
+    `;
+
+})()}
 
         </div>
 
     `).join('');
 }
+
+// Клик по буквам групп на главной странице
+document.querySelectorAll('.teaser-badge').forEach(badge => {
+    badge.style.cursor = 'pointer';
+
+    badge.addEventListener('click', () => {
+        const group = badge.dataset.group.toLowerCase();
+        window.location.href = `group.html?id=${group}`;
+    });
+});
+
+/// Клик по плашкам групп в блоке матчей
+document.addEventListener('click', function (e) {
+    const pill = e.target.closest('.group-pill');
+
+    if (!pill) return;
+
+    const groupClass = [...pill.classList].find(cls => /^gr-[a-l]$/i.test(cls));
+
+    if (!groupClass) return;
+
+    const groupId = groupClass.replace('gr-', '').toLowerCase();
+
+    window.location.href = `group.html?id=${groupId}`;
+});
+
+
+
+
+
+

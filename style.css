@@ -251,6 +251,12 @@ html {
     border-radius: 12px; /* Делает плашку овальной */
     color: #fff;
     letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.group-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(255,255,255,0.15);
 }
 
 /* Цвета для плашек */
@@ -1968,6 +1974,109 @@ html {
         font-size: 28px;
     }
 
+}
+
+/* ======================================================
+   Вероятности для блока Ближайшие матчи
+====================================================== */
+
+.home-odds-container {
+    margin: 12px 0;
+}
+
+.home-odds-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.home-p1 {
+    color: #00ffcc;
+}
+
+.home-x {
+    color: #a0aab5;
+}
+
+.home-p2 {
+    color: #ff3366;
+}
+
+.home-odds-bar {
+    display: flex;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #1e2535;
+}
+
+.home-segment {
+    height: 100%;
+}
+
+.home-p1-bg {
+    background: #00ffcc;
+}
+
+.home-x-bg {
+    background: #4b5971;
+}
+
+.home-p2-bg {
+    background: #ff3366;
+}
+
+/* Полоса вероятностей в блоке "Ближайшие матчи" */
+
+.home-odds-container {
+    margin: 14px 0;
+}
+
+.home-odds-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.home-p1 {
+    color: #00d9a5;
+}
+
+.home-x {
+    color: #b8c1cc;
+}
+
+.home-p2 {
+    color: #ff5470;
+}
+
+.home-odds-bar {
+    display: flex;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #202838;
+}
+
+.home-segment {
+    height: 100%;
+}
+
+.home-p1-bg {
+    background: #00d9a5;
+}
+
+.home-x-bg {
+    background: #738096;
+}
+
+.home-p2-bg {
+    background: #ff5470;
 }
 
 
