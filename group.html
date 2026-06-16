@@ -509,9 +509,11 @@
         }
 
         .mtx-vs-divider {
-            font-size: 11px;
+            font-size: 15px;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.2);
+            color: #00ffcc;
+            text-align: center;
+            min-width: 70px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin: 2px 0; /* Убираем старый сдвиг влево (margin-left) и делаем аккуратные отступы сверху/снизу */
@@ -1134,7 +1136,9 @@ const matchResults = {
     "Швеция_Тунис": { score1: 5, score2: 1 },
     "Испания_Кабо-Верде": { score1: 0, score2: 0 },
     "Бельгия_Египет": { score1: 1, score2: 1 },
-    
+    "Саудовская Аравия_Уругвай": { score1: 1, score2: 1 },
+    "Иран_Новая Зеландия": { score1: 2, score2: 2 },
+
 
     // сюда постепенно добавлять результаты
 };
@@ -1254,6 +1258,25 @@ tableBody.innerHTML = '';
 teams.forEach((team, index) => {
 
     const row = document.createElement('tr');
+    let borderColor = '#444';
+
+    if (index === 0) {
+        borderColor = '#00c853';
+    } else if (index === 1) {
+        borderColor = '#00c853';
+    } else if (index === 2) {
+        borderColor = '#ffc107';
+    } else {
+        borderColor = '#ff5252';
+    }
+
+    row.style.borderLeft = `4px solid ${borderColor}`;
+    row.style.background =
+    index === 0 || index === 1
+        ? 'rgba(0,200,83,0.08)'
+        : index === 2
+            ? 'rgba(255,193,7,0.08)'
+            : 'rgba(255,82,82,0.05)';
 
     row.innerHTML = `
         <td>
@@ -1306,6 +1329,11 @@ function renderMatchesForThisGroup(targetGroup) {
         const f1 = teamFlags[match.t1] || "un";
         const f2 = teamFlags[match.t2] || "un";
         const cityBadge = match.city ? `<div style="font-size: 11px; color: #00ffcc; margin-top: 4px;">📍 ${match.city}</div>` : '';
+        const resultKey = `${match.t1}_${match.t2}`;
+        const result = matchResults[resultKey];
+        const scoreDisplay = result
+        ? `${result.score1} : ${result.score2}`
+        : 'VS';
         
         const cardHTML = `
             <div class="mini-match-card">
@@ -1319,7 +1347,7 @@ function renderMatchesForThisGroup(targetGroup) {
                         <span>${match.t1}</span>
                         <span class="fi fi-${f1}"></span>
                     </div>
-                    <div class="match-score-box">vs</div>
+                    <div class="match-score-box">${scoreDisplay}</div>
                     <div class="match-team-item team-right">
                         <span class="fi fi-${f2}"></span>
                         <span>${match.t2}</span>
@@ -1397,6 +1425,10 @@ function renderMatchesForThisGroup(targetGroup) {
             // ИСПРАВЛЕНО: Ключ теперь уникальный для каждой пары команд (например: "Мексика_ЮАР" или "Канада_Катар")
             const matchKey = `${match.t1}_${match.t2}`;
             const probability = firstTourProbabilities[matchKey];
+            const result = matchResults[matchKey];
+            const scoreDisplay = result
+            ? `${result.score1} : ${result.score2}`
+            : 'VS';
             const safeMatchKey = matchKey.replace(/'/g, "\\'");
             const safeT1 = match.t1.replace(/'/g, "\\'");
             const safeT2 = match.t2.replace(/'/g, "\\'");
@@ -1413,7 +1445,7 @@ function renderMatchesForThisGroup(targetGroup) {
                             <span class="fi fi-${f1}"></span>
                             <span class="mtx-team-title">${match.t1}</span>
                         </div>
-                        <div class="mtx-vs-divider">VS</div>
+                        <div class="mtx-vs-divider">${scoreDisplay}</div>
                         <div class="mtx-team-line">
                             <span class="fi fi-${f2}"></span>
                             <span class="mtx-team-title">${match.t2}</span>
@@ -1452,12 +1484,30 @@ function renderMatchesForThisGroup(targetGroup) {
         }
 
         // Первые 2 матча на главный экран
-        filteredMatches.slice(0, 2).forEach(match => {
+        const playedMatches = [];
+        const upcomingMatches = [];
+
+        filteredMatches.forEach(match => {
+
+            const matchKey = `${match.t1}_${match.t2}`;
+
+            if (matchResults[matchKey]) {
+                playedMatches.push(match);
+            } else {
+                upcomingMatches.push(match);
+            }
+        });
+
+// На главном экране всегда ближайшие НЕСЫГРАННЫЕ
+        upcomingMatches.slice(0, 2).forEach(match => {
             mainTacticsContainer.innerHTML += generateTacticalCard(match);
         });
 
-        // Остальные 4 матча под шторку
-        filteredMatches.slice(2, 6).forEach(match => {
+// Под шторкой всё остальное
+        [
+            ...upcomingMatches.slice(2),
+            ...playedMatches
+        ].forEach(match => {
             shutterTacticsContainer.innerHTML += generateTacticalCard(match);
         });
     }
