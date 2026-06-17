@@ -5174,6 +5174,27 @@ function toggleMtxShutter() {
         }, 300);
     }
 }
+
+window.addEventListener('load', () => {
+
+    const params = new URLSearchParams(window.location.search);
+    const matchKey = params.get('match');
+
+    if (!matchKey) return;
+
+    const teams = matchKey.split('_');
+
+    if (teams.length !== 2) return;
+
+    setTimeout(() => {
+        openMatchTacticsModal(
+            matchKey,
+            teams[0],
+            teams[1]
+        );
+    }, 300);
+
+});
     </script>
 </body>
 </html>

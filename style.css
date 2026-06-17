@@ -2079,6 +2079,25 @@ html {
     background: #ff5470;
 }
 
+.upcoming-analysis-box{
+    margin-top:12px;
+}
+
+.upcoming-analysis-btn{
+     display:block;
+    width:180px;
+    margin: 10px auto 0;
+    background: #0084ff;
+    border: 1px solid #1e2535;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
 
 
 

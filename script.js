@@ -405,6 +405,8 @@ function renderUpcomingMatches() {
         const team2Name =
             teams[1].textContent.trim();
 
+        const matchKey = `${team1Name}_${team2Name}`;
+
         const groupElement =
             row.querySelector('.d-group');
 
@@ -412,6 +414,10 @@ function renderUpcomingMatches() {
             row.querySelector('.d-venue');
 
         upcomingMatches.push({
+            matchKey,
+            groupId:
+            (groupElement?.classList[1] || '')
+            .replace('gr-', ''),
 
             kickoff,
 
@@ -486,7 +492,9 @@ function renderUpcomingMatches() {
 
             <div class="match-footer">
                 ${match.venue}
-            </div>
+
+                
+        </div>
             ${(() => {
 
     let team1 = match.team1Name;
@@ -523,6 +531,16 @@ function renderUpcomingMatches() {
                 <div class="home-segment home-p2-bg"
                      style="width:${probability.p2}%"></div>
             </div>
+
+            <div class="upcoming-analysis-box">
+                    <button
+                        class="upcoming-analysis-btn"
+                         onclick="window.location.href=
+                        'group.html?id=${match.groupId}&match=' +
+                         encodeURIComponent('${match.matchKey}')">
+                         Анализ матча
+                    </button>
+                </div>
 
         </div>
     `;
