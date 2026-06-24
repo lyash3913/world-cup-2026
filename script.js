@@ -578,6 +578,50 @@ document.addEventListener('click', function (e) {
 });
 
 
+// Функция автоматического парсинга таблиц группового этапа
+function getActualGroupWinners() {
+    const winners = {};
+    // Перебираем все группы турнира от A до L
+    const groups = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+
+    groups.forEach(letter => {
+        // Находим блок нужной группы по её классу или карточке (card-gr-a, card-gr-b и т.д.)
+        const groupCard = document.querySelector(`.card-gr-${letter}`);
+        if (!groupCard) return;
+
+        // Находим внутри карточки все строки команд (.group-team-row)
+        const rows = groupCard.querySelectorAll('.group-team-row');
+        
+        // 1-е место в группе (первая строка)
+        if (rows[0]) {
+            const flagEl = rows[0].querySelector('.fi'); // Находим иконку флага
+            // Очищаем текст от лишних символов (например, "1. Португалия" -> "Португалия")
+            const rawText = rows[0].textContent.trim();
+            const name = rawText.replace(/^\d+\.\s*/, ''); 
+            
+            winners[`1${letter.toUpperCase()}`] = {
+                name: name,
+                flag: flagEl ? flagEl.className : 'fi'
+            };
+        }
+        
+        // 2-е место в группе (вторая строка)
+        if (rows[1]) {
+            const flagEl = rows[1].querySelector('.fi');
+            const rawText = rows[1].textContent.trim();
+            const name = rawText.replace(/^\d+\.\s*/, '');
+            
+            winners[`2${letter.toUpperCase()}`] = {
+                name: name,
+                flag: flagEl ? flagEl.className : 'fi'
+            };
+        }
+    });
+
+    return winners;
+}
+
+
 
 
 
