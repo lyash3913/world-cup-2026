@@ -41,10 +41,13 @@ const openBtn = document.getElementById('open-schedule-btn');
 const closeBtn = document.getElementById('close-schedule-btn');
 const overlay = document.querySelector('.drawer-overlay');
 
-// Функция открытия
+// Функция открытия шторки
 openBtn.addEventListener('click', () => {
     drawer.classList.add('open');
-    document.body.style.overflow = 'hidden'; // Запрещаем скролл основной страницы при открытом меню
+    document.body.style.overflow = 'hidden'; 
+    
+    // Запускаем обновление команд в расписании прямо при открытии!
+    updatePlayoffTeamsInDrawer();
 });
 
 // Функция закрытия
@@ -189,13 +192,13 @@ function renderPlayoffMatches() {
     const renderContainer = document.getElementById('playoff-matches-render');
     if (!renderContainer) return;
     
-    renderContainer.innerHTML = ''; // Очищаем контейнер
-
+    renderContainer.innerHTML = '';
     const currentMatches = playoffMatchesSchedule[currentPlayoffRound] || [];
     let lastDate = ''; 
 
+    const actualWinners = getActualGroupWinners();
+
     currentMatches.forEach(match => {
-        // Группировка по дням с вертикальной бирюзовой полосой
         if (match.date !== lastDate) {
             lastDate = match.date;
             const dateHeader = document.createElement('div');
@@ -204,13 +207,39 @@ function renderPlayoffMatches() {
             renderContainer.appendChild(dateHeader);
         }
 
-        // Разделяем стадион и город для красивого вывода
+        // Подготовка Команды 1
+        let t1Text = `<span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}">${match.team1Text}</span>`;
+        let t1CodeHtml = match.team1Code;
+
+        if (actualWinners[match.team1Code]) {
+            t1Text = `
+                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;">
+                    <span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[match.team1Code].name}</span>
+                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${match.team1Text}</span>
+                </div>
+            `;
+            t1CodeHtml = `<span class="${actualWinners[match.team1Code].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        }
+
+        // Подготовка Команды 2
+        let t2Text = `<span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}">${match.team2Text}</span>`;
+        let t2CodeHtml = match.team2Code;
+
+        if (actualWinners[match.team2Code]) {
+            t2Text = `
+                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; text-align: right;">
+                    <span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[match.team2Code].name}</span>
+                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${match.team2Text}</span>
+                </div>
+            `;
+            t2CodeHtml = `<span class="${actualWinners[match.team2Code].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        }
+
         const stadiumParts = match.stadium.split(' • ');
         const cityName = stadiumParts[0] || '';
         const stadiumName = stadiumParts[1] || '';
 
         const matchCard = document.createElement('div');
-        // Если это финал, добавляем класс особой карточки, но сохраняем общие стили аналитики
         matchCard.className = match.isGrandFinal ? 'analytics-match-card po-grand-final' : 'analytics-match-card';
 
         matchCard.innerHTML = `
@@ -222,15 +251,15 @@ function renderPlayoffMatches() {
             
             <div class="amc-teams-layout">
                 <div class="amc-team-row">
-                    <div class="po-badge-circle">${match.team1Code}</div>
-                    <span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}">${match.team1Text}</span>
+                    <div class="po-badge-circle" style="display: flex; align-items: center; justify-content: center; overflow: hidden; background: #1a202c;">${t1CodeHtml}</div>
+                    ${t1Text}
                 </div>
                 
                 <div class="amc-vs">vs</div>
                 
                 <div class="amc-team-row amc-right-align">
-                    <span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}">${match.team2Text}</span>
-                    <div class="po-badge-circle">${match.team2Code}</div>
+                    ${t2Text}
+                    <div class="po-badge-circle" style="display: flex; align-items: center; justify-content: center; overflow: hidden; background: #1a202c;">${t2CodeHtml}</div>
                 </div>
             </div>
 
@@ -250,7 +279,7 @@ function renderPlayoffMatches() {
             </div>
 
            <div class="amc-actions">
-                <button class="amc-analysis-btn" onclick="openAnalysisModal(${match.id}, '${match.team1Text}', '${match.team2Text}')">
+                <button class="amc-analysis-btn" onclick="openAnalysisModal(${match.id}, '${(actualWinners[match.team1Code]?.name || match.team1Text).replace(/'/g, "\\'")}', '${(actualWinners[match.team2Code]?.name || match.team2Text).replace(/'/g, "\\'")}')">
                     Полный анализ матча
                 </button>
                 <span class="amc-number-tag">МАТЧ ${match.id}</span>
@@ -355,11 +384,15 @@ const teamAliases = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    // Первичное обновление при загрузке страницы
+    updatePlayoffTeamsInDrawer();
     renderUpcomingMatches();
 
-    // обновление каждую минуту
-    setInterval(renderUpcomingMatches, 60000);
+    // Обновление каждую минуту для live-режима
+    setInterval(() => {
+        updatePlayoffTeamsInDrawer();
+        renderUpcomingMatches();
+    }, 60000);
 });
 
 function renderUpcomingMatches() {
@@ -580,45 +613,53 @@ document.addEventListener('click', function (e) {
 
 // Функция автоматического парсинга таблиц группового этапа
 function getActualGroupWinners() {
-    const winners = {};
-    // Перебираем все группы турнира от A до L
-    const groups = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'];
+    const storedData = localStorage.getItem('actualPlayoffWinners');
+    return storedData ? JSON.parse(storedData) : {};
+}
 
-    groups.forEach(letter => {
-        // Находим блок нужной группы по её классу или карточке (card-gr-a, card-gr-b и т.д.)
-        const groupCard = document.querySelector(`.card-gr-${letter}`);
-        if (!groupCard) return;
+function updatePlayoffTeamsInDrawer() {
+    const drawer = document.getElementById('schedule-drawer');
+    if (!drawer) return;
 
-        // Находим внутри карточки все строки команд (.group-team-row)
-        const rows = groupCard.querySelectorAll('.group-team-row');
-        
-        // 1-е место в группе (первая строка)
-        if (rows[0]) {
-            const flagEl = rows[0].querySelector('.fi'); // Находим иконку флага
-            // Очищаем текст от лишних символов (например, "1. Португалия" -> "Португалия")
-            const rawText = rows[0].textContent.trim();
-            const name = rawText.replace(/^\d+\.\s*/, ''); 
-            
-            winners[`1${letter.toUpperCase()}`] = {
-                name: name,
-                flag: flagEl ? flagEl.className : 'fi'
-            };
+    const actualWinners = getActualGroupWinners();
+    const teamElements = drawer.querySelectorAll('.d-team');
+
+    teamElements.forEach(teamEl => {
+        // Если внутри уже есть созданный нами div с оформлением, пропускаем повторную обработку
+        if (teamEl.querySelector('div')) return; 
+
+        const currentText = teamEl.textContent.trim();
+        let key = "";
+        let originalLabel = "";
+
+        if (/1-е место Группы\s+([A-L])/i.test(currentText) || /Победитель Группы\s+([A-L])/i.test(currentText)) {
+            const match = currentText.match(/(?:1-е место|Победитель) Группы\s+([A-L])/i);
+            if (match) {
+                key = "1" + match[1].toUpperCase();
+                originalLabel = match[0];
+            }
+        } else if (/2-е место Группы\s+([A-L])/i.test(currentText)) {
+            const match = currentText.match(/2-е место Группы\s+([A-L])/i);
+            if (match) {
+                key = "2" + match[1].toUpperCase();
+                originalLabel = match[0];
+            }
         }
-        
-        // 2-е место в группе (вторая строка)
-        if (rows[1]) {
-            const flagEl = rows[1].querySelector('.fi');
-            const rawText = rows[1].textContent.trim();
-            const name = rawText.replace(/^\d+\.\s*/, '');
-            
-            winners[`2${letter.toUpperCase()}`] = {
-                name: name,
-                flag: flagEl ? flagEl.className : 'fi'
-            };
+
+        // Если для этого слота группа сыграла 3 матча и определилась команда
+        if (key && actualWinners[key]) {
+            const flagClass = actualWinners[key].flag;
+            const teamName = actualWinners[key].name;
+
+            teamEl.innerHTML = `
+                <span class="${flagClass}"></span>
+                <div style="display: inline-flex; flex-direction: column; vertical-align: middle; margin-left: 6px; line-height: 1.1; text-align: left;">
+                    <span style="font-weight: 700; color: #fff; font-size: 13px;">${teamName}</span>
+                    <span style="font-size: 10px; color: #718096; font-weight: 400; margin-top: 1px;">${originalLabel}</span>
+                </div>
+            `;
         }
     });
-
-    return winners;
 }
 
 

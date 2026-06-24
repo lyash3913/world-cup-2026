@@ -1173,6 +1173,8 @@ const matchResults = {
     "Англия_Гана": { score1: 0, score2: 0 },
     "Панама_Хорватия": { score1: 0, score2: 1 },
     "Колумбия_Конго ДР": { score1: 1, score2: 0 },
+    
+
 
     // сюда постепенно добавлять результаты
 };
@@ -1338,6 +1340,46 @@ teams.forEach((team, index) => {
 
     tableBody.appendChild(row);
 });
+
+// --- АВТОМАТИЗАЦИЯ ПЛЕЙ-ОФФ СТРОГО ПОСЛЕ 3-ГО ТУРА ---
+try {
+    let totalGamesInGroup = 0;
+    teams.forEach(team => {
+        totalGamesInGroup += team.games; // Считаем сумму игр всех команд этой группы
+    });
+
+    if (groupId) {
+        const groupKey = groupId.toUpperCase();
+        const playoffData = JSON.parse(localStorage.getItem('actualPlayoffWinners')) || {};
+
+        // В группе 4 команды. Когда у каждого по 3 игры, сумма равна строго 12
+        if (totalGamesInGroup === 12) {
+            // Так как массив teams уже отсортирован функцией calculateGroupTable, 
+            // индекс 0 — это 1-е место, а индекс 1 — 2-е место.
+            playoffData[`1${groupKey}`] = {
+                name: teams[0].name,
+                flag: `fi fi-${teams[0].flag}` // Формируем класс флага (например, 'fi fi-mx')
+            };
+            playoffData[`2${groupKey}`] = {
+                name: teams[1].name,
+                flag: `fi fi-${teams[1].flag}`
+            };
+
+            localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
+            console.log(`Группа ${groupKey} успешно сохранена для плей-офф!`, playoffData);
+        } else {
+            // Если результаты изменили/очистили и игр стало меньше 12, убираем группу из памяти плей-офф
+            if (playoffData[`1${groupKey}`] || playoffData[`2${groupKey}`]) {
+                delete playoffData[`1${groupKey}`];
+                delete playoffData[`2${groupKey}`];
+                localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
+            }
+        }
+    }
+} catch (e) {
+    console.error("Ошибка сохранения данных плей-офф:", e);
+}
+// ----------------------------------------------------
     
     // Фильтруем и выводим матчи только для этой группы
     renderMatchesForThisGroup(groupId);
@@ -9619,8 +9661,6 @@ const matchesTacticsData = {
         - Обоснование: ЮАР придется раскрываться ради победы, что приведет к контратакам Кореи в концовке матча и возможному второму мячу.
         - Коэффициент (приблизительный): 1.92`
     }
-
-
 
        
     // Сюда можно дописывать любые матчи по схеме "Команда1_Команда2": { title: "...", text: "..." }
