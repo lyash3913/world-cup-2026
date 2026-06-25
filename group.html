@@ -1173,9 +1173,18 @@ const matchResults = {
     "Англия_Гана": { score1: 0, score2: 0 },
     "Панама_Хорватия": { score1: 0, score2: 1 },
     "Колумбия_Конго ДР": { score1: 1, score2: 0 },
+    "Канада_Швейцария": { score1: 1, score2: 2 },
+    "Босния и Герцеговина_Катар": { score1: 3, score2: 1 },
+
+    "Марокко_Гаити": { score1: 4, score2: 2 },
+    "Шотландия_Бразилия": { score1: 0, score2: 3 },
+
+    "Мексика_Чехия": { score1: 3, score2: 0 },
+    "ЮАР_Южная Корея": { score1: 1, score2: 0 },
+
+
     
-
-
+    
     // сюда постепенно добавлять результаты
 };
 
@@ -1341,38 +1350,52 @@ teams.forEach((team, index) => {
     tableBody.appendChild(row);
 });
 
-// --- АВТОМАТИЗАЦИЯ ПЛЕЙ-ОФФ СТРОГО ПОСЛЕ 3-ГО ТУРА ---
+// --- АВТОМАТИЗАЦИЯ ПЛЕЙ-ОФФ (1, 2 и 3 МЕСТА) ---
 try {
     let totalGamesInGroup = 0;
     teams.forEach(team => {
-        totalGamesInGroup += team.games; // Считаем сумму игр всех команд этой группы
+        totalGamesInGroup += team.games;
     });
 
     if (groupId) {
         const groupKey = groupId.toUpperCase();
         const playoffData = JSON.parse(localStorage.getItem('actualPlayoffWinners')) || {};
+        const thirdPlacesCandidates = JSON.parse(localStorage.getItem('allThirdPlacesCandidates')) || {};
 
-        // В группе 4 команды. Когда у каждого по 3 игры, сумма равна строго 12
         if (totalGamesInGroup === 12) {
-            // Так как массив teams уже отсортирован функцией calculateGroupTable, 
-            // индекс 0 — это 1-е место, а индекс 1 — 2-е место.
+            // 1. Записываем гарантированные 1 и 2 места
             playoffData[`1${groupKey}`] = {
                 name: teams[0].name,
-                flag: `fi fi-${teams[0].flag}` // Формируем класс флага (например, 'fi fi-mx')
+                flag: `fi fi-${teams[0].flag}`
             };
             playoffData[`2${groupKey}`] = {
                 name: teams[1].name,
                 flag: `fi fi-${teams[1].flag}`
             };
-
             localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
-            console.log(`Группа ${groupKey} успешно сохранена для плей-офф!`, playoffData);
+
+            // 2. Сохраняем команду с 3-го места в общий пул кандидатов для анализа
+            thirdPlacesCandidates[groupKey] = {
+                group: groupKey,
+                name: teams[2].name,
+                flag: `fi fi-${teams[2].flag}`,
+                points: teams[2].points,
+                gd: teams[2].goalsFor - teams[2].goalsAgainst,
+                goalsFor: teams[2].goalsFor
+            };
+            localStorage.setItem('allThirdPlacesCandidates', JSON.stringify(thirdPlacesCandidates));
+
+            console.log(`Группа ${groupKey} зафиксирована (1-е, 2-е и кандидат на 3-е место сохранены).`);
         } else {
-            // Если результаты изменили/очистили и игр стало меньше 12, убираем группу из памяти плей-офф
+            // Если игры изменены/сброшены и игр меньше 12, вычищаем эту группу отовсюду
             if (playoffData[`1${groupKey}`] || playoffData[`2${groupKey}`]) {
                 delete playoffData[`1${groupKey}`];
                 delete playoffData[`2${groupKey}`];
                 localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
+            }
+            if (thirdPlacesCandidates[groupKey]) {
+                delete thirdPlacesCandidates[groupKey];
+                localStorage.setItem('allThirdPlacesCandidates', JSON.stringify(thirdPlacesCandidates));
             }
         }
     }

@@ -207,32 +207,68 @@ function renderPlayoffMatches() {
             renderContainer.appendChild(dateHeader);
         }
 
-        // Подготовка Команды 1
+        // --- Подготовка Команды 1 ---
         let t1Text = `<span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}">${match.team1Text}</span>`;
         let t1CodeHtml = match.team1Code;
+        let t1Key = match.team1Code;
 
-        if (actualWinners[match.team1Code]) {
-            t1Text = `
-                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;">
-                    <span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[match.team1Code].name}</span>
-                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${match.team1Text}</span>
-                </div>
-            `;
-            t1CodeHtml = `<span class="${actualWinners[match.team1Code].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        // Жесткая привязка к ID матча, если в роли первой команды выступает 3-е место
+        if (match.team1Text && match.team1Text.toLowerCase().includes("3-е место")) {
+            if (match.id === 75) t1Key = "3_МЕСТО_ДЛЯ_1B";
+            else if (match.id === 78) t1Key = "3_МЕСТО_ДЛЯ_1C";
+            else if (match.id === 79) t1Key = "3_МЕСТО_ДЛЯ_1E";
+            else if (match.id === 80) t1Key = "3_МЕСТО_ДЛЯ_1F";
+            else if (match.id === 81) t1Key = "3_МЕСТО_ДЛЯ_1G";
+            else if (match.id === 82) t1Key = "3_МЕСТО_ДЛЯ_1H";
+            else if (match.id === 85) t1Key = "3_МЕСТО_ДЛЯ_1A";
+            else if (match.id === 88) t1Key = "3_МЕСТО_ДЛЯ_1D";
         }
 
-        // Подготовка Команды 2
-        let t2Text = `<span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}">${match.team2Text}</span>`;
-        let t2CodeHtml = match.team2Code;
+        if (t1Key && actualWinners[t1Key]) {
+            const originG = actualWinners[t1Key].originGroup || "";
+            const subLabel = match.team1Text.toLowerCase().includes("3-е место") 
+                ? `${match.team1Text} ${originG ? '(Гр. ' + originG + ')' : ''}`
+                : match.team1Text;
 
-        if (actualWinners[match.team2Code]) {
-            t2Text = `
-                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; text-align: right;">
-                    <span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[match.team2Code].name}</span>
-                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${match.team2Text}</span>
+            t1Text = `
+                <div style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;">
+                    <span class="po-team-label-text ${match.isFinalist1 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[t1Key].name}</span>
+                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${subLabel}</span>
                 </div>
             `;
-            t2CodeHtml = `<span class="${actualWinners[match.team2Code].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+            t1CodeHtml = `<span class="${actualWinners[t1Key].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        }
+
+        // --- Подготовка Команды 2 ---
+        let t2Text = `<span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}">${match.team2Text}</span>`;
+        let t2CodeHtml = match.team2Code;
+        let t2Key = match.team2Code;
+
+        // Жесткая привязка к ID матча, если в роли второй команды выступает 3-е место
+        if (match.team2Text && match.team2Text.toLowerCase().includes("3-е место")) {
+            if (match.id === 75) t2Key = "3_МЕСТО_ДЛЯ_1B";
+            else if (match.id === 78) t2Key = "3_МЕСТО_ДЛЯ_1C";
+            else if (match.id === 79) t2Key = "3_МЕСТО_ДЛЯ_1E";
+            else if (match.id === 80) t2Key = "3_МЕСТО_ДЛЯ_1F";
+            else if (match.id === 81) t2Key = "3_МЕСТО_ДЛЯ_1G";
+            else if (match.id === 82) t2Key = "3_МЕСТО_ДЛЯ_1H";
+            else if (match.id === 85) t2Key = "3_МЕСТО_ДЛЯ_1A";
+            else if (match.id === 88) t2Key = "3_МЕСТО_ДЛЯ_1D";
+        }
+
+        if (t2Key && actualWinners[t2Key]) {
+            const originG = actualWinners[t2Key].originGroup || "";
+            const subLabel = match.team2Text.toLowerCase().includes("3-е место") 
+                ? `${match.team2Text} ${originG ? '(Гр. ' + originG + ')' : ''}`
+                : match.team2Text;
+
+            t2Text = `
+                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; text-align: right;">
+                    <span class="po-team-label-text ${match.isFinalist2 ? 'gold-text' : ''}" style="font-weight: 700;">${actualWinners[t2Key].name}</span>
+                    <span style="font-size: 11px; color: #a0aec0; font-weight: 400; margin-top: 2px;">${subLabel}</span>
+                </div>
+            `;
+            t2CodeHtml = `<span class="${actualWinners[t2Key].flag}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
         }
 
         const stadiumParts = match.stadium.split(' • ');
@@ -241,6 +277,9 @@ function renderPlayoffMatches() {
 
         const matchCard = document.createElement('div');
         matchCard.className = match.isGrandFinal ? 'analytics-match-card po-grand-final' : 'analytics-match-card';
+
+        const finalT1Name = actualWinners[t1Key] ? actualWinners[t1Key].name : match.team1Text;
+        const finalT2Name = actualWinners[t2Key] ? actualWinners[t2Key].name : match.team2Text;
 
         matchCard.innerHTML = `
             <div class="amc-header">
@@ -279,7 +318,7 @@ function renderPlayoffMatches() {
             </div>
 
            <div class="amc-actions">
-                <button class="amc-analysis-btn" onclick="openAnalysisModal(${match.id}, '${(actualWinners[match.team1Code]?.name || match.team1Text).replace(/'/g, "\\'")}', '${(actualWinners[match.team2Code]?.name || match.team2Text).replace(/'/g, "\\'")}')">
+                <button class="amc-analysis-btn" onclick="openAnalysisModal(${match.id}, '${finalT1Name.replace(/'/g, "\\'")}', '${finalT2Name.replace(/'/g, "\\'")}')">
                     Полный анализ матча
                 </button>
                 <span class="amc-number-tag">МАТЧ ${match.id}</span>
@@ -288,6 +327,7 @@ function renderPlayoffMatches() {
         renderContainer.appendChild(matchCard);
     });
 }
+
 
 // База данных с номерами матчей и точными текстовыми описаниями слотов
 const playoffMatchesSchedule = {
@@ -613,8 +653,581 @@ document.addEventListener('click', function (e) {
 
 // Функция автоматического парсинга таблиц группового этапа
 function getActualGroupWinners() {
+    // 1. Сначала берем гарантированные 1-е и 2-е места
     const storedData = localStorage.getItem('actualPlayoffWinners');
-    return storedData ? JSON.parse(storedData) : {};
+    const resultData = storedData ? JSON.parse(storedData) : {};
+
+    try {
+        // 2. Достаем кандидатов на 3-и места
+        const storedThirds = localStorage.getItem('allThirdPlacesCandidates');
+        if (!storedThirds) return resultData;
+
+        const thirdCandidates = JSON.parse(storedThirds);
+        const candidateKeys = Object.keys(thirdCandidates);
+
+        // ЖЕСТКИЙ ЗАМОК: Если сыграно меньше 12 групп, мы даже не пытаемся считать 3-и места!
+        if (candidateKeys.length < 12) {
+            return resultData; 
+        }
+
+        // Если все 12 групп на месте — запускаем расчет
+        const sortedThirds = Object.values(thirdCandidates).sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.gd !== a.gd) return b.gd - a.gd;
+            // Страховка на случай разных названий полей забитых голов (goalsFor или gs)
+            const goalsB = b.goalsFor !== undefined ? b.goalsFor : (b.gs || 0);
+            const goalsA = a.goalsFor !== undefined ? a.goalsFor : (a.gs || 0);
+            return goalsB - goalsA;
+        });
+
+        // Берем ТОП-8 лучших третьих мест
+        const top8Thirds = sortedThirds.slice(0, 8);
+
+        // Алфавитная строка комбинации — ОБЯЗАТЕЛЬНО переводим в ВЕРХНИЙ регистр
+        const combination = top8Thirds.map(item => item.group.toUpperCase()).sort().join('');
+
+            // --- ПОЛНАЯ ОФИЦИАЛЬНАЯ МАТРИЦА FIFA ДЛЯ ЧМ С 12 ГРУППАМИ ---
+            // Указывает букву группы, чьё 3-е место отправляется к конкретному победителю
+            const fifaMatrix = {
+                "EFGHIJKL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "H", "1I": "G", "1K": "L", "1L": "K" },
+    "DEFGHIJK": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "DEGHIJKL": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "G", "1K": "L", "1L": "K" },
+    "DEFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "DEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "DEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "DEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "DEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "CFGHIJKL": { "1A": "H", "1B": "G", "1D": "I", "1E": "C", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "CEGHIJKL": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "G", "1K": "L", "1L": "K" },
+    "CEFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "C", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "C", "1K": "L", "1L": "K" },
+    "CDFGHIJK": { "1A": "C", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "C", "1K": "L", "1L": "I" },
+    "CDFGHIJK": { "1A": "C", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "CDFGHIJK": { "1A": "C", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CDFGHIJK": { "1A": "C", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "CDFGHIJK": { "1A": "C", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "C", "1G": "J", "1I": "F", "1K": "D", "1L": "E" },
+    "CEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "G", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "G" },
+    "CDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "C", "1K": "G", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "C", "1K": "L", "1L": "G" },
+    "CDFGHIJK": { "1A": "C", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "G", "1L": "K" },
+    "CDFGHIJK": { "1A": "C", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "G" },
+    "CDEFGHIK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "K" },
+    "CDEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "G" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "C", "1L": "H" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "I" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "J" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "G" },
+    "CDEFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "C", "1L": "E" },
+    "CDEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "G", "1K": "C", "1L": "F" },
+    "CDEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "G" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "C", "1L": "E" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "E" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "E" },
+    "CDEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "I" },
+    "BFGHIJKL": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "J", "1I": "B", "1K": "L", "1L": "K" },
+    "BEGHIJKL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BEFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "J", "1I": "B", "1K": "L", "1L": "K" },
+    "BEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "I" },
+    "BDEGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BDFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "B", "1K": "L", "1L": "I" },
+    "BDFGHIJK": { "1A": "B", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "BDFGHIJK": { "1A": "B", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BDFGHIJK": { "1A": "B", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BDFGHIJK": { "1A": "B", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCEGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "C", "1G": "J", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "C", "1G": "H", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "B", "1K": "L", "1L": "I" },
+    "BCFGHIJK": { "1A": "B", "1B": "G", "1D": "I", "1E": "C", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "B", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "B", "1B": "G", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "B", "1B": "G", "1D": "J", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "C", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "B", "1K": "C", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "B", "1K": "C", "1L": "K" },
+    "BCDFGHIJ": { "1A": "B", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "C", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "B", "1K": "C", "1L": "I" },
+    "BCDFGHIJ": { "1A": "B", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "C", "1L": "K" },
+    "BCDFGHIJ": { "1A": "B", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "K" },
+    "BCDFGHIJ": { "1A": "B", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "K" },
+    "BCDFGHIJ": { "1A": "B", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "C", "1L": "I" },
+    "BCDEFGHI": { "1A": "B", "1B": "F", "1D": "E", "1E": "H", "1G": "I", "1I": "G", "1K": "C", "1L": "D" },
+    "BCDEFGHI": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "J", "1I": "B", "1K": "C", "1L": "E" },
+    "BEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "H", "1I": "B", "1K": "G", "1L": "K" },
+    "BEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "H", "1I": "B", "1K": "L", "1L": "G" },
+    "BDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "G", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "B", "1K": "L", "1L": "G" },
+    "BDFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "G", "1L": "K" },
+    "BDFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "G" },
+    "BCEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "B", "1K": "G", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "B", "1K": "L", "1L": "G" },
+    "BCFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "G", "1L": "K" },
+    "BCFGHIJK": { "1A": "B", "1B": "J", "1D": "I", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "G" },
+    "BCDEGHIK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "B", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "B", "1L": "G" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "J", "1I": "F", "1K": "B", "1L": "H" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "B", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "H", "1I": "F", "1K": "B", "1L": "J" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "H", "1I": "F", "1K": "B", "1L": "G" },
+
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "I", "1I": "F", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "L", "1L": "I" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "I", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "L", "1L": "E" },
+    "BCEGHIJK": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "E", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "F", "1K": "I", "1L": "K" },
+    "BCEGHIJK": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "E", "1L": "I" },
+    "BCDEGHIK": { "1A": "H", "1B": "J", "1D": "B", "1E": "C", "1G": "I", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "I", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "I", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "I", "1L": "K" },
+    "BCDFGHIK": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "I", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIK": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIK": { "1A": "C", "1B": "I", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDFGHIK": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIK": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "I", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIK": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "J" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "D", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "D", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "B", "1E": "C", "1G": "I", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIK": { "1A": "E", "1B": "J", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDFGHIK": { "1A": "E", "1B": "I", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "I", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "I", "1L": "K" },
+    "BCDEGHIK": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "L", "1L": "E" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "E", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "B", "1E": "C", "1G": "H", "1I": "D", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "D", "1K": "E", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIK": { "1A": "C", "1B": "E", "1D": "B", "1E": "D", "1G": "I", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIK": { "1A": "C", "1B": "E", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "E" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "E", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "E", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "E", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "J", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "E", "1L": "I" },
+    "BCDFGHIK": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "L", "1L": "E" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "E", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "E", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "J", "1I": "F", "1K": "E", "1L": "I" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "L", "1L": "E" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "E", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "G", "1D": "B", "1E": "C", "1G": "J", "1I": "F", "1K": "D", "1L": "E" },
+    "BCDEGHIJ": { "1A": "C", "1B": "G", "1D": "B", "1E": "D", "1G": "H", "1I": "F", "1K": "E", "1L": "I" },
+    "AFGHIJKL": { "1A": "H", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "AEGHIJKL": { "1A": "E", "1B": "J", "1D": "I", "1E": "A", "1G": "H", "1I": "G", "1K": "L", "1L": "K" },
+    "AEFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "AEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "AEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "AEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "AEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "H", "1K": "L", "1L": "I" },
+    "AEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "H", "1K": "I", "1L": "K" },
+    "ADEGHIJL": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "H", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "H", "1K": "L", "1L": "I" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "H", "1K": "I", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ADEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ADEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "E" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "E", "1L": "K" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+
+    "ADEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "E", "1L": "I" },
+    "CEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "CEFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "CEFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "CDEGHIJL": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "C" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "CDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "I" },
+    "BCEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCEGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "BCEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "BDEGHIJL": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BDEGHIJK": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BDEGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "B" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BDEGHIJK": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "I" },
+    "BCFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCFGHIJL": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "BCFGHIJK": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "BCDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "BCDFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+
+    "BCDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "C" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "BCDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "I" },
+    "BCDEFGHI": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "BCDEFGHI": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" },
+    "ACEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "ACDEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "E" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "E", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "E", "1L": "I" },
+    "ABEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABEGHIJK": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "ABEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "ABDEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "ABDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "ABDFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "B" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "I" },
+    "ACEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "C", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "ACEFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "ACDEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "K" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "L", "1L": "I" },
+    "ACDEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "C", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "C" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ACDFGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "C", "1L": "I" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "F", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "F", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "I", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "G", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "B", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "J", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "E", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "H", "1B": "J", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "I", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "E", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "B" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "L", "1L": "I" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "E", "1E": "D", "1G": "A", "1I": "F", "1K": "I", "1L": "K" },
+    "ABCEGHIJ": { "1A": "H", "1B": "G", "1D": "J", "1E": "D", "1G": "A", "1I": "F", "1K": "B", "1L": "I" },
+    "ABCDEGHI": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "ABCDEGHI": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "E", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "E", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "E", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "E", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "F", "1D": "I", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "H", "1B": "F", "1D": "I", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "F", "1B": "H", "1D": "I", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "F", "1B": "H", "1D": "I", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "H", "1B": "F", "1D": "G", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "F", "1D": "G", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "F", "1B": "H", "1D": "G", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "F", "1B": "H", "1D": "G", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "F", "1D": "I", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "G", "1B": "F", "1D": "I", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "F", "1B": "G", "1D": "I", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "F", "1B": "G", "1D": "I", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "G", "1B": "F", "1D": "H", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "F", "1D": "H", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "F", "1B": "G", "1D": "H", "1E": "E", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "F", "1B": "G", "1D": "H", "1E": "E", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "E", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "H", "1B": "E", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "E", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "E", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "G" },
+    "ABCDEFGH": { "1A": "H", "1B": "E", "1D": "G", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "E", "1D": "G", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "E", "1B": "H", "1D": "G", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "E", "1B": "H", "1D": "G", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "E", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "G", "1B": "E", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "E", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "H" },
+    "ABCDEFGH": { "1A": "G", "1B": "E", "1D": "H", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "G", "1B": "E", "1D": "H", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "E", "1B": "G", "1D": "H", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "E", "1B": "G", "1D": "H", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "I" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "H", "1B": "G", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "C", "1K": "D", "1L": "E" },
+    "ABCDEFGH": { "1A": "G", "1B": "H", "1D": "I", "1E": "F", "1G": "A", "1I": "B", "1K": "D", "1L": "E" }
+
+            };
+
+       const currentScheme = fifaMatrix[combination];
+
+        if (currentScheme) {
+            // Если схема найдена — распределяем строго по регламенту FIFA
+            Object.keys(currentScheme).forEach(winnerKey => {
+                const targetGroupLetter = currentScheme[winnerKey].toUpperCase(); 
+                const actualThirdTeam = thirdCandidates[targetGroupLetter];
+
+                if (actualThirdTeam) {
+                    resultData[`3_МЕСТО_ДЛЯ_${winnerKey}`] = {
+                        name: actualThirdTeam.name,
+                        flag: actualThirdTeam.flag,
+                        originGroup: targetGroupLetter
+                    };
+                }
+            });
+        } else {
+            // Фолбек-страховка (совместимая со шторкой и модалкой)
+            const targetWinners = ["1B", "1C", "1E", "1F", "1G", "1H", "1A", "1D"];
+            targetWinners.forEach((winnerKey, index) => {
+                const actualThirdTeam = top8Thirds[index];
+                if (actualThirdTeam) {
+                    resultData[`3_МЕСТО_ДЛЯ_${winnerKey}`] = {
+                        name: actualThirdTeam.name,
+                        flag: actualThirdTeam.flag,
+                        originGroup: actualThirdTeam.group.toUpperCase()
+                    };
+                }
+            });
+        }
+
+        console.log(`[FIFA Matrix] Успешно просчитана комбинация: ${combination}`);
+
+    } catch (err) {
+        console.error("Ошибка в getActualGroupWinners:", err);
+    }
+
+    return resultData;
 }
 
 function updatePlayoffTeamsInDrawer() {
@@ -622,46 +1235,86 @@ function updatePlayoffTeamsInDrawer() {
     if (!drawer) return;
 
     const actualWinners = getActualGroupWinners();
+    // Находим все элементы команд внутри шторки
     const teamElements = drawer.querySelectorAll('.d-team');
 
-    teamElements.forEach(teamEl => {
-        // Если внутри уже есть созданный нами div с оформлением, пропускаем повторную обработку
-        if (teamEl.querySelector('div')) return; 
+    // Массив соответствия строго по порядку появления 3-х мест в вашем index.html
+    const thirdPlacesMap = [
+        { combo: "ABCDF", key: "3_МЕСТО_ДЛЯ_1B" }, // 1-е встреченное 3-е место
+        { combo: "CDFGH", key: "3_МЕСТО_ДЛЯ_1C" }, // 2-е встреченное 3-е место
+        { combo: "CEFHI", key: "3_МЕСТО_ДЛЯ_1E" }, // 3-е
+        { combo: "ADEJK", key: "3_МЕСТО_ДЛЯ_1F" }, // 4-е
+        { combo: "BGHIK", key: "3_МЕСТО_ДЛЯ_1G" }, // 5-е
+        { combo: "AFJKL", key: "3_МЕСТО_ДЛЯ_1H" }, // 6-е
+        { combo: "BCEIL", key: "3_МЕСТО_ДЛЯ_1A" }, // 7-е
+        { combo: "DGHJL", key: "3_МЕСТО_ДЛЯ_1D" }  // 8-е
+    ];
 
-        const currentText = teamEl.textContent.trim();
+    let thirdPlaceCounter = 0;
+
+    teamElements.forEach(teamEl => {
         let key = "";
         let originalLabel = "";
+        let isThirdPlace = false;
 
-        if (/1-е место Группы\s+([A-L])/i.test(currentText) || /Победитель Группы\s+([A-L])/i.test(currentText)) {
-            const match = currentText.match(/(?:1-е место|Победитель) Группы\s+([A-L])/i);
-            if (match) {
-                key = "1" + match[1].toUpperCase();
-                originalLabel = match[0];
-            }
-        } else if (/2-е место Группы\s+([A-L])/i.test(currentText)) {
-            const match = currentText.match(/2-е место Группы\s+([A-L])/i);
-            if (match) {
-                key = "2" + match[1].toUpperCase();
-                originalLabel = match[0];
+        // Если мы еще не кэшировали изначальный тип этого элемента, определяем его один раз
+        if (!teamEl.hasAttribute('data-slot-type')) {
+            const txt = teamEl.textContent.trim();
+            
+            if (txt.toLowerCase().includes("3-е место")) {
+                teamEl.setAttribute('data-slot-type', 'third');
+                teamEl.setAttribute('data-slot-index', thirdPlaceCounter);
+                thirdPlaceCounter++;
+            } else if (/(?:1-е место|Победитель) Группы\s+([A-L])/i.test(txt)) {
+                const m = txt.match(/(?:1-е место|Победитель) Группы\s+([A-L])/i);
+                teamEl.setAttribute('data-slot-type', 'first');
+                teamEl.setAttribute('data-slot-id', "1" + m[1].toUpperCase());
+                teamEl.setAttribute('data-slot-label', m[0]);
+            } else if (/2-е место Группы\s+([A-L])/i.test(txt)) {
+                const m = txt.match(/2-е место Группы\s+([A-L])/i);
+                teamEl.setAttribute('data-slot-type', 'second');
+                teamEl.setAttribute('data-slot-id', "2" + m[1].toUpperCase());
+                teamEl.setAttribute('data-slot-label', m[0]);
+            } else {
+                teamEl.setAttribute('data-slot-type', 'unknown');
             }
         }
 
-        // Если для этого слота группа сыграла 3 матча и определилась команда
+        // Читаем тип слота из сохраненных атрибутов (теперь innerHTML им не помешает)
+        const slotType = teamEl.getAttribute('data-slot-type');
+
+        if (slotType === 'first' || slotType === 'second') {
+            key = teamEl.getAttribute('data-slot-id');
+            originalLabel = teamEl.getAttribute('data-slot-label');
+        } else if (slotType === 'third') {
+            isThirdPlace = true;
+            const idx = parseInt(teamEl.getAttribute('data-slot-index'), 10);
+            if (thirdPlacesMap[idx]) {
+                key = thirdPlacesMap[idx].key;
+                originalLabel = `3-е место ${thirdPlacesMap[idx].combo}`;
+            }
+        }
+
+        // Рендерим команду, если данные для этого ключа рассчитаны
         if (key && actualWinners[key]) {
             const flagClass = actualWinners[key].flag;
             const teamName = actualWinners[key].name;
+            const originG = actualWinners[key].originGroup || "";
+            
+            const subLabel = (isThirdPlace && originG)
+                ? `${originalLabel} (Гр. ${originG})` 
+                : originalLabel;
 
             teamEl.innerHTML = `
                 <span class="${flagClass}"></span>
                 <div style="display: inline-flex; flex-direction: column; vertical-align: middle; margin-left: 6px; line-height: 1.1; text-align: left;">
                     <span style="font-weight: 700; color: #fff; font-size: 13px;">${teamName}</span>
-                    <span style="font-size: 10px; color: #718096; font-weight: 400; margin-top: 1px;">${originalLabel}</span>
+                    <span style="font-size: 10px; color: #718096; font-weight: 400; margin-top: 1px;">${subLabel}</span>
                 </div>
             `;
         }
     });
 }
-
 
 
 
