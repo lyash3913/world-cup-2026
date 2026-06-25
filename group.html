@@ -748,6 +748,7 @@
     #group-matches-accordion.accordion-content.open {
         max-height: 2500px !important; /* Огромный запас, чтобы ВСЕ матчи гарантированно выехали наружу */
     }
+    
 
     /* 4. ЗАЩИТА: Принудительно заставляем блок Анализа группы (идущий следом) 
           отображаться строго в потоке, чтобы выезжающие матчи мягко расталкивали его вниз */
@@ -1349,60 +1350,6 @@ teams.forEach((team, index) => {
 
     tableBody.appendChild(row);
 });
-
-// --- АВТОМАТИЗАЦИЯ ПЛЕЙ-ОФФ (1, 2 и 3 МЕСТА) ---
-try {
-    let totalGamesInGroup = 0;
-    teams.forEach(team => {
-        totalGamesInGroup += team.games;
-    });
-
-    if (groupId) {
-        const groupKey = groupId.toUpperCase();
-        const playoffData = JSON.parse(localStorage.getItem('actualPlayoffWinners')) || {};
-        const thirdPlacesCandidates = JSON.parse(localStorage.getItem('allThirdPlacesCandidates')) || {};
-
-        if (totalGamesInGroup === 12) {
-            // 1. Записываем гарантированные 1 и 2 места
-            playoffData[`1${groupKey}`] = {
-                name: teams[0].name,
-                flag: `fi fi-${teams[0].flag}`
-            };
-            playoffData[`2${groupKey}`] = {
-                name: teams[1].name,
-                flag: `fi fi-${teams[1].flag}`
-            };
-            localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
-
-            // 2. Сохраняем команду с 3-го места в общий пул кандидатов для анализа
-            thirdPlacesCandidates[groupKey] = {
-                group: groupKey,
-                name: teams[2].name,
-                flag: `fi fi-${teams[2].flag}`,
-                points: teams[2].points,
-                gd: teams[2].goalsFor - teams[2].goalsAgainst,
-                goalsFor: teams[2].goalsFor
-            };
-            localStorage.setItem('allThirdPlacesCandidates', JSON.stringify(thirdPlacesCandidates));
-
-            console.log(`Группа ${groupKey} зафиксирована (1-е, 2-е и кандидат на 3-е место сохранены).`);
-        } else {
-            // Если игры изменены/сброшены и игр меньше 12, вычищаем эту группу отовсюду
-            if (playoffData[`1${groupKey}`] || playoffData[`2${groupKey}`]) {
-                delete playoffData[`1${groupKey}`];
-                delete playoffData[`2${groupKey}`];
-                localStorage.setItem('actualPlayoffWinners', JSON.stringify(playoffData));
-            }
-            if (thirdPlacesCandidates[groupKey]) {
-                delete thirdPlacesCandidates[groupKey];
-                localStorage.setItem('allThirdPlacesCandidates', JSON.stringify(thirdPlacesCandidates));
-            }
-        }
-    }
-} catch (e) {
-    console.error("Ошибка сохранения данных плей-офф:", e);
-}
-// ----------------------------------------------------
     
     // Фильтруем и выводим матчи только для этой группы
     renderMatchesForThisGroup(groupId);
@@ -1550,18 +1497,21 @@ function renderMatchesForThisGroup(targetGroup) {
             }
         });
 
-// На главном экране всегда ближайшие НЕСЫГРАННЫЕ
-        upcomingMatches.slice(0, 2).forEach(match => {
-            mainTacticsContainer.innerHTML += generateTacticalCard(match);
-        });
+const mainMatches = upcomingMatches.length > 0
+    ? upcomingMatches.slice(0, 2)
+    : playedMatches.slice(0, 2);
 
-// Под шторкой всё остальное
-        [
-            ...upcomingMatches.slice(2),
-            ...playedMatches
-        ].forEach(match => {
-            shutterTacticsContainer.innerHTML += generateTacticalCard(match);
-        });
+const shutterMatches = upcomingMatches.length > 0
+    ? [...upcomingMatches.slice(2), ...playedMatches]
+    : playedMatches.slice(2);
+
+mainMatches.forEach(match => {
+    mainTacticsContainer.innerHTML += generateTacticalCard(match);
+});
+
+shutterMatches.forEach(match => {
+    shutterTacticsContainer.innerHTML += generateTacticalCard(match);
+});
     }
 }
 // Функция открытия/закрытия Выпадающего списка матчей (Аккордеона)

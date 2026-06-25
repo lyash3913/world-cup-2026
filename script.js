@@ -34,6 +34,76 @@ const timerInterval = setInterval(function() {
     }
 
 }, 1000);
+
+// =========================================================================
+// ТОЧНЫЕ РЕЗУЛЬТАТЫ МАТЧЕЙ (Просто копируем из group.html)
+// =========================================================================
+const matchResults = {
+    "Мексика_ЮАР": { score1: 2, score2: 0 },
+    "Южная Корея_Чехия": { score1: 2, score2: 1 },
+    "Канада_Босния и Герцеговина": { score1: 1, score2: 1 },
+    "США_Парагвай": { score1: 4, score2: 1 },
+    "Катар_Швейцария": { score1: 1, score2: 1 },
+    "Бразилия_Марокко": { score1: 1, score2: 1 },
+    "Гаити_Шотландия": { score1: 0, score2: 1 },
+    "Катар_Швейцария": { score1: 1, score2: 1 },
+    "Австралия_Турция": { score1: 2, score2: 0 },
+    "Германия_Кюрасао": { score1: 7, score2: 1 },
+    "Нидерланды_Япония": { score1: 2, score2: 2 },
+    "Кот-д'Ивуар_Эквадор": { score1: 1, score2: 0 },
+    "Швеция_Тунис": { score1: 5, score2: 1 },
+    "Испания_Кабо-Верде": { score1: 0, score2: 0 },
+    "Бельгия_Египет": { score1: 1, score2: 1 },
+    "Саудовская Аравия_Уругвай": { score1: 1, score2: 1 },
+    "Иран_Новая Зеландия": { score1: 2, score2: 2 },
+    "Франция_Сенегал": { score1: 3, score2: 1 },
+    "Ирак_Норвегия": { score1: 1, score2: 4 },
+    "Аргентина_Алжир": { score1: 3, score2: 0 },
+    "Австрия_Иордания": { score1: 3, score2: 1 },
+    "Португалия_Конго ДР": { score1: 1, score2: 1 },
+    "Англия_Хорватия": { score1: 4, score2: 2 },
+    "Гана_Панама": { score1: 1, score2: 0 },
+    "Узбекистан_Колумбия": { score1: 1, score2: 3 },
+    "Чехия_ЮАР": { score1: 1, score2: 1 },
+    "Швейцария_Босния и Герцеговина": { score1: 4, score2: 1 },
+    "Канада_Катар": { score1: 6, score2: 0 },
+    "Мексика_Южная Корея": { score1: 1, score2: 0 },
+    "США_Австралия": { score1: 2, score2: 0 },
+    "Шотландия_Марокко": { score1: 0, score2: 1 },
+    "Бразилия_Гаити": { score1: 3, score2: 0 },
+    "Турция_Парагвай": { score1: 0, score2: 1 },
+    "Нидерланды_Швеция": { score1: 5, score2: 1 },
+    "Германия_Кот-д'Ивуар": { score1: 2, score2: 1 },
+    "Эквадор_Кюрасао": { score1: 0, score2: 0 },
+    "Тунис_Япония": { score1: 0, score2: 4 },
+    "Испания_Саудовская Аравия": { score1: 4, score2: 0 },
+    "Бельгия_Иран": { score1: 0, score2: 0 },
+    "Уругвай_Кабо-Верде": { score1: 2, score2: 2 },
+    "Новая Зеландия_Египет": { score1: 1, score2: 3 },
+    "Аргентина_Австрия": { score1: 2, score2: 0 },
+    "Франция_Ирак": { score1: 3, score2: 0 },
+    "Норвегия_Сенегал": { score1: 3, score2: 2 },
+    "Иордания_Алжир": { score1: 1, score2: 2 },
+    "Португалия_Узбекистан": { score1: 5, score2: 0 },
+    "Англия_Гана": { score1: 0, score2: 0 },
+    "Панама_Хорватия": { score1: 0, score2: 1 },
+    "Колумбия_Конго ДР": { score1: 1, score2: 0 },
+    "Канада_Швейцария": { score1: 1, score2: 2 },
+    "Босния и Герцеговина_Катар": { score1: 3, score2: 1 },
+
+    "Марокко_Гаити": { score1: 4, score2: 2 },
+    "Шотландия_Бразилия": { score1: 0, score2: 3 },
+
+    "Мексика_Чехия": { score1: 3, score2: 0 },
+    "ЮАР_Южная Корея": { score1: 1, score2: 0 },
+
+
+    
+    
+    // сюда постепенно добавлять результаты
+};
+
+
 // --- ЛОГИКА ОТКРЫТИЯ/ЗАКРЫТИЯ ПОЛНОГО РАСПИСАНИЯ ---
 
 const drawer = document.getElementById('schedule-drawer');
@@ -653,37 +723,186 @@ document.addEventListener('click', function (e) {
 
 // Функция автоматического парсинга таблиц группового этапа
 function getActualGroupWinners() {
-    // 1. Сначала берем гарантированные 1-е и 2-е места
-    const storedData = localStorage.getItem('actualPlayoffWinners');
-    const resultData = storedData ? JSON.parse(storedData) : {};
+    const resultData = {};
+    const groups = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+
+    // 1. Наш жесткий справочник команд и флагов
+    const groupsData = {
+        a: [
+            { place: 1, name: "Мексика", flag: "mx" },
+            { place: 2, name: "Чехия", flag: "cz" },
+            { place: 3, name: "Южная Корея", flag: "kr" },
+            { place: 4, name: "ЮАР", flag: "za" }
+        ],
+        b: [
+            { place: 1, name: "Канада", flag: "ca" },
+            { place: 2, name: "Швейцария", flag: "ch" },
+            { place: 3, name: "Катар", flag: "qa" },
+            { place: 4, name: "Босния и Герцеговина", flag: "ba" }
+        ],
+        c: [
+            { place: 1, name: "Бразилия", flag: "br" },
+            { place: 2, name: "Шотландия", flag: "gb-sct" },
+            { place: 3, name: "Марокко", flag: "ma" },
+            { place: 4, name: "Гаити", flag: "ht" }
+        ],
+        d: [
+            { place: 1, name: "США", flag: "us" },
+            { place: 2, name: "Турция", flag: "tr" },
+            { place: 3, name: "Парагвай", flag: "py" },
+            { place: 4, name: "Австралия", flag: "au" }
+        ],
+        e: [
+            { place: 1, name: "Германия", flag: "de" },
+            { place: 2, name: "Эквадор", flag: "ec" },
+            { place: 3, name: "Кот-д'Ивуар", flag: "ci" },
+            { place: 4, name: "Кюрасао", flag: "cw" }
+        ],
+        f: [
+            { place: 1, name: "Нидерланды", flag: "nl" },
+            { place: 2, name: "Япония", flag: "jp" },
+            { place: 3, name: "Швеция", flag: "se" },
+            { place: 4, name: "Тунис", flag: "tn" }
+        ],
+        g: [
+            { place: 1, name: "Бельгия", flag: "be" },
+            { place: 2, name: "Египет", flag: "eg" },
+            { place: 3, name: "Иран", flag: "ir" },
+            { place: 4, name: "Новая Зеландия", flag: "nz" }
+        ],
+        h: [
+            { place: 1, name: "Испания", flag: "es" },
+            { place: 2, name: "Уругвай", flag: "uy" },
+            { place: 3, name: "Саудовская Аравия", flag: "sa" },
+            { place: 4, name: "Кабо-Верде", flag: "cv" }
+        ],
+        i: [
+            { place: 1, name: "Франция", flag: "fr" },
+            { place: 2, name: "Норвегия", flag: "no" },
+            { place: 3, name: "Сенегал", flag: "sn" },
+            { place: 4, name: "Ирак", flag: "iq" }
+        ],
+        j: [
+            { place: 1, name: "Аргентина", flag: "ar" },
+            { place: 2, name: "Австрия", flag: "at" },
+            { place: 3, name: "Алжир", flag: "dz" },
+            { place: 4, name: "Иордания", flag: "jo" }
+        ],
+        k: [
+            { place: 1, name: "Португалия", flag: "pt" },
+            { place: 2, name: "Колумбия", flag: "co" },
+            { place: 3, name: "Узбекистан", flag: "uz" },
+            { place: 4, name: "Конго ДР", flag: "cd" }
+        ],
+        l: [
+            { place: 1, name: "Англия", flag: "gb-eng" },
+            { place: 2, name: "Хорватия", flag: "hr" },
+            { place: 3, name: "Панама", flag: "pa" },
+            { place: 4, name: "Гана", flag: "gh" }
+        ]
+    };
+
+    // Внутренний калькулятор, который собирает все возможные пары в группе и ищет их в matchResults
+    function calculateInlineStandings(groupId) {
+        const teams = groupsData[groupId].map(t => ({ ...t, points: 0, gd: 0, goalsFor: 0 }));
+        let playedMatchesCount = 0;
+        const currentResults = typeof matchResults !== 'undefined' ? matchResults : {};
+
+        // Генерируем круговую систему (каждый играет с каждым, всего 6 матчей в группе)
+        for (let i = 0; i < teams.length; i++) {
+            for (let j = i + 1; j < teams.length; j++) {
+                const t1 = teams[i];
+                const t2 = teams[j];
+
+                // Проверяем оба варианта написания ключа в объекте результатов на случай разного порядка команд
+                const keyDirect = `${t1.name}_${t2.name}`;
+                const keyReverse = `${t2.name}_${t1.name}`;
+                
+                let match = currentResults[keyDirect];
+                let isDirect = true;
+                
+                if (!match && currentResults[keyReverse]) {
+                    match = currentResults[keyReverse];
+                    isDirect = false;
+                }
+
+                // Если счет найден и он валиден — считаем статистику
+                if (match && match.score1 !== null && match.score2 !== null && match.score1 !== undefined && match.score2 !== undefined) {
+                    playedMatchesCount++;
+                    const s1 = isDirect ? parseInt(match.score1) : parseInt(match.score2);
+                    const s2 = isDirect ? parseInt(match.score2) : parseInt(match.score1);
+
+                    t1.goalsFor += s1;
+                    t2.goalsFor += s2;
+                    t1.gd += (s1 - s2);
+                    t2.gd += (s2 - s1);
+
+                    if (s1 > s2) t1.points += 3;
+                    else if (s1 < s2) t2.points += 3;
+                    else { t1.points += 1; t2.points += 1; }
+                }
+            }
+        }
+
+        // Сортируем: Очки -> Разница мячей -> Забитые голы
+        teams.sort((a, b) => {
+            if (b.points !== a.points) return b.points - a.points;
+            if (b.gd !== a.gd) return b.gd - a.gd;
+            return b.goalsFor - a.goalsFor;
+        });
+
+        return { standings: teams, isFinished: (playedMatchesCount === 6) };
+    }
 
     try {
-        // 2. Достаем кандидатов на 3-и места
-        const storedThirds = localStorage.getItem('allThirdPlacesCandidates');
-        if (!storedThirds) return resultData;
+        const thirdCandidates = {};
+        let finishedGroupsCount = 0;
 
-        const thirdCandidates = JSON.parse(storedThirds);
-        const candidateKeys = Object.keys(thirdCandidates);
+        // Проходим по всем 12 группам
+        groups.forEach(groupId => {
+            const { standings, isFinished } = calculateInlineStandings(groupId);
 
-        // ЖЕСТКИЙ ЗАМОК: Если сыграно меньше 12 групп, мы даже не пытаемся считать 3-и места!
-        if (candidateKeys.length < 12) {
+            // Если в группе заполнено все 6 результатов матчей — открываем шторку и модалку
+            if (isFinished && standings.length >= 3) {
+                finishedGroupsCount++;
+
+                resultData[`1${groupId.toUpperCase()}`] = {
+                    name: standings[0].name,
+                    flag: `fi fi-${standings[0].flag}`,
+                    originGroup: groupId.toUpperCase()
+                };
+
+                resultData[`2${groupId.toUpperCase()}`] = {
+                    name: standings[1].name,
+                    flag: `fi fi-${standings[1].flag}`,
+                    originGroup: groupId.toUpperCase()
+                };
+
+                // Сохраняем информацию о 3-м месте для таблицы лучших
+                thirdCandidates[groupId.toUpperCase()] = {
+                    group: groupId.toUpperCase(),
+                    name: standings[2].name,
+                    flag: `fi fi-${standings[2].flag}`,
+                    points: standings[2].points,
+                    gd: standings[2].gd,
+                    goalsFor: standings[2].goalsFor
+                };
+            }
+        });
+
+        // ЖЕСТКИЙ ЗАМОК: 3-и места распределяются по ФИФА только когда доиграны ВСЕ 12 групп
+        if (finishedGroupsCount < 12) {
             return resultData; 
         }
 
-        // Если все 12 групп на месте — запускаем расчет
+        // Сортировка третьих мест за выход в ТОП-8 плей-офф
         const sortedThirds = Object.values(thirdCandidates).sort((a, b) => {
             if (b.points !== a.points) return b.points - a.points;
             if (b.gd !== a.gd) return b.gd - a.gd;
-            // Страховка на случай разных названий полей забитых голов (goalsFor или gs)
-            const goalsB = b.goalsFor !== undefined ? b.goalsFor : (b.gs || 0);
-            const goalsA = a.goalsFor !== undefined ? a.goalsFor : (a.gs || 0);
-            return goalsB - goalsA;
+            return b.goalsFor - a.goalsFor;
         });
 
-        // Берем ТОП-8 лучших третьих мест
         const top8Thirds = sortedThirds.slice(0, 8);
-
-        // Алфавитная строка комбинации — ОБЯЗАТЕЛЬНО переводим в ВЕРХНИЙ регистр
         const combination = top8Thirds.map(item => item.group.toUpperCase()).sort().join('');
 
             // --- ПОЛНАЯ ОФИЦИАЛЬНАЯ МАТРИЦА FIFA ДЛЯ ЧМ С 12 ГРУППАМИ ---
@@ -1190,10 +1409,9 @@ function getActualGroupWinners() {
 
             };
 
-       const currentScheme = fifaMatrix[combination];
+      const currentScheme = fifaMatrix[combination];
 
         if (currentScheme) {
-            // Если схема найдена — распределяем строго по регламенту FIFA
             Object.keys(currentScheme).forEach(winnerKey => {
                 const targetGroupLetter = currentScheme[winnerKey].toUpperCase(); 
                 const actualThirdTeam = thirdCandidates[targetGroupLetter];
@@ -1206,25 +1424,10 @@ function getActualGroupWinners() {
                     };
                 }
             });
-        } else {
-            // Фолбек-страховка (совместимая со шторкой и модалкой)
-            const targetWinners = ["1B", "1C", "1E", "1F", "1G", "1H", "1A", "1D"];
-            targetWinners.forEach((winnerKey, index) => {
-                const actualThirdTeam = top8Thirds[index];
-                if (actualThirdTeam) {
-                    resultData[`3_МЕСТО_ДЛЯ_${winnerKey}`] = {
-                        name: actualThirdTeam.name,
-                        flag: actualThirdTeam.flag,
-                        originGroup: actualThirdTeam.group.toUpperCase()
-                    };
-                }
-            });
         }
 
-        console.log(`[FIFA Matrix] Успешно просчитана комбинация: ${combination}`);
-
     } catch (err) {
-        console.error("Ошибка в getActualGroupWinners:", err);
+        console.error("Ошибка авто-расчета по текстовым ключам:", err);
     }
 
     return resultData;
