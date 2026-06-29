@@ -305,14 +305,14 @@ function renderPlayoffMatches() {
 
         // Жесткая привязка к ID матча, если в роли первой команды выступает 3-е место
         if (match.team1Text && match.team1Text.toLowerCase().includes("3-е место")) {
-            if (match.id === 75) t1Key = "3_МЕСТО_ДЛЯ_1B";
-            else if (match.id === 78) t1Key = "3_МЕСТО_ДЛЯ_1C";
-            else if (match.id === 79) t1Key = "3_МЕСТО_ДЛЯ_1E";
-            else if (match.id === 80) t1Key = "3_МЕСТО_ДЛЯ_1F";
+            if (match.id === 75) t1Key = "3_МЕСТО_ДЛЯ_1E";
+            else if (match.id === 78) t1Key = "3_МЕСТО_ДЛЯ_1I";
+            else if (match.id === 79) t1Key = "3_МЕСТО_ДЛЯ_1A";
+            else if (match.id === 80) t1Key = "3_МЕСТО_ДЛЯ_1L";
             else if (match.id === 81) t1Key = "3_МЕСТО_ДЛЯ_1G";
-            else if (match.id === 82) t1Key = "3_МЕСТО_ДЛЯ_1H";
-            else if (match.id === 85) t1Key = "3_МЕСТО_ДЛЯ_1A";
-            else if (match.id === 88) t1Key = "3_МЕСТО_ДЛЯ_1D";
+            else if (match.id === 82) t1Key = "3_МЕСТО_ДЛЯ_1D";
+            else if (match.id === 85) t1Key = "3_МЕСТО_ДЛЯ_1B";
+            else if (match.id === 88) t1Key = "3_МЕСТО_ДЛЯ_1K";
         }
 
         if (t1Key && actualWinners[t1Key]) {
@@ -337,14 +337,14 @@ function renderPlayoffMatches() {
 
         // Жесткая привязка к ID матча, если в роли второй команды выступает 3-е место
         if (match.team2Text && match.team2Text.toLowerCase().includes("3-е место")) {
-            if (match.id === 75) t2Key = "3_МЕСТО_ДЛЯ_1B";
-            else if (match.id === 78) t2Key = "3_МЕСТО_ДЛЯ_1C";
-            else if (match.id === 79) t2Key = "3_МЕСТО_ДЛЯ_1E";
-            else if (match.id === 80) t2Key = "3_МЕСТО_ДЛЯ_1F";
+            if (match.id === 75) t2Key = "3_МЕСТО_ДЛЯ_1E";
+            else if (match.id === 78) t2Key = "3_МЕСТО_ДЛЯ_1I";
+            else if (match.id === 79) t2Key = "3_МЕСТО_ДЛЯ_1A";
+            else if (match.id === 80) t2Key = "3_МЕСТО_ДЛЯ_1L";
             else if (match.id === 81) t2Key = "3_МЕСТО_ДЛЯ_1G";
-            else if (match.id === 82) t2Key = "3_МЕСТО_ДЛЯ_1H";
-            else if (match.id === 85) t2Key = "3_МЕСТО_ДЛЯ_1A";
-            else if (match.id === 88) t2Key = "3_МЕСТО_ДЛЯ_1D";
+            else if (match.id === 82) t2Key = "3_МЕСТО_ДЛЯ_1D";
+            else if (match.id === 85) t2Key = "3_МЕСТО_ДЛЯ_1B";
+            else if (match.id === 88) t2Key = "3_МЕСТО_ДЛЯ_1K";
         }
 
         if (t2Key && actualWinners[t2Key]) {
@@ -1024,9 +1024,32 @@ function getActualGroupWinners() {
             const fifaMatrix = {
                 
     "BDEFIJKL": { "1E": "D", "1I": "F", "1A": "E", "1L": "K", "1G": "I", "1D": "B", "1B": "J", "1K": "L" }
-    
 
+    
             };
+            /******************************************************************
+ * Какой матч 1/16 получает какое третье место
+ ******************************************************************/
+const PLAYOFF_THIRD_PLACE_SLOTS = {
+
+    75: "3_МЕСТО_ДЛЯ_1E", // Германия — Парагвай
+
+    78: "3_МЕСТО_ДЛЯ_1I", // Франция — Швеция
+
+    79: "3_МЕСТО_ДЛЯ_1A", // Мексика — Эквадор
+
+    80: "3_МЕСТО_ДЛЯ_1L", // Англия — Конго
+
+    81: "3_МЕСТО_ДЛЯ_1G", // Бельгия — Сенегал
+
+    82: "3_МЕСТО_ДЛЯ_1D", // США — Босния
+
+    85: "3_МЕСТО_ДЛЯ_1B", // Швейцария — Алжир
+
+    88: "3_МЕСТО_ДЛЯ_1K"  // Колумбия — Гана
+
+};
+
 
       const currentScheme = fifaMatrix[combination];
 
@@ -1048,9 +1071,12 @@ function getActualGroupWinners() {
     } catch (err) {
         console.error("Ошибка авто-расчета по текстовым ключам:", err);
     }
+    console.log("=== RESULT DATA ===");
+console.log(resultData);
 
     return resultData;
 }
+
 
 function updatePlayoffTeamsInDrawer() {
     const drawer = document.getElementById('schedule-drawer');
@@ -1062,14 +1088,14 @@ function updatePlayoffTeamsInDrawer() {
 
     // Массив соответствия строго по порядку появления 3-х мест в вашем index.html
     const thirdPlacesMap = [
-        { combo: "ABCDF", key: "3_МЕСТО_ДЛЯ_1B" }, // 1-е встреченное 3-е место
-        { combo: "CDFGH", key: "3_МЕСТО_ДЛЯ_1C" }, // 2-е встреченное 3-е место
-        { combo: "CEFHI", key: "3_МЕСТО_ДЛЯ_1E" }, // 3-е
-        { combo: "ADEJK", key: "3_МЕСТО_ДЛЯ_1F" }, // 4-е
+        { combo: "ABCDF", key: "3_МЕСТО_ДЛЯ_1E" }, // 1-е встреченное 3-е место
+        { combo: "CDFGH", key: "3_МЕСТО_ДЛЯ_1I" }, // 2-е встреченное 3-е место
+        { combo: "CEFHI", key: "3_МЕСТО_ДЛЯ_1A" }, // 3-е
+        { combo: "ADEJK", key: "3_МЕСТО_ДЛЯ_1L" }, // 4-е
         { combo: "BGHIK", key: "3_МЕСТО_ДЛЯ_1G" }, // 5-е
-        { combo: "AFJKL", key: "3_МЕСТО_ДЛЯ_1H" }, // 6-е
-        { combo: "BCEIL", key: "3_МЕСТО_ДЛЯ_1A" }, // 7-е
-        { combo: "DGHJL", key: "3_МЕСТО_ДЛЯ_1D" }  // 8-е
+        { combo: "AFJKL", key: "3_МЕСТО_ДЛЯ_1D" }, // 6-е
+        { combo: "BCEIL", key: "3_МЕСТО_ДЛЯ_1B" }, // 7-е
+        { combo: "DGHJL", key: "3_МЕСТО_ДЛЯ_1K" }  // 8-е
     ];
 
     let thirdPlaceCounter = 0;
@@ -1232,6 +1258,11 @@ function formatRawTextToHTML(rawText) {
     
     return htmlResult;
 }
+
+
+
+
+
 
 
 
