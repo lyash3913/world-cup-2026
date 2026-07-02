@@ -303,9 +303,13 @@ function renderPlayoffMatches() {
         let t1CodeHtml = match.team1Code;
         let t1Key = match.team1Code;
 
-        // Если вы вручную вписали двухбуквенный код флага вместо "💥"
-        if (match.team1Code && match.team1Code !== "💥" && match.team1Code.length === 2) {
-            t1CodeHtml = `<span class="fi fi-${match.team1Code.toLowerCase()}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        // --- Исправление для Команды 1 в модальном окне ---
+        if (match.team1Code && match.team1Code !== "💥") {
+        const codeClean = match.team1Code.toLowerCase().trim();
+        // Если это код обычной страны (2 буквы) ИЛИ код Англии/Шотландии/Уэльса (начинается с gb-)
+        if (codeClean.length === 2 || codeClean.startsWith('gb-')) {
+        t1CodeHtml = `<span class="fi fi-${codeClean}" style="width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; display: block;"></span>`;
+            }
         }
 
         // Жесткая привязка к ID матча, если в роли первой команды выступает 3-е место
@@ -340,9 +344,12 @@ function renderPlayoffMatches() {
         let t2CodeHtml = match.team2Code;
         let t2Key = match.team2Code;
 
-        // Если вы вручную вписали двухбуквенный код флага вместо "💥"
-        if (match.team2Code && match.team2Code !== "💥" && match.team2Code.length === 2) {
-            t2CodeHtml = `<span class="fi fi-${match.team2Code.toLowerCase()}" style="width: 100%; height: 100%; border-radius: 50%; background-size: cover; display: block;"></span>`;
+        // --- Исправление для Команды 2 в модальном окне ---
+        if (match.team2Code && match.team2Code !== "💥") {
+        const codeClean = match.team2Code.toLowerCase().trim();
+        if (codeClean.length === 2 || codeClean.startsWith('gb-')) {
+        t2CodeHtml = `<span class="fi fi-${codeClean}" style="width: 100%; height: 100%; background-size: contain; background-position: center; background-repeat: no-repeat; display: block;"></span>`;
+            }
         }
 
         // Жесткая привязка к ID матча, если в роли второй команды выступает 3-е место
@@ -2357,7 +2364,7 @@ const playoffMatchesSchedule = {
         { id: 89, date: "Суббота, 4 июля", time: "20:00", stadium: "Хьюстон • НРГ Стадиум", team1Code: "ca", team1Text: "Канада", team2Code: "ma", team2Text: "Марокко", prob1: 34, probX: 33, prob2: 33 },
         { id: 90, date: "Воскресенье, 5 июля", time: "00:00", stadium: "Филадельфия • Линкольн Ф.", team1Code: "py", team1Text: "Парагвай", team2Code: "fr", team2Text: "Франция", prob1: 34, probX: 33, prob2: 33 },
         { id: 91, date: "Воскресенье, 5 июля", time: "23:00", stadium: "Нью-Джерси • МетЛайф", team1Code: "br", team1Text: "Бразилия", team2Code: "no", team2Text: "Норвегия", prob1: 34, probX: 33, prob2: 33 },
-        { id: 92, date: "Понедельник, 6 июля", time: "03:00", stadium: "Мехико • Ацтека", team1Code: "mx", team1Text: "Мексика", team2Code: "gb", team2Text: "Англия", prob1: 34, probX: 33, prob2: 33 },
+        { id: 92, date: "Понедельник, 6 июля", time: "03:00", stadium: "Мехико • Ацтека", team1Code: "mx", team1Text: "Мексика", team2Code: "gb-eng", team2Text: "Англия", prob1: 34, probX: 33, prob2: 33 },
         { id: 93, date: "Понедельник, 6 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "💥", team1Text: "Победитель Матча 83", team2Code: "💥", team2Text: "Победитель Матча 84", prob1: 34, probX: 33, prob2: 33 },
         { id: 94, date: "Вторник, 7 июля", time: "03:00", stadium: "Сиэтл • Люмен Филд", team1Code: "us", team1Text: "США", team2Code: "be", team2Text: "Бельгия", prob1: 34, probX: 33, prob2: 33 },
         { id: 95, date: "Вторник, 7 июля", time: "19:00", stadium: "Аталанта • Мерседес-Бенц", team1Code: "💥", team1Text: "Победитель Матча 86", team2Code: "💥", team2Text: "Победитель Матча 88", prob1: 34, probX: 33, prob2: 33 },
