@@ -402,6 +402,9 @@ function renderPlayoffMatches() {
         if (match.id === 80) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 1</span>';
         if (match.id === 81) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 2 <br> после д.в. 3:2</span>';
         if (match.id === 82) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 0</span>';
+        if (match.id === 83) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">3 : 0</span>';
+        if (match.id === 84) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 1</span>';
+        if (match.id === 85) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 0</span>';
        
        
 
@@ -2805,7 +2808,7 @@ const playoffMatchesSchedule = {
             В матчах плей-офф такой важности команды всегда начинают максимально осторожно. На всех аналитических рынках вероятность ничейного исхода к перерыву оценивается очень высоко.`
     
          },
-        { id: 93, date: "Понедельник, 6 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "💥", team1Text: "Победитель Матча 83", team2Code: "💥", team2Text: "Победитель Матча 84", prob1: 34, probX: 33, prob2: 33 },
+        { id: 93, date: "Понедельник, 6 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "pt", team1Text: "Португалия", team2Code: "es", team2Text: "Испания", prob1: 34, probX: 33, prob2: 33 },
         { id: 94, date: "Вторник, 7 июля", time: "03:00", stadium: "Сиэтл • Люмен Филд", team1Code: "us", team1Text: "США", team2Code: "be", team2Text: "Бельгия", prob1: 34, probX: 30, prob2: 36,  analysisText:
             `## 1) Общая аналитика и контекст кубкового противостояния
 
@@ -2919,7 +2922,7 @@ const playoffMatchesSchedule = {
     
          },
         { id: 95, date: "Вторник, 7 июля", time: "19:00", stadium: "Аталанта • Мерседес-Бенц", team1Code: "💥", team1Text: "Победитель Матча 86", team2Code: "💥", team2Text: "Победитель Матча 88", prob1: 34, probX: 33, prob2: 33 },
-        { id: 96, date: "Вторник, 7 июля", time: "23:00", stadium: "Ванкувер • Би-Си Плэйс", team1Code: "💥", team1Text: "Победитель Матча 85", team2Code: "💥", team2Text: "Победитель Матча 87", prob1: 34, probX: 33, prob2: 33 }
+        { id: 96, date: "Вторник, 7 июля", time: "23:00", stadium: "Ванкувер • Би-Си Плэйс", team1Code: "ch", team1Text: "Швейцария", team2Code: "💥", team2Text: "Победитель Матча 87", prob1: 34, probX: 33, prob2: 33 }
     ],
     '1/4': [
         { id: 97, date: "Четверг, 9 июля", time: "23:00", stadium: "Бостон • Джиллетт Ст.", team1Code: "🏆", team1Text: "Победитель Матча 89", team2Code: "🏆", team2Text: "Победитель Матча 90", prob1: 34, probX: 33, prob2: 33 },
