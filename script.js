@@ -412,7 +412,7 @@ function renderPlayoffMatches() {
         if (match.id === 90) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
         if (match.id === 91) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 2</span>';
         if (match.id === 92) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
-         if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">3 : 3</span>';
+         if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
        
        
 
@@ -3425,7 +3425,7 @@ const playoffMatchesSchedule = {
             - **Комбинированный выбор:** Франция не проиграет (1Х) и Тотал меньше (2.5) за коэффициент **1.95**. (Идеальный вариант, который полностью перекрывает самые вероятные пуассоновские исходы встречи — 1:0, 2:0, 0:0 и 1:1 в основное время).`
     
          },
-        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "pt", team1Text: "Португалия", team2Code: "🏆", team2Text: "Победитель Матча 94", prob1: 34, probX: 33, prob2: 33 },
+        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "ar", team1Text: "Аргентина", team2Code: "🏆", team2Text: "Победитель Матча 94", prob1: 34, probX: 33, prob2: 33 },
         { id: 99, date: "Воскресенье, 12 июля", time: "00:00", stadium: "Майами • Хард Рок", team1Code: "no", team1Text: "Норвегия", team2Code: "gb-eng", team2Text: "Англия", prob1: 24, probX: 31, prob2: 45, analysisText:
             `Интригующая кубковая вывеска, закрывающая программу игрового дня в рамках 1/4 финала чемпионата мира 2026 года. Признанный европейский гранд с россыпью дорогостоящих звезд сталкивается с главной сенсацией текущего мундиаля. В Майами нас ожидает яркое тактическое сражение: Томас Тухель попытается замаскировать критические пробоины в оборонительных редутах «Трех Львов» и сдержать неудержимого Эрлинга Холанда, поймавшего со своей сборной кураж исторического масштаба.
 
@@ -4232,7 +4232,10 @@ function formatRawTextToHTML(rawText) {
     return htmlResult;
 }
 
-// Запускаем автообновление каждые 60 секунд
+// =========================================================================
+// ЕДИНЫЙ КОД АВТООБНОВЛЕНИЯ ДАННЫХ (ШТОРКА + ПЛЕЙ-ОФФ) БЕЗ ПЕРЕЗАГРУЗКИ СТРАНИЦЫ
+// =========================================================================
+
 setInterval(function() {
     console.log("Фоновая проверка обновлений расписания и плей-офф...");
 
@@ -4254,43 +4257,36 @@ setInterval(function() {
                 if (newCloseBtn) {
                     newCloseBtn.addEventListener('click', closeDrawer);
                 }
+                console.log("Боковая шторка успешно обновлена!");
             }
         })
         .catch(err => console.log("Ошибка обновления шторки:", err));
 
-   // 2. Обновляем плей-офф: скачиваем свежий script.js и берем из него массив playoffMatchesSchedule
+    // 2. БРОНЕБОЙНОЕ ОБНОВЛЕНИЕ ПЛЕЙ-ОФФ: Скачиваем свежий script.js и перезапускаем его в фоне
     fetch('script.js?t=' + new Date().getTime())
         .then(res => res.text())
         .then(code => {
-            // Ищем чисто само название переменной (так надежнее, не важно const там или let)
-            const targetName = 'playoffMatchesSchedule';
-            const matchDataStartIndex = code.indexOf(targetName);
+            // Создаем временный тег <script>
+            const dynamicScript = document.createElement('script');
             
-            if (matchDataStartIndex !== -1) {
-                // Отрезаем всё, что идет ДО начала нашего объекта расписания
-                let evalChunk = code.substring(matchDataStartIndex);
-                
-                // Находим, где заканчивается этот объект (символы };)
-                const endOfObjIndex = evalChunk.indexOf('};');
-                
-                if (endOfObjIndex !== -1) {
-                    // Вырезаем чистый кусок кода: "playoffMatchesSchedule = { ... };"
-                    const finalCodeToEval = evalChunk.substring(0, endOfObjIndex + 2);
-                    
-                    // Жестко перезаписываем переменную в глобальной памяти браузера
-                    window.playoffMatchesSchedule = new Function('return {' + finalCodeToEval.substring(finalCodeToEval.indexOf('{') + 1, finalCodeToEval.lastIndexOf('}')) + '}')();
-                    
-                    // Заново запускаем твою функцию перерисовки сетки плей-офф
-                    if (typeof renderPlayoffMatches === 'function') {
-                        renderPlayoffMatches();
-                    }
-                    console.log("Сетка плей-офф успешно обновлена в памяти!");
-                }
-            }
-        })
-        .catch(err => console.log("Ошибка обновления плей-офф:", err));
+            // Запихиваем туда весь новый код из script.js
+            dynamicScript.textContent = code;
+            
+            // Добавляем тег на страницу, чтобы браузер выполнил код и обновил объект playoffMatchesSchedule в памяти
+            document.body.appendChild(dynamicScript);
+            
+            // Сразу же удаляем этот тег из DOM, чтобы не засорять страницу (код уже выполнился)
+            document.body.removeChild(dynamicScript);
 
-}, 60000); // 60000 мс = 1 минута
+            // Запускаем твою функцию перерисовки сетки плей-офф с уже новыми данными в памяти!
+            if (typeof renderPlayoffMatches === 'function') {
+                renderPlayoffMatches();
+            }
+            console.log("Сетка плей-офф успешно обновлена без перезагрузки страницы!");
+        })
+        .catch(err => console.log("Ошибка фонового обновления script.js:", err));
+
+}, 60000); // Проверка каждую 1 минуту
 
 
 
