@@ -4258,22 +4258,33 @@ setInterval(function() {
         })
         .catch(err => console.log("Ошибка обновления шторки:", err));
 
-    // 2. Обновляем плей-офф: скачиваем свежий script.js и берем из него массив playoffMatchesSchedule
+   // 2. Обновляем плей-офф: скачиваем свежий script.js и берем из него массив playoffMatchesSchedule
     fetch('script.js?t=' + new Date().getTime())
         .then(res => res.text())
         .then(code => {
-            const matchDataStartIndex = code.indexOf('const playoffMatchesSchedule =');
+            // Ищем чисто само название переменной (так надежнее, не важно const там или let)
+            const targetName = 'playoffMatchesSchedule';
+            const matchDataStartIndex = code.indexOf(targetName);
+            
             if (matchDataStartIndex !== -1) {
-                const evalChunk = code.substring(matchDataStartIndex);
+                // Отрезаем всё, что идет ДО начала нашего объекта расписания
+                let evalChunk = code.substring(matchDataStartIndex);
+                
+                // Находим, где заканчивается этот объект (символы };)
                 const endOfObjIndex = evalChunk.indexOf('};');
-                const finalCodeToEval = evalChunk.substring(0, endOfObjIndex + 2);
                 
-                // Обновляем данные в памяти
-                window.eval(finalCodeToEval); 
-                
-                // Запускаем твою функцию перерисовки сетки плей-офф
-                if (typeof renderPlayoffMatches === 'function') {
-                    renderPlayoffMatches();
+                if (endOfObjIndex !== -1) {
+                    // Вырезаем чистый кусок кода: "playoffMatchesSchedule = { ... };"
+                    const finalCodeToEval = evalChunk.substring(0, endOfObjIndex + 2);
+                    
+                    // Жестко перезаписываем переменную в глобальной памяти браузера
+                    window.playoffMatchesSchedule = new Function('return {' + finalCodeToEval.substring(finalCodeToEval.indexOf('{') + 1, finalCodeToEval.lastIndexOf('}')) + '}')();
+                    
+                    // Заново запускаем твою функцию перерисовки сетки плей-офф
+                    if (typeof renderPlayoffMatches === 'function') {
+                        renderPlayoffMatches();
+                    }
+                    console.log("Сетка плей-офф успешно обновлена в памяти!");
                 }
             }
         })
