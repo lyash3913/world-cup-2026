@@ -4231,6 +4231,55 @@ function formatRawTextToHTML(rawText) {
     return htmlResult;
 }
 
+// Запускаем автообновление каждые 60 секунд
+setInterval(function() {
+    console.log("Фоновая проверка обновлений расписания и плей-офф...");
+
+    // 1. Обновляем шторку: скачиваем свежий index.html и вытаскиваем из него измененную шторку
+    fetch('index.html?t=' + new Date().getTime())
+        .then(res => res.text())
+        .then(htmlText => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            const newDrawerContent = doc.getElementById('schedule-drawer');
+            const currentDrawer = document.getElementById('schedule-drawer');
+            
+            if (newDrawerContent && currentDrawer) {
+                // Заменяем содержимое шторки на новое со свежими счетами матчей
+                currentDrawer.innerHTML = newDrawerContent.innerHTML;
+                
+                // Восстанавливаем обработчик кнопки закрытия шторки
+                const newCloseBtn = document.getElementById('close-close-btn') || document.getElementById('close-schedule-btn');
+                if (newCloseBtn) {
+                    newCloseBtn.addEventListener('click', closeDrawer);
+                }
+            }
+        })
+        .catch(err => console.log("Ошибка обновления шторки:", err));
+
+    // 2. Обновляем плей-офф: скачиваем свежий script.js и берем из него массив playoffMatchesSchedule
+    fetch('script.js?t=' + new Date().getTime())
+        .then(res => res.text())
+        .then(code => {
+            const matchDataStartIndex = code.indexOf('const playoffMatchesSchedule =');
+            if (matchDataStartIndex !== -1) {
+                const evalChunk = code.substring(matchDataStartIndex);
+                const endOfObjIndex = evalChunk.indexOf('};');
+                const finalCodeToEval = evalChunk.substring(0, endOfObjIndex + 2);
+                
+                // Обновляем данные в памяти
+                window.eval(finalCodeToEval); 
+                
+                // Запускаем твою функцию перерисовки сетки плей-офф
+                if (typeof renderPlayoffMatches === 'function') {
+                    renderPlayoffMatches();
+                }
+            }
+        })
+        .catch(err => console.log("Ошибка обновления плей-офф:", err));
+
+}, 60000); // 60000 мс = 1 минута
+
 
 
 
