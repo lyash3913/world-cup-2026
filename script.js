@@ -414,8 +414,7 @@ function renderPlayoffMatches() {
         if (match.id === 92) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
         if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
         if (match.id === 94) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
-         if (match.id === 95) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
-         if (match.id === 97) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
+        
        
        
 
@@ -3538,7 +3537,7 @@ const playoffMatchesSchedule = {
             - **Осторожный комбинированный выбор:** Норвегия забьет и Англия не проиграет (Х2 + ИТБ2 (0.5) для Норвегии) за коэффициент **1.90**. (Вариант идеально перекрывает самые логичные и ожидаемые сценарии матча: результативную ничью 1:1 или тяжелую победу Англии со счетом 2:1).`
     
          },
-        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "ar", team1Text: "Аргентина", team2Code: "🏆", team2Text: "Победитель Матча 96", prob1: 34, probX: 33, prob2: 33 }
+        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "🏆", team1Text: "Победитель Матча 95", team2Code: "🏆", team2Text: "Победитель Матча 96", prob1: 34, probX: 33, prob2: 33 }
     ],
     '1/2': [
         { id: 101, date: "Вторник, 14 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "🌟", team1Text: "Победитель Матча 97", team2Code: "🌟", team2Text: "Победитель Матча 98", prob1: 34, probX: 33, prob2: 33 },
@@ -4267,22 +4266,7 @@ setInterval(function() {
         .then(res => res.text())
         .then(code => {
             
-            // --- Вытаскиваем и обновляем ФУНКЦИЮ renderPlayoffMatches ---
-            const funcStartTarget = 'function renderPlayoffMatches()';
-            const funcStartIndex = code.indexOf(funcStartTarget);
-            
-            if (funcStartIndex !== -1) {
-                let funcText = code.substring(funcStartIndex);
-                const databaseTarget = 'const playoffMatchesSchedule =';
-                const dbStartIndex = funcText.indexOf(databaseTarget);
-                
-                if (dbStartIndex !== -1) {
-                    let pureFuncCode = funcText.substring(0, dbStartIndex).trim();
-                    window.eval(pureFuncCode);
-                }
-            }
-
-            // --- БРОНЕБОЙНОЕ ОБНОВЛЕНИЕ МАССИВА ДАННЫХ ---
+            // --- 1. ВЫТАСКИВАЕМ И ОБНОВЛЯЕМ МАССИВ ДАННЫХ ---
             const arrayStartTarget = 'const playoffMatchesSchedule =';
             const arrayStartIndex = code.indexOf(arrayStartTarget);
             
@@ -4293,25 +4277,43 @@ setInterval(function() {
                 if (lastBraceIndex !== -1) {
                     let pureArrayCode = arrayText.substring(0, lastBraceIndex + 2);
                     
-                    // ХИТРОСТЬ: Полностью убираем "const" и превращаем в "window.playoffMatchesSchedule ="
-                    // Это заставит JS принудительно перезаписать данные поверх старой константы
-                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule =', 'window.playoffMatchesSchedule =');
-                    
-                    // Обновляем данные в памяти глобально
+                    // Превращаем в глобальное свойство window.currentSchedule, обойдя защиту const
+                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule =', 'window.currentSchedule =');
                     window.eval(pureArrayCode);
                 }
             }
+            
+            // --- 2. ВЫТАСКИВАЕМ И ОБНОВЛЯЕМ ФУНКЦИЮ renderPlayoffMatches ---
+            const funcStartTarget = 'function renderPlayoffMatches()';
+            const funcStartIndex = code.indexOf(funcStartTarget);
+            
+            if (funcStartIndex !== -1) {
+                let funcText = code.substring(funcStartIndex);
+                const databaseTarget = 'const playoffMatchesSchedule =';
+                const dbStartIndex = funcText.indexOf(databaseTarget);
+                
+                if (dbStartIndex !== -1) {
+                    let pureFuncCode = funcText.substring(0, dbStartIndex).trim();
+                    
+                    // ХИТРОСТЬ: Заставляем новую функцию брать данные из нашего обновляемого window.currentSchedule
+                    pureFuncCode = pureFuncCode.replace(/playoffMatchesSchedule/g, 'window.currentSchedule');
+                    
+                    // Активируем обновленную функцию в памяти
+                    window.eval(pureFuncCode);
+                }
+            }
 
-            // --- Перерисовываем интерфейс новыми (только что обновленными) данными и функцией ---
+            // --- 3. ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС ОБНОВЛЕННОЙ ФУНКЦИЕЙ С НОВЫМИ ДАННЫМИ ---
             if (typeof renderPlayoffMatches === 'function') {
                 renderPlayoffMatches();
-                console.log("Функция рендеринга и данные массива успешно синхронизированы!");
+                console.log("Сетка плей-офф и массивы аналитики успешно синхронизированы!");
             }
 
         })
         .catch(err => console.log("Ошибка фонового обновления script.js:", err));
 
-}, 60000); // Раз в 1 минуту
+// Проверяем обновления раз в 30 секунд (для более быстрого тестирования)
+}, 30000);
 
 
 
