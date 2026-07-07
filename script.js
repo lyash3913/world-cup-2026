@@ -414,7 +414,6 @@ function renderPlayoffMatches() {
         if (match.id === 92) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
         if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
         if (match.id === 94) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
-        if (match.id === 95) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
        
        
 
@@ -3537,7 +3536,7 @@ const playoffMatchesSchedule = {
             - **Осторожный комбинированный выбор:** Норвегия забьет и Англия не проиграет (Х2 + ИТБ2 (0.5) для Норвегии) за коэффициент **1.90**. (Вариант идеально перекрывает самые логичные и ожидаемые сценарии матча: результативную ничью 1:1 или тяжелую победу Англии со счетом 2:1).`
     
          },
-        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "ar", team1Text: "Аргентина", team2Code: "🏆", team2Text: "Победитель Матча 96", prob1: 34, probX: 33, prob2: 33 }
+        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "🏆", team1Text: "Победитель Матча 95", team2Code: "🏆", team2Text: "Победитель Матча 96", prob1: 34, probX: 33, prob2: 33 }
     ],
     '1/2': [
         { id: 101, date: "Вторник, 14 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "🌟", team1Text: "Победитель Матча 97", team2Code: "🌟", team2Text: "Победитель Матча 98", prob1: 34, probX: 33, prob2: 33 },
@@ -4272,21 +4271,16 @@ setInterval(function() {
             
             if (funcStartIndex !== -1) {
                 let funcText = code.substring(funcStartIndex);
-                // Находим закрытие функции. Так как внутри много скобок, ищем до начала следующего блока/переменной 
-                // или просто берем с запасом до конца объекта расписания, движок JS сам поймет синтаксис.
                 const databaseTarget = 'const playoffMatchesSchedule =';
                 const dbStartIndex = funcText.indexOf(databaseTarget);
                 
                 if (dbStartIndex !== -1) {
-                    // Вырезаем чистый код функции от слова function до начала массива
                     let pureFuncCode = funcText.substring(0, dbStartIndex).trim();
-                    
-                    // Активируем (переопределяем) новую функцию в памяти
                     window.eval(pureFuncCode);
                 }
             }
 
-            // --- Вытаскиваем и обновляем МАССИВ ВМЕСТЕ С АНАЛИТИКОЙ ---
+            // --- БРОНЕБОЙНОЕ ОБНОВЛЕНИЕ МАССИВА ДАННЫХ ---
             const arrayStartTarget = 'const playoffMatchesSchedule =';
             const arrayStartIndex = code.indexOf(arrayStartTarget);
             
@@ -4297,10 +4291,11 @@ setInterval(function() {
                 if (lastBraceIndex !== -1) {
                     let pureArrayCode = arrayText.substring(0, lastBraceIndex + 2);
                     
-                    // Переводим const в var для eval, чтобы браузер не ругался на повторное объявление const
-                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule', 'var playoffMatchesSchedule');
+                    // ХИТРОСТЬ: Полностью убираем "const" и превращаем в "window.playoffMatchesSchedule ="
+                    // Это заставит JS принудительно перезаписать данные поверх старой константы
+                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule =', 'window.playoffMatchesSchedule =');
                     
-                    // Обновляем массив в памяти
+                    // Обновляем данные в памяти глобально
                     window.eval(pureArrayCode);
                 }
             }
@@ -4308,7 +4303,7 @@ setInterval(function() {
             // --- Перерисовываем интерфейс новыми (только что обновленными) данными и функцией ---
             if (typeof renderPlayoffMatches === 'function') {
                 renderPlayoffMatches();
-                console.log("Функция рендеринга и данные плей-офф успешно обновлены в памяти!");
+                console.log("Функция рендеринга и данные массива успешно синхронизированы!");
             }
 
         })
