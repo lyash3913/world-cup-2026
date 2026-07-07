@@ -412,6 +412,8 @@ function renderPlayoffMatches() {
         if (match.id === 90) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
         if (match.id === 91) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 2</span>';
         if (match.id === 92) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
+        if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
+        if (match.id === 94) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
        
        
 
@@ -3424,7 +3426,7 @@ const playoffMatchesSchedule = {
             - **Комбинированный выбор:** Франция не проиграет (1Х) и Тотал меньше (2.5) за коэффициент **1.95**. (Идеальный вариант, который полностью перекрывает самые вероятные пуассоновские исходы встречи — 1:0, 2:0, 0:0 и 1:1 в основное время).`
     
          },
-        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "🏆", team1Text: "Победитель Матча 93", team2Code: "🏆", team2Text: "Победитель Матча 94", prob1: 34, probX: 33, prob2: 33 },
+        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "es", team1Text: "Испания", team2Code: "be", team2Text: "Бельгия", prob1: 34, probX: 33, prob2: 33 },
         { id: 99, date: "Воскресенье, 12 июля", time: "00:00", stadium: "Майами • Хард Рок", team1Code: "no", team1Text: "Норвегия", team2Code: "gb-eng", team2Text: "Англия", prob1: 24, probX: 31, prob2: 45, analysisText:
             `Интригующая кубковая вывеска, закрывающая программу игрового дня в рамках 1/4 финала чемпионата мира 2026 года. Признанный европейский гранд с россыпью дорогостоящих звезд сталкивается с главной сенсацией текущего мундиаля. В Майами нас ожидает яркое тактическое сражение: Томас Тухель попытается замаскировать критические пробоины в оборонительных редутах «Трех Львов» и сдержать неудержимого Эрлинга Холанда, поймавшего со своей сборной кураж исторического масштаба.
 
@@ -4231,11 +4233,14 @@ function formatRawTextToHTML(rawText) {
     return htmlResult;
 }
 
-// Запускаем автообновление каждые 60 секунд
+// =========================================================================
+// ЕДИНЫЙ КОД АВТООБНОВЛЕНИЯ ДАННЫХ (ШТОРКА + ОБНОВЛЕНИЕ ФУНКЦИИ И МАССИВА ПЛЕЙ-ОФФ)
+// =========================================================================
+
 setInterval(function() {
     console.log("Фоновая проверка обновлений расписания и плей-офф...");
 
-    // 1. Обновляем шторку: скачиваем свежий index.html и вытаскиваем из него измененную шторку
+    // 1. Обновляем шторку (работает стабильно)
     fetch('index.html?t=' + new Date().getTime())
         .then(res => res.text())
         .then(htmlText => {
@@ -4245,51 +4250,70 @@ setInterval(function() {
             const currentDrawer = document.getElementById('schedule-drawer');
             
             if (newDrawerContent && currentDrawer) {
-                // Заменяем содержимое шторки на новое со свежими счетами матчей
                 currentDrawer.innerHTML = newDrawerContent.innerHTML;
-                
-                // Восстанавливаем обработчик кнопки закрытия шторки
                 const newCloseBtn = document.getElementById('close-close-btn') || document.getElementById('close-schedule-btn');
                 if (newCloseBtn) {
                     newCloseBtn.addEventListener('click', closeDrawer);
                 }
+                console.log("Боковая шторка успешно обновлена!");
             }
         })
         .catch(err => console.log("Ошибка обновления шторки:", err));
 
-   // 2. Обновляем плей-офф: скачиваем свежий script.js и берем из него массив playoffMatchesSchedule
+    // 2. ОБНОВЛЕНИЕ КОДА ПЛЕЙ-ОФФ: вытаскиваем новую функцию и новый массив
     fetch('script.js?t=' + new Date().getTime())
         .then(res => res.text())
         .then(code => {
-            // Ищем чисто само название переменной (так надежнее, не важно const там или let)
-            const targetName = 'playoffMatchesSchedule';
-            const matchDataStartIndex = code.indexOf(targetName);
             
-            if (matchDataStartIndex !== -1) {
-                // Отрезаем всё, что идет ДО начала нашего объекта расписания
-                let evalChunk = code.substring(matchDataStartIndex);
+            // --- Вытаскиваем и обновляем ФУНКЦИЮ renderPlayoffMatches ---
+            const funcStartTarget = 'function renderPlayoffMatches()';
+            const funcStartIndex = code.indexOf(funcStartTarget);
+            
+            if (funcStartIndex !== -1) {
+                let funcText = code.substring(funcStartIndex);
+                // Находим закрытие функции. Так как внутри много скобок, ищем до начала следующего блока/переменной 
+                // или просто берем с запасом до конца объекта расписания, движок JS сам поймет синтаксис.
+                const databaseTarget = 'const playoffMatchesSchedule =';
+                const dbStartIndex = funcText.indexOf(databaseTarget);
                 
-                // Находим, где заканчивается этот объект (символы };)
-                const endOfObjIndex = evalChunk.indexOf('};');
-                
-                if (endOfObjIndex !== -1) {
-                    // Вырезаем чистый кусок кода: "playoffMatchesSchedule = { ... };"
-                    const finalCodeToEval = evalChunk.substring(0, endOfObjIndex + 2);
+                if (dbStartIndex !== -1) {
+                    // Вырезаем чистый код функции от слова function до начала массива
+                    let pureFuncCode = funcText.substring(0, dbStartIndex).trim();
                     
-                    // Жестко перезаписываем переменную в глобальной памяти браузера
-                    window.playoffMatchesSchedule = new Function('return {' + finalCodeToEval.substring(finalCodeToEval.indexOf('{') + 1, finalCodeToEval.lastIndexOf('}')) + '}')();
-                    
-                    // Заново запускаем твою функцию перерисовки сетки плей-офф
-                    if (typeof renderPlayoffMatches === 'function') {
-                        renderPlayoffMatches();
-                    }
-                    console.log("Сетка плей-офф успешно обновлена в памяти!");
+                    // Активируем (переопределяем) новую функцию в памяти
+                    window.eval(pureFuncCode);
                 }
             }
-        })
-        .catch(err => console.log("Ошибка обновления плей-офф:", err));
 
-}, 60000); // 60000 мс = 1 минута
+            // --- Вытаскиваем и обновляем МАССИВ ВМЕСТЕ С АНАЛИТИКОЙ ---
+            const arrayStartTarget = 'const playoffMatchesSchedule =';
+            const arrayStartIndex = code.indexOf(arrayStartTarget);
+            
+            if (arrayStartIndex !== -1) {
+                let arrayText = code.substring(arrayStartIndex);
+                const lastBraceIndex = arrayText.lastIndexOf('};');
+                
+                if (lastBraceIndex !== -1) {
+                    let pureArrayCode = arrayText.substring(0, lastBraceIndex + 2);
+                    
+                    // Переводим const в var для eval, чтобы браузер не ругался на повторное объявление const
+                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule', 'var playoffMatchesSchedule');
+                    
+                    // Обновляем массив в памяти
+                    window.eval(pureArrayCode);
+                }
+            }
+
+            // --- Перерисовываем интерфейс новыми (только что обновленными) данными и функцией ---
+            if (typeof renderPlayoffMatches === 'function') {
+                renderPlayoffMatches();
+                console.log("Функция рендеринга и данные плей-офф успешно обновлены в памяти!");
+            }
+
+        })
+        .catch(err => console.log("Ошибка фонового обновления script.js:", err));
+
+}, 60000); // Раз в 1 минуту
 
 
 
