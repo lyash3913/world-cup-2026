@@ -414,7 +414,8 @@ function renderPlayoffMatches() {
         if (match.id === 92) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 3</span>';
         if (match.id === 93) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 1</span>';
         if (match.id === 94) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 4</span>';
-        
+        if (match.id === 95) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">3 : 2</span>';
+        if (match.id === 96) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 0 <br> пен. 4:3</span>';
         
        
        
@@ -3428,7 +3429,7 @@ const playoffMatchesSchedule = {
             - **Комбинированный выбор:** Франция не проиграет (1Х) и Тотал меньше (2.5) за коэффициент **1.95**. (Идеальный вариант, который полностью перекрывает самые вероятные пуассоновские исходы встречи — 1:0, 2:0, 0:0 и 1:1 в основное время).`
     
          },
-        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "es", team1Text: "Испания", team2Code: "be", team2Text: "Бельгия", prob1: 34, probX: 33, prob2: 33 },
+        { id: 98, date: "Пятница, 10 июля", time: "22:00", stadium: "Лос-Анджелес • Соу-Фай", team1Code: "es", team1Text: "Испания", team2Code: "be", team2Text: "Бельгия", prob1: 46, probX: 30, prob2: 24 },
         { id: 99, date: "Воскресенье, 12 июля", time: "00:00", stadium: "Майами • Хард Рок", team1Code: "no", team1Text: "Норвегия", team2Code: "gb-eng", team2Text: "Англия", prob1: 24, probX: 31, prob2: 45, analysisText:
             `Интригующая кубковая вывеска, закрывающая программу игрового дня в рамках 1/4 финала чемпионата мира 2026 года. Признанный европейский гранд с россыпью дорогостоящих звезд сталкивается с главной сенсацией текущего мундиаля. В Майами нас ожидает яркое тактическое сражение: Томас Тухель попытается замаскировать критические пробоины в оборонительных редутах «Трех Львов» и сдержать неудержимого Эрлинга Холанда, поймавшего со своей сборной кураж исторического масштаба.
 
@@ -3538,7 +3539,7 @@ const playoffMatchesSchedule = {
             - **Осторожный комбинированный выбор:** Норвегия забьет и Англия не проиграет (Х2 + ИТБ2 (0.5) для Норвегии) за коэффициент **1.90**. (Вариант идеально перекрывает самые логичные и ожидаемые сценарии матча: результативную ничью 1:1 или тяжелую победу Англии со счетом 2:1).`
     
          },
-        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "🏆", team1Text: "Победитель Матча 95", team2Code: "🏆", team2Text: "Победитель Матча 96", prob1: 34, probX: 33, prob2: 33 }
+        { id: 100, date: "Воскресенье, 12 июля", time: "04:00", stadium: "Канзас-Сити • Эрроухед", team1Code: "ar", team1Text: "Аргентина", team2Code: "ch", team2Text: "Швейцария", prob1: 59, probX: 27, prob2: 14 }
     ],
     '1/2': [
         { id: 101, date: "Вторник, 14 июля", time: "22:00", stadium: "Даллас • Эй-Ти&Ти", team1Code: "🌟", team1Text: "Победитель Матча 97", team2Code: "🌟", team2Text: "Победитель Матча 98", prob1: 34, probX: 33, prob2: 33 },
