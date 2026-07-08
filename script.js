@@ -4517,86 +4517,71 @@ function formatRawTextToHTML(rawText) {
     return htmlResult;
 }
 
-// =========================================================================
-// ЕДИНЫЙ КОД АВТООБНОВЛЕНИЯ ДАННЫХ (ШТОРКА + ОБНОВЛЕНИЕ ФУНКЦИИ И МАССИВА ПЛЕЙ-ОФФ)
-// =========================================================================
+// =======================================================
+// Автоматическая проверка новой версии сайта
+// =======================================================
 
-setInterval(function() {
-    console.log("Фоновая проверка обновлений расписания и плей-офф...");
+let currentSiteVersion = null;
 
-    // 1. Обновляем шторку (работает стабильно)
-    fetch('index.html?t=' + new Date().getTime())
-        .then(res => res.text())
-        .then(htmlText => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            const newDrawerContent = doc.getElementById('schedule-drawer');
-            const currentDrawer = document.getElementById('schedule-drawer');
-            
-            if (newDrawerContent && currentDrawer) {
-                currentDrawer.innerHTML = newDrawerContent.innerHTML;
-                const newCloseBtn = document.getElementById('close-close-btn') || document.getElementById('close-schedule-btn');
-                if (newCloseBtn) {
-                    newCloseBtn.addEventListener('click', closeDrawer);
-                }
-                console.log("Боковая шторка успешно обновлена!");
-            }
-        })
-        .catch(err => console.log("Ошибка обновления шторки:", err));
+// получаем текущую версию
+async function loadCurrentVersion() {
 
-    // 2. ОБНОВЛЕНИЕ КОДА ПЛЕЙ-ОФФ: вытаскиваем новую функцию и новый массив
-    fetch('script.js?t=' + new Date().getTime())
-        .then(res => res.text())
-        .then(code => {
-            
-            // --- 1. ВЫТАСКИВАЕМ И ОБНОВЛЯЕМ МАССИВ ДАННЫХ ---
-            const arrayStartTarget = 'const playoffMatchesSchedule =';
-            const arrayStartIndex = code.indexOf(arrayStartTarget);
-            
-            if (arrayStartIndex !== -1) {
-                let arrayText = code.substring(arrayStartIndex);
-                const lastBraceIndex = arrayText.lastIndexOf('};');
-                
-                if (lastBraceIndex !== -1) {
-                    let pureArrayCode = arrayText.substring(0, lastBraceIndex + 2);
-                    
-                    // Превращаем в глобальное свойство window.currentSchedule, обойдя защиту const
-                    pureArrayCode = pureArrayCode.replace('const playoffMatchesSchedule =', 'window.currentSchedule =');
-                    window.eval(pureArrayCode);
-                }
-            }
-            
-            // --- 2. ВЫТАСКИВАЕМ И ОБНОВЛЯЕМ ФУНКЦИЮ renderPlayoffMatches ---
-            const funcStartTarget = 'function renderPlayoffMatches()';
-            const funcStartIndex = code.indexOf(funcStartTarget);
-            
-            if (funcStartIndex !== -1) {
-                let funcText = code.substring(funcStartIndex);
-                const databaseTarget = 'const playoffMatchesSchedule =';
-                const dbStartIndex = funcText.indexOf(databaseTarget);
-                
-                if (dbStartIndex !== -1) {
-                    let pureFuncCode = funcText.substring(0, dbStartIndex).trim();
-                    
-                    // ХИТРОСТЬ: Заставляем новую функцию брать данные из нашего обновляемого window.currentSchedule
-                    pureFuncCode = pureFuncCode.replace(/playoffMatchesSchedule/g, 'window.currentSchedule');
-                    
-                    // Активируем обновленную функцию в памяти
-                    window.eval(pureFuncCode);
-                }
-            }
+    try {
 
-            // --- 3. ПЕРЕРИСОВЫВАЕМ ИНТЕРФЕЙС ОБНОВЛЕННОЙ ФУНКЦИЕЙ С НОВЫМИ ДАННЫМИ ---
-            if (typeof renderPlayoffMatches === 'function') {
-                renderPlayoffMatches();
-                console.log("Сетка плей-офф и массивы аналитики успешно синхронизированы!");
-            }
+        const response = await fetch("version.json?v=" + Date.now(), {
+            cache: "no-store"
+        });
 
-        })
-        .catch(err => console.log("Ошибка фонового обновления script.js:", err));
+        const data = await response.json();
 
-// Проверяем обновления раз в 30 секунд (для более быстрого тестирования)
-}, 30000);
+        currentSiteVersion = data.version;
+
+    } catch (e) {
+
+        console.log("Не удалось получить текущую версию сайта.");
+
+    }
+
+}
+
+
+// проверяем появилась ли новая версия
+async function checkSiteUpdate() {
+
+    try {
+
+        const response = await fetch("version.json?v=" + Date.now(), {
+            cache: "no-store"
+        });
+
+        const data = await response.json();
+
+        if (
+            currentSiteVersion !== null &&
+            data.version !== currentSiteVersion
+        ) {
+
+            console.log("Обнаружена новая версия сайта.");
+
+            window.location.reload(true);
+
+        }
+
+    } catch (e) {
+
+        console.log("Ошибка проверки версии сайта.");
+
+    }
+
+}
+
+
+// сначала узнаем текущую версию
+loadCurrentVersion();
+
+
+// затем проверяем каждые 10 минут
+setInterval(checkSiteUpdate, 10 * 60 * 1000);
 
 
 
