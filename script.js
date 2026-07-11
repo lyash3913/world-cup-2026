@@ -418,7 +418,7 @@ function renderPlayoffMatches() {
         if (match.id === 96) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 0 <br> пен. 4:3</span>';
         if (match.id === 97) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 0</span>';
         if (match.id === 98) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 1</span>';
-        if (match.id === 99) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 2</span>';
+        
         
        
        
