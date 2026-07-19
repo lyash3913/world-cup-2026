@@ -5142,6 +5142,17 @@ loadCurrentVersion();
 
 // затем проверяем каждые 10 минут
 setInterval(checkSiteUpdate, 10 * 60 * 1000);
+// Проверять при возвращении на вкладку
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+        checkSiteUpdate();
+    }
+});
+
+// Проверять при получении фокуса окном
+window.addEventListener("focus", () => {
+    checkSiteUpdate();
+});
 
 
 
