@@ -29,7 +29,7 @@ const timerInterval = setInterval(function() {
         clearInterval(timerInterval);
         const wrapper = document.querySelector(".countdown-wrapper");
         if (wrapper) {
-            wrapper.innerHTML = "<div class='time-block' style='width: 100%; font-size: 20px; color: #ffd700; border-color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3);'>👑 ОПРЕДЕЛЯЕТСЯ ЧЕМПИОН МИРА! 🏆</div>";
+            wrapper.innerHTML = "<div class='time-block' style='width: 100%; font-size: 20px; color: #ffd700; border-color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.3);'>👑 ЧЕМПИОН МИРА ИСПАНИЯ! 🏆</div>";
         }
     }
 
@@ -423,6 +423,7 @@ function renderPlayoffMatches() {
         if (match.id === 101) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">2 : 0</span>';
         if (match.id === 102) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">1 : 2</span>';
         if (match.id === 103) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">4 : 6</span>';
+        if (match.id === 104) vsDisplay = '<span style="font-size: 18px; color: #00ffcc; font-weight: 800; letter-spacing: 1px;">0 : 0 <br> после д.в. 1:0</span>';
         
         
        
